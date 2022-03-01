@@ -1,0 +1,6 @@
+name: Service CI/CD Workflow
+on:
+  push:
+    paths: 
+      - service/
+      

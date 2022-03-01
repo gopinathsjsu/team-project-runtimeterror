@@ -1,0 +1,6 @@
+name: Web CI/CD Workflow
+on:
+  push:
+    paths: 
+      - web/
+      
