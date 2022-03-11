@@ -1,5 +1,9 @@
 package com.example.hmservice.hotel;
 
+import com.example.hmservice.contract.Amenity;
+import com.example.hmservice.contract.BookingRequest;
+import com.example.hmservice.contract.BookingResponse;
+
 public class BookHotel {
 
     /*
@@ -19,4 +23,40 @@ public class BookHotel {
         - room type
         - amenity (type, count)
      */
+    public static BookingResponse book(BookingRequest bookingRequest) {
+
+        Hotel booked = new RoomType(bookingRequest.GuestCount, bookingRequest.RoomTypeCode);
+        BookingResponse response = new BookingResponse();
+        for (Amenity amenity : bookingRequest.Amenities) {
+            switch (amenity.AmenityCode) {
+                case "CB":
+                    for(int i = 0; i<amenity.Count; i++) {
+                        booked = new DailyBreakfast(booked);
+                    }
+                    break;
+                case "FR":
+                    for(int i = 0; i<amenity.Count; i++) {
+                        booked = new FitnessRoomAccess(booked);
+                    }
+                    break;
+                case "SW":
+                    for(int i = 0; i<amenity.Count; i++) {
+                        booked = new SwimmingPoolAccess(booked);
+                    }
+                    break;
+                case "PK":
+                    for(int i = 0; i<amenity.Count; i++) {
+                        booked = new Parking(booked);
+                    }
+                    break;
+                case "AM":
+                    for(int i = 0; i<amenity.Count; i++) {
+                        booked = new AllMealsIncluded(booked);
+                    }
+                    break;
+            }
+        }
+        response.BookingTotal = booked.getCost();
+        return response;
+    }
 }

@@ -3,7 +3,7 @@ package com.example.hmservice.hotel;
 public class DailyBreakfast extends AmenityDecorator {
     Hotel hotel;
 
-    DailyBreakfast(Hotel h) {
+    public DailyBreakfast(Hotel h) {
         this.hotel = h;
     }
 

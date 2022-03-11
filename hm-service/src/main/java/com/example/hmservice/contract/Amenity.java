@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Amenity {
     @JsonProperty("amenityCode")
-    private String AmenityCode;
+    public String AmenityCode;
     @JsonProperty("count")
-    private Integer Count;
+    public Integer Count;
 }

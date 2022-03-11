@@ -4,6 +4,7 @@ import com.example.hmservice.contract.BookingRequest;
 import com.example.hmservice.contract.BookingResponse;
 import com.example.hmservice.contract.SearchRequest;
 import com.example.hmservice.contract.SearchResponse;
+import com.example.hmservice.hotel.BookHotel;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,6 +23,6 @@ public class HotelController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public BookingResponse bookHotel(@RequestBody BookingRequest bookingRequest) {
-        return null;
+        return BookHotel.book(bookingRequest);
     }
 }

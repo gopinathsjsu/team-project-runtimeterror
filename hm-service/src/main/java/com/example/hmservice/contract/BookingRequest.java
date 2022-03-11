@@ -4,13 +4,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BookingRequest {
     @JsonProperty("hotelId")
-    private Integer HotelID;
+    public Integer HotelID;
     @JsonProperty("guestCount")
-    private Integer GuestCount;
+    public Integer GuestCount;
     @JsonProperty("roomTypeCode")
-    private String RoomTypeCode;
+    public String RoomTypeCode;
     @JsonProperty("amenities")
-    private Amenity[] Amenities;
+    public Amenity[] Amenities;
 }
 
 
