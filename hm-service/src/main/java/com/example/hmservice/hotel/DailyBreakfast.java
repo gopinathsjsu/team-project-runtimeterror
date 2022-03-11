@@ -9,7 +9,7 @@ public class DailyBreakfast extends AmenityDecorator {
 
     @Override
     public String getPriceBreakdown() {
-        return null;
+        return this.hotel.getPriceBreakdown() + "\n Daily Continental Breakfast";
     }
 
     @Override

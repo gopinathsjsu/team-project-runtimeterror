@@ -15,6 +15,6 @@ public class SwimmingPoolAccess extends AmenityDecorator {
 
     @Override
     public String getPriceBreakdown() {
-        return null;
+        return this.hotel.getPriceBreakdown() + "\n Swimming Pool Access";
     }
 }

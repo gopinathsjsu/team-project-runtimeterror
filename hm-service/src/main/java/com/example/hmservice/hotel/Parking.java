@@ -9,7 +9,7 @@ public class Parking extends AmenityDecorator {
 
     @Override
     public String getPriceBreakdown() {
-        return null;
+        return this.hotel.getPriceBreakdown() + "\n All Day Parking";
     }
 
     @Override

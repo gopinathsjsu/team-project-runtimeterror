@@ -57,6 +57,8 @@ public class BookHotel {
             }
         }
         response.BookingTotal = booked.getCost();
+        response.BookingDetails = booked.getPriceBreakdown();
+        response.Status = 200;
         return response;
     }
 }

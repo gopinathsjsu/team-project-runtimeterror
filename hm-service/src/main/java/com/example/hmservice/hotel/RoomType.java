@@ -20,7 +20,7 @@ public class RoomType extends Hotel {
 
     @Override
     public String getPriceBreakdown() {
-        return null;
+        return hotelName + "\n Room: " + roomTypeCode;
     }
 
     @Override
