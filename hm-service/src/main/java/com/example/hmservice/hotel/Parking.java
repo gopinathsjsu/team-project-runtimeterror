@@ -2,6 +2,7 @@ package com.example.hmservice.hotel;
 
 public class Parking extends AmenityDecorator {
     Hotel hotel;
+    private final Double parkingAccessCost = 2.99;
 
     public Parking(Hotel h) {
         this.hotel = h;
@@ -9,13 +10,14 @@ public class Parking extends AmenityDecorator {
 
     @Override
     public String getPriceBreakdown() {
-        return this.hotel.getPriceBreakdown() + "\n All Day Parking";
+        return this.hotel.getPriceBreakdown()
+                + "\n All Day Parking: " + parkingAccessCost;
     }
 
     @Override
     public Double getCost() {
-        Double costMultiplier = 1.05;
-        return this.hotel.getCost() * costMultiplier;
+
+        return this.hotel.getCost() + parkingAccessCost;
     }
 
 

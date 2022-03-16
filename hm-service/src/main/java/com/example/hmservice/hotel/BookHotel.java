@@ -24,6 +24,7 @@ public class BookHotel {
         - amenity (type, count)
      */
     public static BookingResponse book(BookingRequest bookingRequest) {
+        // TODO: lookup hotel info from database against HotelId
 
         Hotel booked = new RoomType(bookingRequest.GuestCount, bookingRequest.RoomTypeCode);
         BookingResponse response = new BookingResponse();
