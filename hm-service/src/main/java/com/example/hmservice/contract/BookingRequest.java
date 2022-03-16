@@ -1,5 +1,8 @@
 package com.example.hmservice.contract;
 
+import java.sql.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BookingRequest {
@@ -11,6 +14,8 @@ public class BookingRequest {
     public String RoomTypeCode;
     @JsonProperty("amenities")
     public Amenity[] Amenities;
+    @JsonFormat(pattern="yyyy-MM-dd")
+    public Date date; 
 }
 
 
