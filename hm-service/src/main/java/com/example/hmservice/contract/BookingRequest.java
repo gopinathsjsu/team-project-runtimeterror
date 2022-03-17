@@ -14,8 +14,8 @@ public class BookingRequest {
     public String RoomTypeCode;
     @JsonProperty("amenities")
     public Amenity[] Amenities;
-    @JsonFormat(pattern="yyyy-MM-dd")
-    public Date Date; 
+    @JsonFormat(pattern="yyyy-MM-dd", timezone = "America/Los_Angeles")
+    public Date Date;
 }
 
 

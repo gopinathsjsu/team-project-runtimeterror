@@ -63,7 +63,7 @@ public class BookHotel {
         }
 
         // Hardcoded pricing strategy;
-        response.BookingTotal = booked.getCost() * pricingStrategy.getPricingStrategy(bookingRequest.Date, CustomerProfilePlaceholder.LOYALTY);
+        response.BookingTotal = booked.getCost() * pricingStrategy.getPricingStrategy(bookingRequest.Date, CustomerProfilePlaceholder.REGULAR);
         response.BookingDetails = booked.getPriceBreakdown();
         response.Status = 200;
         return response;
