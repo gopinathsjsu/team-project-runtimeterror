@@ -3,9 +3,11 @@ package com.example.hmservice.hotel;
 import com.example.hmservice.contract.Amenity;
 import com.example.hmservice.contract.BookingRequest;
 import com.example.hmservice.contract.BookingResponse;
+import com.example.hmservice.hotel.pricingstrategy.CustomerProfilePlaceholder;
+import com.example.hmservice.hotel.pricingstrategy.DynamicPricing;
+import com.example.hmservice.hotel.pricingstrategy.IPricingStrategy;
 
 public class BookHotel {
-
     /*
     Variables:
         Must select a hotel. That has a base price.
@@ -25,6 +27,8 @@ public class BookHotel {
      */
     public static BookingResponse book(BookingRequest bookingRequest) {
         // TODO: lookup hotel info from database against HotelId
+        // hardcoded strategy (temporary)
+        IPricingStrategy pricingStrategy = new DynamicPricing();
 
         Hotel booked = new RoomType(bookingRequest.GuestCount, bookingRequest.RoomTypeCode);
         BookingResponse response = new BookingResponse();
@@ -57,7 +61,9 @@ public class BookHotel {
                     break;
             }
         }
-        response.BookingTotal = booked.getCost();
+
+        // Hardcoded pricing strategy;
+        response.BookingTotal = booked.getCost() * pricingStrategy.getPricingStrategy(bookingRequest.Date, CustomerProfilePlaceholder.LOYALTY);
         response.BookingDetails = booked.getPriceBreakdown();
         response.Status = 200;
         return response;

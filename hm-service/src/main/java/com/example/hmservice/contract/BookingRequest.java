@@ -15,7 +15,7 @@ public class BookingRequest {
     @JsonProperty("amenities")
     public Amenity[] Amenities;
     @JsonFormat(pattern="yyyy-MM-dd")
-    public Date date; 
+    public Date Date; 
 }
 
 
