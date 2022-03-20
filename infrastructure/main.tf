@@ -22,3 +22,7 @@ provider "aws" {
     profile = "default"
     region = "us-west-2"
 }
+
+module "hm-web" {
+    source = "./modules/hm-web"
+}
