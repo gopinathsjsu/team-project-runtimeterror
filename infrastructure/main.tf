@@ -26,3 +26,8 @@ provider "aws" {
 module "hm-web" {
     source = "./modules/hm-web"
 }
+
+module "hm-vpc" {
+    source = "./modules/hm-vpc"
+    enable_services = false
+}
