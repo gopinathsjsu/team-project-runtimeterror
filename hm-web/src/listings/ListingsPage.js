@@ -16,11 +16,11 @@ function ListingsPage() {
     let values = {
       startDate: searchParams.get("startDate"),
       endDate: searchParams.get("endDate"),
-      dest: searchParams.get("destination"),
+      destination: searchParams.get("destination"),
     }
 
     setInitSearchFormValues(values);
-    getListings(values.startDate, values.endDate, values.dest);
+    getListings(values.startDate, values.endDate, values.destination);
   }, []);
 
   const getListings = useCallback((startDate, endDate, destination) => {
