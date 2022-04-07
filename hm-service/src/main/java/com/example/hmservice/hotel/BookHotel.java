@@ -25,10 +25,9 @@ public class BookHotel {
         - room type
         - amenity (type, count)
      */
-    public static BookingResponse book(BookingRequest bookingRequest) {
+    public static BookingResponse book(BookingRequest bookingRequest,  IPricingStrategy pricingStrategy) {
         // TODO: lookup hotel info from database against HotelId
-        // hardcoded strategy (temporary)
-        IPricingStrategy pricingStrategy = new DynamicPricing();
+
 
         Hotel booked = new RoomType(bookingRequest.GuestCount, bookingRequest.RoomTypeCode);
         BookingResponse response = new BookingResponse();

@@ -5,6 +5,8 @@ import com.example.hmservice.contract.BookingResponse;
 import com.example.hmservice.contract.SearchRequest;
 import com.example.hmservice.contract.SearchResponse;
 import com.example.hmservice.hotel.BookHotel;
+import com.example.hmservice.hotel.pricingstrategy.DynamicPricing;
+import com.example.hmservice.hotel.pricingstrategy.IPricingStrategy;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,6 +25,8 @@ public class HotelController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public BookingResponse bookHotel(@RequestBody BookingRequest bookingRequest) {
-        return BookHotel.book(bookingRequest);
+      // hardcoded strategy (temporary)
+      IPricingStrategy strategy = new DynamicPricing();
+      return BookHotel.book(bookingRequest, strategy);
     }
 }
