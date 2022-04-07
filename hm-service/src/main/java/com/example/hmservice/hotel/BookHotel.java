@@ -4,7 +4,6 @@ import com.example.hmservice.contract.Amenity;
 import com.example.hmservice.contract.BookingRequest;
 import com.example.hmservice.contract.BookingResponse;
 import com.example.hmservice.hotel.pricingstrategy.CustomerProfilePlaceholder;
-import com.example.hmservice.hotel.pricingstrategy.DynamicPricing;
 import com.example.hmservice.hotel.pricingstrategy.IPricingStrategy;
 
 public class BookHotel {
@@ -25,11 +24,7 @@ public class BookHotel {
         - room type
         - amenity (type, count)
      */
-    public static BookingResponse book(BookingRequest bookingRequest,  IPricingStrategy pricingStrategy) {
-        // TODO: lookup hotel info from database against HotelId
-
-
-        Hotel booked = new RoomType(bookingRequest.GuestCount, bookingRequest.RoomTypeCode);
+    public static BookingResponse book(BookingRequest bookingRequest, Hotel booked,  IPricingStrategy pricingStrategy) {
         BookingResponse response = new BookingResponse();
         for (Amenity amenity : bookingRequest.Amenities) {
             switch (amenity.AmenityCode) {

@@ -5,6 +5,8 @@ import com.example.hmservice.contract.BookingResponse;
 import com.example.hmservice.contract.SearchRequest;
 import com.example.hmservice.contract.SearchResponse;
 import com.example.hmservice.hotel.BookHotel;
+import com.example.hmservice.hotel.Hotel;
+import com.example.hmservice.hotel.RoomFactory;
 import com.example.hmservice.hotel.pricingstrategy.DynamicPricing;
 import com.example.hmservice.hotel.pricingstrategy.IPricingStrategy;
 import org.springframework.http.MediaType;
@@ -27,6 +29,8 @@ public class HotelController {
     public BookingResponse bookHotel(@RequestBody BookingRequest bookingRequest) {
       // hardcoded strategy (temporary)
       IPricingStrategy strategy = new DynamicPricing();
-      return BookHotel.book(bookingRequest, strategy);
+
+      Hotel room = RoomFactory.GetRoom(bookingRequest.RoomTypeCode, bookingRequest.GuestCount);
+      return BookHotel.book(bookingRequest, room, strategy);
     }
 }
