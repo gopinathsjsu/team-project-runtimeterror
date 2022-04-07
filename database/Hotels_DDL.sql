@@ -1,3 +1,11 @@
+-- Database export via SQLPro (https://www.sqlprostudio.com/allapps.html)
+-- Exported by rajat at 07-04-2022 16:48.
+-- WARNING: This file may contain descructive statements such as DROPs.
+-- Please ensure that you are running the script at the proper location.
+
+
+-- BEGIN TABLE amenities
+DROP TABLE IF EXISTS amenities;
 CREATE TABLE `amenities` (
   `id` int NOT NULL AUTO_INCREMENT,
   `amenity_name` varchar(45) DEFAULT NULL,
@@ -6,6 +14,14 @@ CREATE TABLE `amenities` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+-- Table amenities contains no data. No inserts have been genrated.
+-- Inserting 0 rows into amenities
+
+
+-- END TABLE amenities
+
+-- BEGIN TABLE hotel_amenities_map
+DROP TABLE IF EXISTS hotel_amenities_map;
 CREATE TABLE `hotel_amenities_map` (
   `id` int NOT NULL AUTO_INCREMENT,
   `hotel_id` int DEFAULT NULL,
@@ -18,6 +34,14 @@ CREATE TABLE `hotel_amenities_map` (
   CONSTRAINT `Hotel_Amenities_Map_Hotel_Id_FK` FOREIGN KEY (`hotel_id`) REFERENCES `hotels` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+-- Table hotel_amenities_map contains no data. No inserts have been genrated.
+-- Inserting 0 rows into hotel_amenities_map
+
+
+-- END TABLE hotel_amenities_map
+
+-- BEGIN TABLE hotel_pricing_map
+DROP TABLE IF EXISTS hotel_pricing_map;
 CREATE TABLE `hotel_pricing_map` (
   `id` int NOT NULL AUTO_INCREMENT,
   `hotel_id` int DEFAULT NULL,
@@ -29,6 +53,14 @@ CREATE TABLE `hotel_pricing_map` (
   CONSTRAINT `Hotel_Pricing_Map_Pricing_Id_FK` FOREIGN KEY (`pricing_id`) REFERENCES `pricing` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+-- Table hotel_pricing_map contains no data. No inserts have been genrated.
+-- Inserting 0 rows into hotel_pricing_map
+
+
+-- END TABLE hotel_pricing_map
+
+-- BEGIN TABLE hotels
+DROP TABLE IF EXISTS hotels;
 CREATE TABLE `hotels` (
   `id` int NOT NULL AUTO_INCREMENT,
   `hotelName` varchar(100) CHARACTER SET utf32 COLLATE utf32_general_ci NOT NULL,
@@ -45,20 +77,4 @@ CREATE TABLE `hotels` (
   PRIMARY KEY (`id`),
   KEY `City` (`cityName`,`countryName`),
   KEY `Name` (`hotelName`)
-) ENGINE=InnoDB AUTO_INCREMENT=231466 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
-CREATE TABLE `pricing` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `strategy_name` varchar(45) NOT NULL,
-  `strategy_code` varchar(3) NOT NULL,
-  `cost_multiplier` decimal(3,2) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
-CREATE TABLE `rooms` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `room_name` varchar(45) DEFAULT NULL,
-  `room_code` varchar(3) DEFAULT NULL,
-  `price_multiplier` decimal(3,2) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=277759 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
