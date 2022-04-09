@@ -1,3 +1,8 @@
+.searchFormWrapper{
+    min-height: 13rem;
+    display: flex;
+
+}
 .searchForm {
     margin: 0 auto;
 }
@@ -5,3 +10,4 @@
 .formElement {
     margin: 10px;
 }
+

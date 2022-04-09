@@ -1,11 +1,12 @@
 import topbanner from '../styles/TopBanner.module.css';
+import Paper from '@mui/material/Paper';
 
 export default function TopBanner() {
     return (
-        <header className={topbanner.header}>
-            <h1 className={topbanner.h1}>
+        <Paper elevation={2} className={topbanner.header}>
+            <h1>
                 <a className={topbanner.link} href="/">Hotels</a>
             </h1>
-        </header>
+        </Paper>
     );
 }

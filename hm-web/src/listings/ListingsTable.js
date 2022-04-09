@@ -2,7 +2,6 @@ import styles from '../styles/ListingsTable.module.css';
 
 function ListingsTable({listings}) {
   return (
-    // <div>
     <table className={styles.table}>
       <thead>
         <tr className={styles.headTr}>
@@ -21,7 +20,6 @@ function ListingsTable({listings}) {
         ) }
       </tbody>
     </table>
-    // </div>
   );
 }
 
