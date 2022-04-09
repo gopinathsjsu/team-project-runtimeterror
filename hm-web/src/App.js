@@ -3,7 +3,6 @@ import TopBanner from './TopBanner';
 import './styles/App.css';
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import ListingsPage from './listings/ListingsPage';
 import Footer from './Footer';
 
 function App() {
@@ -15,7 +14,7 @@ function App() {
           <div className='bodyContainer'>
             <Routes>
               <Route path="/" element={<Landing />} />
-              <Route path="/listings" element={<ListingsPage />} />
+              <Route path="/listings" element={<Landing />} />
             </Routes>
           </div>
         </BrowserRouter>
