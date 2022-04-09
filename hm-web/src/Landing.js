@@ -6,6 +6,7 @@ import Grid from '@mui/material/Grid';
 import HotelsAuocomplete from './LandingSearch/HotelsAutocomplete';
 import { Box, Typography } from '@mui/material';
 import DateSelector from './LandingSearch/DateSelector';
+import Travellers from './LandingSearch/Travellers';
 
 export default function Landing() {
   return (
@@ -29,7 +30,7 @@ export default function Landing() {
             <DateSelector label={"Check-out"} />
           </Grid>
           <Grid item xs={12} md={4} lg={4}>
-            <HotelsAuocomplete />
+            <Travellers />
           </Grid>
           <Grid item>
             <Button variant="outlined" size="large">
