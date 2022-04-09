@@ -1,21 +1,25 @@
-import EmptySearchPage from './listings/EmptySearchPage';
-import TopBanner from './listings/TopBanner';
+import Landing from './Landing';
+import TopBanner from './TopBanner';
 import './styles/App.css';
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import ListingsPage from './listings/ListingsPage';
+import Footer from './Footer';
 
 function App() {
   return (
     <React.Fragment>
-      <TopBanner />
       <div className='applicationWrapper'>
+        <TopBanner />
         <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<EmptySearchPage />} />
-            <Route path="/listings" element={<ListingsPage />} />
-          </Routes>
+          <div className='bodyContainer'>
+            <Routes>
+              <Route path="/" element={<Landing />} />
+              <Route path="/listings" element={<ListingsPage />} />
+            </Routes>
+          </div>
         </BrowserRouter>
+        <Footer />
       </div>
     </React.Fragment>
   );

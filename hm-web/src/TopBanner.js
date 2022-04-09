@@ -1,4 +1,4 @@
-import topbanner from '../styles/TopBanner.module.css';
+import topbanner from './styles/TopBanner.module.css';
 import Paper from '@mui/material/Paper';
 
 export default function TopBanner() {
