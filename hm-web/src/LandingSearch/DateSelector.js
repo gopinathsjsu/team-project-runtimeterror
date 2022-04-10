@@ -6,17 +6,17 @@ import TextField from '@mui/material/TextField';
 
 
 export default function DateSelector(props) {
-  const [value, setValue] = React.useState();
-
+  const { date, setDate, label, minDate } = props
   const handleChange = (newValue) => {
-    setValue(newValue);
+    setDate(newValue);
   };
 
   return <LocalizationProvider dateAdapter={AdapterDateFns}>
     <DatePicker
-      label={props.label}
+      minDate={minDate}
+      label={label}
       inputFormat="MM/dd/yyyy"
-      value={value}
+      value={date}
       onChange={handleChange}
       renderInput={(params) => <TextField fullWidth={true} {...params} />}
     />

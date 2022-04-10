@@ -1,14 +1,36 @@
 import React from 'react'
 import Paper from '@mui/material/Paper';
-import { Button } from '@mui/material';
 import styles from './styles/Landing.module.css'
 import Grid from '@mui/material/Grid';
 import HotelsAuocomplete from './LandingSearch/HotelsAutocomplete';
 import { Box, Typography } from '@mui/material';
 import DateSelector from './LandingSearch/DateSelector';
 import Travellers from './LandingSearch/Travellers';
+import SearchRooms from './LandingSearch/SearchRooms';
 
 export default function Landing() {
+  const tomorrow = new Date()
+  tomorrow.setDate(tomorrow.getDate() + 1)
+  const dayAfterTomorrow = new Date()
+  dayAfterTomorrow.setDate(dayAfterTomorrow.getDate() + 2)
+  const fiveDaysFromNow = new Date()
+  fiveDaysFromNow.setDate(fiveDaysFromNow.getDate() + 5)
+
+  const getMinCheckoutDate = () => {
+    const checkInDate = new Date(checkIn)
+    if (dayAfterTomorrow < checkInDate) {
+      checkInDate.setDate(checkInDate.getDate() + 1)
+      return checkInDate
+    }
+    return dayAfterTomorrow;
+  }
+
+  const [hotel, setHotel] = React.useState(null)
+  const [checkIn, setCheckIn] = React.useState(tomorrow.toLocaleDateString())
+  const [checkOut, setCheckOut] = React.useState(fiveDaysFromNow.toLocaleDateString())
+  const [rooms, setRooms] = React.useState(1)
+  const [guests, setGuests] = React.useState(2)
+
   return (
     <Paper className={styles.landingWrapper} elevation={6}>
       <Box sx={{
@@ -24,18 +46,21 @@ export default function Landing() {
             <HotelsAuocomplete />
           </Grid>
           <Grid item xs={6} md={2} lg={2}>
-            <DateSelector label={"Check-in"} />
+            <DateSelector date={checkIn} setDate={setCheckIn} minDate={tomorrow} label={"Check-in"} />
           </Grid>
           <Grid item xs={6} md={2} lg={2}>
-            <DateSelector label={"Check-out"} />
+            <DateSelector date={checkOut} setDate={setCheckOut} minDate={getMinCheckoutDate()} label={"Check-out"} />
           </Grid>
           <Grid item xs={12} md={4} lg={4}>
-            <Travellers />
+            <Travellers
+              rooms={rooms}
+              guests={guests}
+              setRooms={setRooms}
+              setGuests={setGuests}
+            />
           </Grid>
           <Grid item>
-            <Button variant="outlined" size="large">
-              Search
-            </Button>
+            <SearchRooms />
           </Grid>
         </Grid>
       </Box>

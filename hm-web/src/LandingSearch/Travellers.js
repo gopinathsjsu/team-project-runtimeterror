@@ -19,19 +19,18 @@ const style = {
   boxShadow: 24,
   p: 4,
 };
-export default function Travellers() {
+export default function Travellers(props) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const [travellers, setTravellers] = React.useState(2);
-  const [rooms, setRooms] = React.useState(1);
+  const { rooms, setRooms, guests, setGuests } = props
   return (<>
     <TextField
       fullWidth={true}
       onClick={handleOpen}
       id="outlined-read-only-input"
       label="Travellers"
-      value={`${rooms} room${rooms > 1 ? `s` : ``}, ${travellers} traveller${travellers > 1 ? `s` : ``}`}
+      value={`${rooms} room${rooms > 1 ? `s` : ``}, ${guests} traveller${guests > 1 ? `s` : ``}`}
       InputProps={{
         startAdornment: (
           <InputAdornment position="start">
@@ -52,10 +51,10 @@ export default function Travellers() {
         </Typography>
         <Stack spacing={3} mt pt>
           <Box> Rooms: <Counter value={rooms} handleChange={setRooms} /></Box>
-          <Box> Guests: <Counter value={travellers} handleChange={setTravellers} /></Box>
+          <Box> Guests: <Counter value={guests} handleChange={setGuests} /></Box>
           <Button variant="outlined" onClick={handleClose}>
-              Done
-            </Button>
+            Done
+          </Button>
         </Stack>
       </Box>
     </Modal>
