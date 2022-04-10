@@ -18,7 +18,7 @@ export default function DateSelector(props) {
       inputFormat="MM/dd/yyyy"
       value={value}
       onChange={handleChange}
-      renderInput={(params) => <TextField {...params} />}
+      renderInput={(params) => <TextField fullWidth={true} {...params} />}
     />
   </LocalizationProvider>
 }
