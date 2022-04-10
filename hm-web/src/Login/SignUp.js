@@ -65,6 +65,7 @@ export default function SignUp() {
       const registerReesponse = await registerUser(name, email, password)
       setSpinner(false)
       setSnackbarMessage("Registered. You'll be redirected to login.")
+      setSnackbarSev("success")
       setShowSnackbar(true)
       setTimeout(() => {
         navigate(`/login`)
