@@ -3,9 +3,11 @@ package com.hmservice.hotel.models;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
-public class hotels {
+@Table(name ="hotels")
+public class Hotel {
     @Id
     @Column(name="id" ,  insertable  = false, updatable = false)
     private Integer id;

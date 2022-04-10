@@ -1,20 +1,17 @@
 package com.hmservice.hotel.controller;
 
-import com.hmservice.contract.SearchRequest;
-import com.hmservice.contract.SearchResponse;
-import com.hmservice.hotel.models.hotels;
-import com.hmservice.hotel.models.room;
+import com.hmservice.hotel.models.Hotel;
+import com.hmservice.hotel.models.Room;
 import com.hmservice.repository.HotelRepository;
 import com.hmservice.repository.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-@CrossOrigin
-@Controller	// This means that this class is a Controller
-@RequestMapping(path="/hotel/search")
+
+@CrossOrigin(origins = "*", maxAge = 3600)
+@RestController
+@RequestMapping("/api/hotel")
 public class HotelSearchController {
 
     @Autowired
@@ -22,12 +19,12 @@ public class HotelSearchController {
     @Autowired
     private RoomRepository roomRepository;
     @GetMapping(path = "")
-    public  @ResponseBody Iterable<hotels> searchHotel() {
+    public  @ResponseBody Iterable<Hotel> searchHotel() {
         return hotelRepo.findAll();
     }
 
     @GetMapping(path = "/{hotelId}/rooms")
-    public  @ResponseBody Iterable<room> searchHotelRooms(@PathVariable  Integer hotelId) {
+    public  @ResponseBody Iterable<Room> searchHotelRooms(@PathVariable  Integer hotelId) {
         return roomRepository.findRoomByHotelId(hotelId);
     }
 

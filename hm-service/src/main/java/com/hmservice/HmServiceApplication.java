@@ -16,7 +16,11 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 public class HmServiceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(HmServiceApplication.class, args);
+
+		try {SpringApplication.run(HmServiceApplication.class, args);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Bean

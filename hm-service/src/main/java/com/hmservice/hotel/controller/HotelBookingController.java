@@ -7,16 +7,17 @@ import com.hmservice.hotel.RoomFactory;
 import com.hmservice.hotel.pricingstrategy.DynamicPricing;
 import com.hmservice.hotel.pricingstrategy.IPricingStrategy;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 
-@RestController
+@Controller
+@RequestMapping("/api/booking")
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class HotelBookingController {
 
-    @PostMapping(path = "/hotel/book",
+    @PostMapping(path = "",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ArrayList<Object> bookHotel(@RequestBody BookingRequest bookingRequest) {
