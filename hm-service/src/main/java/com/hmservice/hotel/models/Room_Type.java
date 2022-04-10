@@ -7,7 +7,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name ="room_type")
-public class room_type {
+public class Room_Type {
     @Id
     @Column(name="id" ,  insertable  = false, updatable = false)
     private Integer Id;

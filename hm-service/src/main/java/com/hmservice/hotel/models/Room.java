@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name ="rooms")
-public class room {
+public class Room {
     @Id
     @Column(name="id")
     private Integer Id;
@@ -14,14 +14,14 @@ public class room {
 
     @OneToOne(cascade=CascadeType.ALL)
     @JoinColumn(name = "room_type_id", referencedColumnName = "id")
-    private room_type room_type;
+    private Room_Type room_type;
 
     @Column(name="hotel_id",  insertable  = false, updatable = false)
     private  Integer hotelId;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="hotel_id",referencedColumnName="id", insertable  = false, updatable = false)
-    private hotels hotel;
+    private Hotel hotel;
 
     @Column(name="price")
     private  Integer price;
@@ -43,11 +43,11 @@ public class room {
     }
 
 
-    public com.hmservice.hotel.models.room_type getRoom_type() {
+    public Room_Type getRoom_type() {
         return room_type;
     }
 
-    public void setRoom_type(com.hmservice.hotel.models.room_type room_type) {
+    public void setRoom_type(Room_Type room_type) {
         this.room_type = room_type;
     }
 
@@ -59,11 +59,11 @@ public class room {
         this.hotelId = hotelId;
     }
 
-    public hotels getHotel() {
+    public Hotel getHotel() {
         return hotel;
     }
 
-    public void setHotel(hotels hotel) {
+    public void setHotel(Hotel hotel) {
         this.hotel = hotel;
     }
 }
