@@ -13,6 +13,7 @@ export default function DateSelector(props) {
 
   return <LocalizationProvider dateAdapter={AdapterDateFns}>
     <DatePicker
+      allowSameDateSelection={true}
       minDate={minDate}
       label={label}
       inputFormat="MM/dd/yyyy"
