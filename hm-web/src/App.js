@@ -11,8 +11,8 @@ function App() {
   return (
     <React.Fragment>
       <div className='applicationWrapper'>
-        <TopBanner />
         <BrowserRouter>
+        <TopBanner />
           <div className='bodyContainer'>
             <Routes>
               <Route path="/" element={<Landing />} />
