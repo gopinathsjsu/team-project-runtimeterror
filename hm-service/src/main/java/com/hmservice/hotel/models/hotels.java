@@ -7,6 +7,7 @@ import javax.persistence.Id;
 @Entity
 public class hotels {
     @Id
+    @Column(name="id" ,  insertable  = false, updatable = false)
     private Integer id;
     @Column(name="hotelName")
     private String hotelName;
