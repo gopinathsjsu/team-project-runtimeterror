@@ -25,7 +25,7 @@ export default function Landing() {
     return dayAfterTomorrow;
   }
 
-  const [hotel, setHotel] = React.useState(null)
+  const [hotel, selectHotel] = React.useState(null)
   const [checkIn, setCheckIn] = React.useState(tomorrow.toLocaleDateString())
   const [checkOut, setCheckOut] = React.useState(fiveDaysFromNow.toLocaleDateString())
   const [rooms, setRooms] = React.useState(1)
@@ -43,7 +43,7 @@ export default function Landing() {
             </Typography>
           </Grid>
           <Grid item xs={12} md={4} lg={4}>
-            <HotelsAuocomplete />
+            <HotelsAuocomplete selectHotel={selectHotel} />
           </Grid>
           <Grid item xs={6} md={2} lg={2}>
             <DateSelector date={checkIn} setDate={setCheckIn} minDate={tomorrow} label={"Check-in"} />
