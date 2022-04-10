@@ -6,7 +6,6 @@ export default function HotelsAuocomplete() {
       disablePortal
       id="combo-box-demo"
       options={top100Films}
-      sx={{ width: 300 }}
       renderInput={(params) => <TextField {...params} label="Going to" />}
     />
   );
