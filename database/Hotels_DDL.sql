@@ -1,5 +1,5 @@
 -- Database export via SQLPro (https://www.sqlprostudio.com/allapps.html)
--- Exported by rajat at 10-04-2022 03:06.
+-- Exported by rajat at 10-04-2022 11:46.
 -- WARNING: This file may contain descructive statements such as DROPs.
 -- Please ensure that you are running the script at the proper location.
 
@@ -19,6 +19,39 @@ CREATE TABLE `amenities` (
 
 
 -- END TABLE amenities
+
+-- BEGIN TABLE booking
+DROP TABLE IF EXISTS booking;
+CREATE TABLE `booking` (
+  `bookingId` bigint NOT NULL AUTO_INCREMENT,
+  `bookingDate` varchar(255) DEFAULT NULL,
+  `checkInDate` varchar(255) DEFAULT NULL,
+  `checkOutDate` varchar(255) DEFAULT NULL,
+  `guestCount` int DEFAULT NULL,
+  `hotelId` int DEFAULT NULL,
+  `roomId` int DEFAULT NULL,
+  `roomTypeCode` varchar(255) DEFAULT NULL,
+  `totalPrice` int DEFAULT NULL,
+  `userId` bigint DEFAULT NULL,
+  PRIMARY KEY (`bookingId`),
+  KEY `fk_room_id` (`roomId`),
+  KEY `fk_user_id` (`userId`),
+  KEY `fk_hotel_id_booking` (`hotelId`),
+  CONSTRAINT `fk_hotel_id_booking` FOREIGN KEY (`hotelId`) REFERENCES `hotels` (`id`),
+  CONSTRAINT `fk_room_id` FOREIGN KEY (`roomId`) REFERENCES `rooms` (`id`),
+  CONSTRAINT `fk_user_id` FOREIGN KEY (`userId`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Inserting 5 rows into booking
+-- Insert batch #1
+INSERT INTO booking (bookingId, bookingDate, checkInDate, checkOutDate, guestCount, hotelId, roomId, roomTypeCode, totalPrice, userId) VALUES
+(1, '4-10-2022', '4-10-2022', '4-10-2022', 6, 231466, 6, 'QN', 100, 1),
+(2, '4-10-2022', '4-10-2022', '4-10-2022', 6, 231466, 6, 'QN', 100, 1),
+(3, '4-10-2022', '4-10-2022', '4-10-2022', 6, 231466, 6, 'QN', 100, 1),
+(4, '4-10-2022', '4-10-2022', '4-10-2022', 6, 231466, 6, 'QN', NULL, 1),
+(5, '4-10-2022', '4-10-2022', '4-10-2022', 6, 231466, 7, 'QN', 100, 1);
+
+-- END TABLE booking
 
 -- BEGIN TABLE hotel_amenities_map
 DROP TABLE IF EXISTS hotel_amenities_map;
@@ -124,9 +157,9 @@ CREATE TABLE `rooms` (
   KEY `fk_hotel_id` (`hotel_id`),
   CONSTRAINT `fk_hotel_id` FOREIGN KEY (`hotel_id`) REFERENCES `hotels` (`id`),
   CONSTRAINT `fk_room_type_id` FOREIGN KEY (`room_type_id`) REFERENCES `room_type` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=67 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Inserting 36 rows into rooms
+-- Inserting 40 rows into rooms
 -- Insert batch #1
 INSERT INTO rooms (id, room_type_id, hotel_id, price) VALUES
 (6, 4, 231466, 130),
@@ -164,7 +197,11 @@ INSERT INTO rooms (id, room_type_id, hotel_id, price) VALUES
 (59, 3, 231475, 120),
 (60, 2, 231475, 110),
 (61, 1, 231475, 100),
-(62, 1, 231467, 100);
+(62, 1, 231467, 100),
+(63, 1, 231468, 190),
+(64, 2, 231468, 190),
+(65, 3, 231468, 190),
+(66, 4, 231468, 190);
 
 -- END TABLE rooms
 
