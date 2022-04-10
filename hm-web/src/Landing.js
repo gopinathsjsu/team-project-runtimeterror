@@ -60,7 +60,7 @@ export default function Landing() {
             />
           </Grid>
           <Grid item>
-            <SearchRooms />
+            <SearchRooms hotel={hotel} checkIn={checkIn} checkOut={checkOut} guests={guests} rooms={rooms} />
           </Grid>
         </Grid>
       </Box>
