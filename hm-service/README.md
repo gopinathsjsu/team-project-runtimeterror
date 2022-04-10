@@ -31,6 +31,10 @@
 - Search
     - GetHotels [GET] `/api/hotel` [ Returns collection of  hotels]
     - GetRooms  [GET] `/api/hotel/{id}/rooms` [ Returns collection of  rooms for  a certain hotel]
+    - GetAmenities [GET] `/api/hotel/{id}/amenities`
+       ```
+      curl --location --request GET 'localhost:8080/api/hotel/231466/amenities'
+       ```
 
 - Booking
     - Book room(s) [POST] `/api/booking`
