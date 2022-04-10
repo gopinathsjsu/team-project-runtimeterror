@@ -15,15 +15,14 @@ import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import Snackbar from '../Common/Snackbar';
 import { registerUser } from '../helpers/API';
-import { useHistory } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
 
 export default function SignUp() {
   const [spinner, setSpinner] = React.useState(false)
   const [showSnackbar, setShowSnackbar] = React.useState(false)
   const [snackbarMessage, setSnackbarMessage] = React.useState()
   const [snackbarSev, setSnackbarSev] = React.useState("success")
-  const history = useHistory();
+  const navigate = useNavigate();
   const closeSnackbar = () => {
     setShowSnackbar(false)
   }
@@ -41,10 +40,15 @@ export default function SignUp() {
       setSnackbarMessage("Please fill all inputs.")
       errorState = true
     }
+    else if (name.includes(' ')) {
+      setSnackbarMessage("Username cannot have space in it.")
+      errorState = true
+    }
     else if (password.length < 8) {
       setSnackbarMessage("Password should be at least 8 characters.")
       errorState = true
     }
+
 
     else if (password !== confirmPassword) {
       setSnackbarMessage("Passwords do not match.")
@@ -63,7 +67,7 @@ export default function SignUp() {
       setSnackbarMessage("Registered. You'll be redirected to login.")
       setShowSnackbar(true)
       setTimeout(() => {
-        history.push(`/login`)
+        navigate(`/login`)
       }, 3000)
     } catch (ex) {
       setSpinner(false)
@@ -99,7 +103,7 @@ export default function SignUp() {
                   fullWidth
                   required
                   id="username"
-                  label="Name"
+                  label="User Name"
                   name="username"
                   autoComplete="name"
                   autoFocus

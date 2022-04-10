@@ -30,3 +30,9 @@ export async function registerUser(username, email, password) {
     username, email, password, role: ["user"]
   })
 }
+
+export async function loginUser(username, password) {
+  return await hotelManagementAPI.post(`/api/auth/signin`, {
+    username, password
+  })
+}
