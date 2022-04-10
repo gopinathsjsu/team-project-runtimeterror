@@ -10,16 +10,61 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { Paper } from '@mui/material';
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
+import Snackbar from '../Common/Snackbar';
+import { loginUser } from '../helpers/API';
+import { useNavigate } from "react-router-dom";
+import Cookies from 'js-cookie'
 
 
 export default function SignIn() {
-  const handleSubmit = (event) => {
+
+  const [spinner, setSpinner] = React.useState(false)
+  const [showSnackbar, setShowSnackbar] = React.useState(false)
+  const [snackbarMessage, setSnackbarMessage] = React.useState()
+  const [snackbarSev, setSnackbarSev] = React.useState("success")
+  const navigate = useNavigate();
+  const closeSnackbar = () => {
+    setShowSnackbar(false)
+  }
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    let errorState = false
+    const name = data.get('username')
+    const password = data.get('password')
+    if (!name || !password) {
+      setSnackbarMessage("Please fill all inputs.")
+      errorState = true
+    }
+    if (errorState) {
+      setSnackbarSev("error")
+      setShowSnackbar(true)
+      return
+    }
+    setSpinner(true)
+    try {
+      const signInResponse = await loginUser(name, password)
+      const { data: { accessToken, email, username, id } } = signInResponse
+      Cookies.set('accessToken', accessToken)
+      Cookies.set('email', email)
+      Cookies.set('username', username)
+      Cookies.set('userId', id)
+      setSpinner(false)
+      setSnackbarMessage("Success. You will be redirected")
+      setSnackbarSev("success")
+      setShowSnackbar(true)
+      setTimeout(() => {
+        navigate(`/`)
+      }, 3000)
+    } catch (ex) {
+      setSpinner(false)
+      setSnackbarMessage("Something went wrong.")
+      setSnackbarSev("error")
+      setShowSnackbar(true)
+    }
   };
 
   return (
@@ -45,10 +90,10 @@ export default function SignIn() {
               margin="normal"
               required
               fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
+              id="username"
+              label="User Name"
+              name="username"
+              autoComplete="username"
               autoFocus
             />
             <TextField
@@ -79,6 +124,13 @@ export default function SignIn() {
           </Box>
         </Box>
       </Container>
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={spinner}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
+      <Snackbar message={snackbarMessage} open={showSnackbar} close={closeSnackbar} severity={snackbarSev} />
     </Paper>
   );
 }
