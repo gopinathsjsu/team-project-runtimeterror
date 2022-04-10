@@ -1,7 +1,9 @@
 package com.hmservice.hotel.controller;
 
+import com.hmservice.hotel.models.Amenity;
 import com.hmservice.hotel.models.Hotel;
 import com.hmservice.hotel.models.Room;
+import com.hmservice.repository.AmenityRepository;
 import com.hmservice.repository.HotelRepository;
 import com.hmservice.repository.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,8 @@ public class HotelSearchController {
     private HotelRepository hotelRepo;
     @Autowired
     private RoomRepository roomRepository;
+    @Autowired
+    private AmenityRepository amenityRepository;
     @GetMapping(path = "")
     public  @ResponseBody Iterable<Hotel> searchHotel() {
         return hotelRepo.findAll();
@@ -28,4 +32,8 @@ public class HotelSearchController {
         return roomRepository.findRoomByHotelId(hotelId);
     }
 
+    @GetMapping(path = "/{hotelId}/amenities")
+    public  @ResponseBody Iterable<Amenity> searchHotelAmenities(@PathVariable  Integer hotelId) {
+        return amenityRepository.findAmenitiesByHotelId(hotelId);
+    }
 }

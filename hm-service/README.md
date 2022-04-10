@@ -28,13 +28,47 @@
       }'
    
 
-- Search Domain
-
+- Search
     - GetHotels [GET] `/api/hotel` [ Returns collection of  hotels]
     - GetRooms  [GET] `/api/hotel/{id}/rooms` [ Returns collection of  rooms for  a certain hotel]
+    - GetAmenities [GET] `/api/hotel/{id}/amenities`
+       ```
+      curl --location --request GET 'localhost:8080/api/hotel/231466/amenities'
+       ```
 
 - Booking
-    - [POST] /hotel/booking
+    - Book room(s) [POST] `/api/booking`
+      ```
+      curl --location --request POST 'http://localhost:8080/api/booking/calculate' \
+      --header 'Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxZXF3ZSIsImlhdCI6MTY0OTYxMzE2NSwiZXhwIjoxNjQ5Njk5NTY1fQ.ahGSOOKcZjtojnMm8sDIV5U706WWOwIUINKHgC_xB-s9cQL99zrKvq90RqqEB8MV6GVAirwI7oMXV3aeaN9zPQ' \
+      --header 'Content-Type: application/json' \
+      --header 'Cookie: JSESSIONID.fc1636b7=node016j5iccopqd51wkaomyxqsdep0.node0' \
+      --data-raw '[
+      {"userId": 1,
+      "hotelId": 231466,
+      "roomId": 7,
+      "checkInDate": "4-10-2022",
+      "checkOutDate": "4-10-2022",
+      "roomTypeCode": "QN",
+      "guestCount": 6
+      }]'  
+      ```
+    - Calculate price [POST] `/api/booking/calculate`
+        ```
+      curl --location --request POST 'http://localhost:8080/api/booking/calculate' \
+      --header 'Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxZXF3ZSIsImlhdCI6MTY0OTYxMzE2NSwiZXhwIjoxNjQ5Njk5NTY1fQ.ahGSOOKcZjtojnMm8sDIV5U706WWOwIUINKHgC_xB-s9cQL99zrKvq90RqqEB8MV6GVAirwI7oMXV3aeaN9zPQ' \
+      --header 'Content-Type: application/json' \
+      --header 'Cookie: JSESSIONID.fc1636b7=node016j5iccopqd51wkaomyxqsdep0.node0' \
+      --data-raw '[
+      {"userId": 1,
+      "hotelId": 231466,
+      "roomId": 7,
+      "checkInDate": "4-10-2022",
+      "checkOutDate": "4-10-2022",
+      "roomTypeCode": "QN",
+      "guestCount": 6
+      }]'  
+      ```
 
 #### Technologies
 
