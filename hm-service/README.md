@@ -69,7 +69,16 @@
       "guestCount": 6
       }]'  
       ```
-
+    - GetBooking By ID [GET] `/api/booking/{id}`
+      ```
+      curl --location --request GET 'http://localhost:8080/api/booking/getbookingbyuserid/1' \
+      --header 'Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxZXF3ZSIsImlhdCI6MTY0OTYxMzE2NSwiZXhwIjoxNjQ5Njk5NTY1fQ.ahGSOOKcZjtojnMm8sDIV5U706WWOwIUINKHgC_xB-s9cQL99zrKvq90RqqEB8MV6GVAirwI7oMXV3aeaN9zPQ'
+      ```
+    - GetBooking(s) By UserID [GET] `/api/booking/getbookingbyuserid/{id}`
+      ```
+      curl --location --request GET 'http://localhost:8080/api/booking/1' \
+      --header 'Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxZXF3ZSIsImlhdCI6MTY0OTYxMzE2NSwiZXhwIjoxNjQ5Njk5NTY1fQ.ahGSOOKcZjtojnMm8sDIV5U706WWOwIUINKHgC_xB-s9cQL99zrKvq90RqqEB8MV6GVAirwI7oMXV3aeaN9zPQ'
+      ```
 #### Technologies
 
 - Spring Boot (JPA, Web)

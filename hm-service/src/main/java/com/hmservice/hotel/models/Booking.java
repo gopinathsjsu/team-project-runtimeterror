@@ -20,6 +20,18 @@ public class Booking {
     @Column(name = "roomId")
     private Integer roomId;
 
+    public Room getRoom() {
+        return room;
+    }
+
+    public void setRoom(Room room) {
+        this.room = room;
+    }
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="roomId",referencedColumnName="id", insertable  = false, updatable = false)
+    private Room room;
+
     @Column(name = "bookingDate")
     private String bookingDate;
 
