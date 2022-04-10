@@ -29,8 +29,10 @@
    
 
 - Search Domain
+
     - GetHotels [GET] `/api/hotel` [ Returns collection of  hotels]
     - GetRooms  [GET] `/api/hotel/{id}/rooms` [ Returns collection of  rooms for  a certain hotel]
+
 - Booking
     - [POST] /hotel/booking
 

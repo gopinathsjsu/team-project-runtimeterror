@@ -1,5 +1,5 @@
 -- Database export via SQLPro (https://www.sqlprostudio.com/allapps.html)
--- Exported by rajat at 09-04-2022 13:49.
+-- Exported by rajat at 10-04-2022 03:06.
 -- WARNING: This file may contain descructive statements such as DROPs.
 -- Please ensure that you are running the script at the proper location.
 
@@ -76,6 +76,23 @@ INSERT INTO hotels (id, hotelName, stars, price, cityName, countryCode, countryN
 
 -- END TABLE hotels
 
+-- BEGIN TABLE roles
+DROP TABLE IF EXISTS roles;
+CREATE TABLE `roles` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Inserting 3 rows into roles
+-- Insert batch #1
+INSERT INTO roles (id, name) VALUES
+(1, 'ROLE_CUSTOMER'),
+(2, 'ROLE_EMPLOYEE'),
+(3, 'ROLE_ADMIN');
+
+-- END TABLE roles
+
 -- BEGIN TABLE room_type
 DROP TABLE IF EXISTS room_type;
 CREATE TABLE `room_type` (
@@ -150,3 +167,40 @@ INSERT INTO rooms (id, room_type_id, hotel_id, price) VALUES
 (62, 1, 231467, 100);
 
 -- END TABLE rooms
+
+-- BEGIN TABLE user_roles
+DROP TABLE IF EXISTS user_roles;
+CREATE TABLE `user_roles` (
+  `user_id` bigint NOT NULL,
+  `role_id` int NOT NULL,
+  PRIMARY KEY (`user_id`,`role_id`),
+  KEY `FKh8ciramu9cc9q3qcqiv4ue8a6` (`role_id`),
+  CONSTRAINT `FKh8ciramu9cc9q3qcqiv4ue8a6` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`),
+  CONSTRAINT `FKhfh9dx7w3ubf1co1vdev94g3f` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Inserting 1 row into user_roles
+-- Insert batch #1
+INSERT INTO user_roles (user_id, role_id) VALUES
+(1, 1);
+
+-- END TABLE user_roles
+
+-- BEGIN TABLE users
+DROP TABLE IF EXISTS users;
+CREATE TABLE `users` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `email` varchar(50) DEFAULT NULL,
+  `password` varchar(120) DEFAULT NULL,
+  `username` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UKr43af9ap4edm43mmtq01oddj6` (`username`),
+  UNIQUE KEY `UK6dotkott2kjsp8vw4d0m25fb7` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Inserting 1 row into users
+-- Insert batch #1
+INSERT INTO users (id, email, password, username) VALUES
+(1, 'asd@mail.com', '$2a$10$m.ESegBCErlfQ9ZHnm/bHOgYZdcpnBVWbSOIaP2JjMw3RqYB2aQwu', 'qeqwe');
+
+-- END TABLE users

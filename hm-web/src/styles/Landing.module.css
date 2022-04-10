@@ -1,0 +1,10 @@
+.landingWrapper {
+  height: 20rem;
+  width: 60rem;
+}
+
+@media only screen and (max-width: 1200px) {
+  .landingWrapper {
+    height: auto;
+  }
+}
