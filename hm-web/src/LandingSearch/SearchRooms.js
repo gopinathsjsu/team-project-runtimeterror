@@ -7,9 +7,6 @@ import { isEmpty } from 'lodash'
 export default function SearchRooms(props) {
   const { hotel } = props
   const [open, setOpen] = React.useState(false);
-  const handleClose = () => {
-    setOpen(false);
-  };
 
   const handleSearch = async () => {
     if (isEmpty(hotel)) return
@@ -22,7 +19,6 @@ export default function SearchRooms(props) {
     <Backdrop
       sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
       open={open}
-      onClick={handleClose}
     >
       <CircularProgress color="inherit" />
     </Backdrop>

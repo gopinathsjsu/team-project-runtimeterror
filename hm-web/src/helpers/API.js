@@ -24,3 +24,15 @@ export async function getHotels() {
 export async function searchRooms(hotelId) {
   return await hotelManagementAPI.get(`/api/hotel/${hotelId}/rooms`)
 }
+
+export async function registerUser(username, email, password) {
+  return await hotelManagementAPI.post(`/api/auth/signup`, {
+    username, email, password, role: ["user"]
+  })
+}
+
+export async function loginUser(username, password) {
+  return await hotelManagementAPI.post(`/api/auth/signin`, {
+    username, password
+  })
+}
