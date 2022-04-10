@@ -1,7 +1,6 @@
 package com.hmservice.hotel.controller;
 
-import com.hmservice.contract.*;
-import com.hmservice.hotel.BookHotel;
+
 import com.hmservice.hotel.Hotel;
 import com.hmservice.hotel.RoomFactory;
 import com.hmservice.hotel.models.Booking;
@@ -13,13 +12,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 
 @RequestMapping("/api/booking")
@@ -71,12 +67,19 @@ public class HotelBookingController {
         return  resp;
     }
 
-//    @GetMapping("/{id}")
-//    @PreAuthorize("hasRole('CUSTOMER') or hasRole('ADMIN')")
-//    public ResponseEntity<Booking> getReservationByUsername(@PathVariable Long id) {
-//        Reservation reservation = reservationService.findById(id);
-//        return new ResponseEntity<>(reservation, HttpStatus.OK);
-//    }
+    @GetMapping("/getbookingbyuserid/{id}")
+    @PreAuthorize("hasRole('CUSTOMER') or hasRole('ADMIN')")
+    public ResponseEntity<List<Booking>> getBookingByUserId(@PathVariable Long id) {
+
+        return new ResponseEntity<>(bookingRepository.findByUserId(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    @PreAuthorize("hasRole('CUSTOMER') or hasRole('ADMIN')")
+    public ResponseEntity<Optional<Booking>> getBookingById(@PathVariable Long id) {
+
+        return new ResponseEntity<>(bookingRepository.findById(id), HttpStatus.OK);
+    }
 //
 //    @PutMapping("/{id}")
 //    public ResponseEntity<Map<String, Boolean>> updateReservation(@PathVariable Long id,
