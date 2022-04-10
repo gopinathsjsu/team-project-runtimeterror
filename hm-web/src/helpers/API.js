@@ -18,9 +18,9 @@ export function BookRoom() {
 }
 
 export async function getHotels() {
-  return await hotelManagementAPI.get(`/hotel/search`)
+  return await hotelManagementAPI.get(`/api/hotel`)
 }
 
 export async function searchRooms(hotelId) {
-  return await hotelManagementAPI.get(`/hotel/search/${hotelId}/rooms`)
+  return await hotelManagementAPI.get(`/api/hotel/${hotelId}/rooms`)
 }
