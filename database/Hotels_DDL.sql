@@ -1,5 +1,5 @@
 -- Database export via SQLPro (https://www.sqlprostudio.com/allapps.html)
--- Exported by rajat at 10-04-2022 11:46.
+-- Exported by rajat at 10-04-2022 12:38.
 -- WARNING: This file may contain descructive statements such as DROPs.
 -- Please ensure that you are running the script at the proper location.
 
@@ -10,13 +10,17 @@ CREATE TABLE `amenities` (
   `id` int NOT NULL AUTO_INCREMENT,
   `amenity_name` varchar(45) DEFAULT NULL,
   `amenity_code` varchar(5) DEFAULT NULL,
-  `cost_multiplier` decimal(3,2) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Table amenities contains no data. No inserts have been genrated.
--- Inserting 0 rows into amenities
-
+-- Inserting 5 rows into amenities
+-- Insert batch #1
+INSERT INTO amenities (id, amenity_name, amenity_code) VALUES
+(6, 'Breafast', 'CB'),
+(7, 'Parking', 'PR'),
+(8, 'Fitness Room', 'FR'),
+(9, 'All Meals Included', 'AM'),
+(10, 'Swimming Pool', 'SW');
 
 -- END TABLE amenities
 
@@ -59,17 +63,67 @@ CREATE TABLE `hotel_amenities_map` (
   `id` int NOT NULL AUTO_INCREMENT,
   `hotel_id` int DEFAULT NULL,
   `amenities_id` int DEFAULT NULL,
-  `cost_multiplier` decimal(3,2) DEFAULT NULL,
+  `cost` decimal(10,0) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `Hotel_Id_FK_idx` (`hotel_id`),
   KEY `Amenities_Id_FK_idx` (`amenities_id`),
   CONSTRAINT `Hotel_Amenities_Map_Amenities_Id_FK` FOREIGN KEY (`amenities_id`) REFERENCES `amenities` (`id`),
   CONSTRAINT `Hotel_Amenities_Map_Hotel_Id_FK` FOREIGN KEY (`hotel_id`) REFERENCES `hotels` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Table hotel_amenities_map contains no data. No inserts have been genrated.
--- Inserting 0 rows into hotel_amenities_map
-
+-- Inserting 50 rows into hotel_amenities_map
+-- Insert batch #1
+INSERT INTO hotel_amenities_map (id, hotel_id, amenities_id, cost) VALUES
+(1, 231466, 6, 20),
+(2, 231466, 7, 25),
+(3, 231466, 8, 28),
+(4, 231466, 9, 23),
+(5, 231466, 10, 10),
+(6, 231467, 6, 20),
+(7, 231467, 7, 25),
+(8, 231467, 8, 28),
+(9, 231467, 9, 23),
+(10, 231467, 10, 10),
+(11, 231468, 6, 20),
+(12, 231468, 7, 25),
+(13, 231468, 8, 28),
+(14, 231468, 9, 23),
+(15, 231468, 10, 10),
+(16, 231469, 6, 20),
+(17, 231469, 7, 25),
+(18, 231469, 8, 28),
+(19, 231469, 9, 23),
+(20, 231469, 10, 10),
+(21, 231470, 6, 20),
+(22, 231470, 7, 25),
+(23, 231470, 8, 28),
+(24, 231470, 9, 23),
+(25, 231470, 10, 10),
+(26, 231471, 6, 20),
+(27, 231471, 7, 25),
+(28, 231471, 8, 28),
+(29, 231471, 9, 23),
+(30, 231471, 10, 10),
+(31, 231472, 6, 20),
+(32, 231472, 7, 25),
+(33, 231472, 8, 28),
+(34, 231472, 9, 23),
+(35, 231472, 10, 10),
+(36, 231473, 6, 20),
+(37, 231473, 7, 25),
+(38, 231473, 8, 28),
+(39, 231473, 9, 23),
+(40, 231473, 10, 10),
+(41, 231474, 6, 20),
+(42, 231474, 7, 25),
+(43, 231474, 8, 28),
+(44, 231474, 9, 23),
+(45, 231474, 10, 10),
+(46, 231475, 6, 20),
+(47, 231475, 7, 25),
+(48, 231475, 8, 28),
+(49, 231475, 9, 23),
+(50, 231475, 10, 10);
 
 -- END TABLE hotel_amenities_map
 
