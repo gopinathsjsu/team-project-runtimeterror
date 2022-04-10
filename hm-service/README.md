@@ -7,8 +7,8 @@
 
 #### Service Endpoints
 - Search Domain
-  - [GET] /hotel [ Returns collection of  hotels]
-  - [GET] /hotel/{id}/rooms [ Returns collection of  rooms for  a certain hotel]
+  - [GET] /hotel/search [ Returns collection of  hotels]
+  - [GET] /hotel/search/{id}/rooms [ Returns collection of  rooms for  a certain hotel]
 - Booking
   - [POST] /hotel/booking
 #### Technologies
