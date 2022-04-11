@@ -36,49 +36,65 @@
       curl --location --request GET 'localhost:8080/api/hotel/231466/amenities'
        ```
 
-- Booking
-    - Book room(s) [POST] `/api/booking`
-      ```
-      curl --location --request POST 'http://localhost:8080/api/booking/calculate' \
-      --header 'Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxZXF3ZSIsImlhdCI6MTY0OTYxMzE2NSwiZXhwIjoxNjQ5Njk5NTY1fQ.ahGSOOKcZjtojnMm8sDIV5U706WWOwIUINKHgC_xB-s9cQL99zrKvq90RqqEB8MV6GVAirwI7oMXV3aeaN9zPQ' \
-      --header 'Content-Type: application/json' \
-      --header 'Cookie: JSESSIONID.fc1636b7=node016j5iccopqd51wkaomyxqsdep0.node0' \
-      --data-raw '[
-      {"userId": 1,
-      "hotelId": 231466,
-      "roomId": 7,
-      "checkInDate": "4-10-2022",
-      "checkOutDate": "4-10-2022",
-      "roomTypeCode": "QN",
-      "guestCount": 6
-      }]'  
-      ```
-    - Calculate price [POST] `/api/booking/calculate`
-        ```
-      curl --location --request POST 'http://localhost:8080/api/booking/calculate' \
-      --header 'Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxZXF3ZSIsImlhdCI6MTY0OTYxMzE2NSwiZXhwIjoxNjQ5Njk5NTY1fQ.ahGSOOKcZjtojnMm8sDIV5U706WWOwIUINKHgC_xB-s9cQL99zrKvq90RqqEB8MV6GVAirwI7oMXV3aeaN9zPQ' \
-      --header 'Content-Type: application/json' \
-      --header 'Cookie: JSESSIONID.fc1636b7=node016j5iccopqd51wkaomyxqsdep0.node0' \
-      --data-raw '[
-      {"userId": 1,
-      "hotelId": 231466,
-      "roomId": 7,
-      "checkInDate": "4-10-2022",
-      "checkOutDate": "4-10-2022",
-      "roomTypeCode": "QN",
-      "guestCount": 6
-      }]'  
-      ```
-    - GetBooking By ID [GET] `/api/booking/{id}`
-      ```
-      curl --location --request GET 'http://localhost:8080/api/booking/getbookingbyuserid/1' \
-      --header 'Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxZXF3ZSIsImlhdCI6MTY0OTYxMzE2NSwiZXhwIjoxNjQ5Njk5NTY1fQ.ahGSOOKcZjtojnMm8sDIV5U706WWOwIUINKHgC_xB-s9cQL99zrKvq90RqqEB8MV6GVAirwI7oMXV3aeaN9zPQ'
-      ```
-    - GetBooking(s) By UserID [GET] `/api/booking/getbookingbyuserid/{id}`
-      ```
-      curl --location --request GET 'http://localhost:8080/api/booking/1' \
-      --header 'Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxZXF3ZSIsImlhdCI6MTY0OTYxMzE2NSwiZXhwIjoxNjQ5Njk5NTY1fQ.ahGSOOKcZjtojnMm8sDIV5U706WWOwIUINKHgC_xB-s9cQL99zrKvq90RqqEB8MV6GVAirwI7oMXV3aeaN9zPQ'
-      ```
+    - Booking
+        - Book room(s) [POST] `/api/booking`
+   
+  ```
+        curl --location --request POST 'http://localhost:8080/api/booking' \
+        --header 'Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxZXF3ZSIsImlhdCI6MTY0OTYxMzE2NSwiZXhwIjoxNjQ5Njk5NTY1fQ.ahGSOOKcZjtojnMm8sDIV5U706WWOwIUINKHgC_xB-s9cQL99zrKvq90RqqEB8MV6GVAirwI7oMXV3aeaN9zPQ' \
+        --header 'Content-Type: application/json' \
+        --data-raw '{
+        "booking": [
+        {
+        "userId": 1,
+        "hotelId": 231466,
+        "roomId": 7,
+        "checkInDate": "2022-04-10",
+        "checkOutDate": "2022-04-13",
+        "roomTypeCode": "QN",
+        "guestCount": 6,
+        "amenities": [
+        {
+        "hotelAmenityId": 2,
+        "amenityCode": "PR",
+        "count": 1
+        },
+        {
+        "hotelAmenityId": 3,
+        "amenityCode": "FR",
+        "count": 2
+        }
+        ]
+        }
+        ]
+        }'
+  ```
+        - Calculate price [POST] `/api/booking/calculate`
+            ```
+          curl --location --request POST 'http://localhost:8080/api/booking/calculate' \
+          --header 'Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxZXF3ZSIsImlhdCI6MTY0OTYxMzE2NSwiZXhwIjoxNjQ5Njk5NTY1fQ.ahGSOOKcZjtojnMm8sDIV5U706WWOwIUINKHgC_xB-s9cQL99zrKvq90RqqEB8MV6GVAirwI7oMXV3aeaN9zPQ' \
+          --header 'Content-Type: application/json' \
+          --header 'Cookie: JSESSIONID.fc1636b7=node016j5iccopqd51wkaomyxqsdep0.node0' \
+          --data-raw '[
+          {"userId": 1,
+          "hotelId": 231466,
+          "roomId": 7,
+          "checkInDate": "4-10-2022",
+          "checkOutDate": "4-10-2022",
+          "roomTypeCode": "QN",
+          "guestCount": 6
+          }]'  
+          ```
+        - GetBooking By ID [GET] `/api/booking/{id}`
+          ```
+          curl --location --request GET 'http://localhost:8080/api/booking/getbookingbyuserid/1' \
+          --header 'Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxZXF3ZSIsImlhdCI6MTY0OTYxMzE2NSwiZXhwIjoxNjQ5Njk5NTY1fQ.ahGSOOKcZjtojnMm8sDIV5U706WWOwIUINKHgC_xB-s9cQL99zrKvq90RqqEB8MV6GVAirwI7oMXV3aeaN9zPQ'
+          ```
+        - GetBooking(s) By UserID [GET] `/api/booking/getbookingbyuserid/{id}`
+          ```
+          curl --location --request GET 'http://localhost:8080/api/booking/1' \
+          --header 'Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxZXF3ZSIsImlhdCI6MTY0OTYxMzE2NSwiZXhwIjoxNjQ5Njk5NTY1fQ.ahGSOOKcZjtojnMm8sDIV5U706WWOwIUINKHgC_xB-s9cQL99zrKvq90RqqEB8MV6GVAirwI7oMXV3aeaN9zPQ'
+          ```
 #### Technologies
 
 - Spring Boot (JPA, Web)
