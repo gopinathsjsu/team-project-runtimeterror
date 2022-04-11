@@ -1,15 +1,20 @@
 package com.hmservice.hotel.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.*;
 
 @Entity
 @Table(name = "booking")
-public class Booking {
+public class Booking implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "bookingId")
-    private Long bookingId;
+    @Column(name = "id")
+    private Long id;
 
     @Column(name = "userId")
     private Long userId;
@@ -20,26 +25,20 @@ public class Booking {
     @Column(name = "roomId")
     private Integer roomId;
 
-    public Room getRoom() {
-        return room;
-    }
 
-    public void setRoom(Room room) {
-        this.room = room;
-    }
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="roomId",referencedColumnName="id", insertable  = false, updatable = false)
     private Room room;
 
     @Column(name = "bookingDate")
-    private String bookingDate;
+    private Date bookingDate;
 
     @Column(name = "checkInDate")
-    private String checkInDate;
+    private Date checkInDate;
 
     @Column(name = "checkOutDate")
-    private String checkOutDate;
+    private Date checkOutDate;
 
     @Column(name = "roomTypeCode")
     private String roomTypeCode;
@@ -50,12 +49,33 @@ public class Booking {
     @Column(name = "totalPrice")
     private Integer totalPrice;
 
-    public Long getBookingId() {
-        return bookingId;
+
+    @OneToMany(mappedBy = "booking", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<BookingHotelAmenities> amenities = new ArrayList<>();
+
+    @JsonManagedReference
+    public List<BookingHotelAmenities> getAmenities() {
+        return amenities;
     }
 
-    public void setBookingId(Long bookingId) {
-        this.bookingId = bookingId;
+    public void setAmenities(List<BookingHotelAmenities> amenities) {
+        this.amenities = amenities;
+    }
+
+    public Room getRoom() {
+        return room;
+    }
+
+    public void setRoom(Room room) {
+        this.room = room;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Long getUserId() {
@@ -82,27 +102,27 @@ public class Booking {
         this.roomId = roomId;
     }
 
-    public String getBookingDate() {
+    public Date getBookingDate() {
         return bookingDate;
     }
 
-    public void setBookingDate(String bookingDate) {
+    public void setBookingDate(Date bookingDate) {
         this.bookingDate = bookingDate;
     }
 
-    public String getCheckInDate() {
+    public Date getCheckInDate() {
         return checkInDate;
     }
 
-    public void setCheckInDate(String checkInDate) {
+    public void setCheckInDate(Date checkInDate) {
         this.checkInDate = checkInDate;
     }
 
-    public String getCheckOutDate() {
+    public Date getCheckOutDate() {
         return checkOutDate;
     }
 
-    public void setCheckOutDate(String checkOutDate) {
+    public void setCheckOutDate(Date checkOutDate) {
         this.checkOutDate = checkOutDate;
     }
 
