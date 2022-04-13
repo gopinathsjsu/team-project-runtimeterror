@@ -5,8 +5,7 @@ on:
 
 jobs:
   deploy:
-    - name: download build artifacts
-      uses: actions/download-artifact@v3
+    - uses: actions/download-artifact@v3
       with:
         name: hm-web-build-artifact
         path: ./hm-web/build/
