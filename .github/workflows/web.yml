@@ -27,6 +27,7 @@ jobs:
       env:
         REACT_APP_API_URL : ${{ secrets.API_URL }}
       run: |
+        pwd
         npm install
         CI=false npm run build
 
