@@ -10,8 +10,21 @@ import { styled } from '@mui/material/styles';
 import Cookies from 'js-cookie'
 import { useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
+import Modal from '@mui/material/Modal';
+import Amenities from './Amenities';
+import Box from '@mui/material/Box';
 
 
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  bgcolor: 'background.paper',
+  boxShadow: 24,
+  p: 4,
+  minWidth: '18rem'
+};
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
@@ -34,6 +47,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 
 export default function Rooms(props) {
+  const [open, setOpen] = React.useState(false);
   const accessToken = Cookies.get('accessToken')
   const navigate = useNavigate()
   const rows = []
@@ -49,31 +63,41 @@ export default function Rooms(props) {
 
 
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 300 }} aria-label="customized table">
-        <TableHead>
-          <TableRow>
-            <StyledTableCell>Room Type</StyledTableCell>
-            <StyledTableCell align="right">Price</StyledTableCell>
-            <StyledTableCell align="right"></StyledTableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <StyledTableRow key={row.roomTypeId}>
-              <StyledTableCell component="th" scope="row">
-                {row.roomTypeName}
-              </StyledTableCell>
-              <StyledTableCell align="right">{row.price}</StyledTableCell>
-              <StyledTableCell align="right">{
-                accessToken ? <Button onClick={() => { }} variant="outlined" size="large">Book</Button> :
-                  <Button onClick={() => { navigate('/login') }} variant="outlined" size="large">Login</Button>
-              }</StyledTableCell>
-            </StyledTableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <>
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 300 }} aria-label="customized table">
+          <TableHead>
+            <TableRow>
+              <StyledTableCell>Room Type</StyledTableCell>
+              <StyledTableCell align="right">Price</StyledTableCell>
+              <StyledTableCell align="right"></StyledTableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {rows.map((row) => (
+              <StyledTableRow key={row.roomTypeId}>
+                <StyledTableCell component="th" scope="row">
+                  {row.roomTypeName}
+                </StyledTableCell>
+                <StyledTableCell align="right">{row.price}</StyledTableCell>
+                <StyledTableCell align="right">{
+                  accessToken ? <Button onClick={() => { setOpen(true) }} variant="outlined" size="large">Book</Button> :
+                    <Button onClick={() => { navigate('/login') }} variant="outlined" size="large">Login</Button>
+                }</StyledTableCell>
+              </StyledTableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <Modal
+        open={open}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      ><Box sx={style}>
+          <Amenities />
+        </Box>
+      </Modal>
+    </>
   );
 }
 
