@@ -6,8 +6,7 @@ terraform {
     }
   }
 
-  backend "remote" {
-    hostname     = "app.terraform.io"
+  cloud {
     organization = "runtimeterror-202"
 
     workspaces {
@@ -37,4 +36,14 @@ module "hm-service" {
   vpc_id          = module.hm-vpc.vpc_id
   subnet_id_2a    = module.hm-vpc.subnet_id_2a
   subnet_id_2b    = module.hm-vpc.subnet_id_2b
+}
+
+output "bucket-name" {
+  value = module.hm-web.hm-web-bucket
+  description = "bucket name"
+}
+
+output "cf-distribution" {
+  value = module.hm-web.hm-cf-distribution
+  description = "distribution id"
 }
