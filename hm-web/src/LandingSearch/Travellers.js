@@ -49,7 +49,7 @@ export default function Travellers(props) {
         <Typography id="modal-modal-title" variant="h6" component="h2">
           Travellers
         </Typography>
-        <Stack spacing={3} mt pt>
+        <Stack sx={{minWidth: '14rem'}} spacing={3} mt pt>
           <Box> Rooms: <Counter value={rooms} handleChange={setRooms} /></Box>
           <Box> Guests: <Counter value={guests} handleChange={setGuests} /></Box>
           <Button variant="outlined" onClick={handleClose}>
