@@ -15,10 +15,9 @@ const mapDispatchToProps = () => ({
 
 function HotelsAuocomplete(props) {
   const [hotels, setHotels] = useState([])
-  const { selectHotel, hotelSelectionAction } = props
+  const { hotelSelectionAction } = props
   const onChange = (event, value) => {
     hotelSelectionAction(value)
-    selectHotel(value)
   }
   useEffect(async () => {
     const { data } = await getHotels()
