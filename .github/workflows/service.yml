@@ -1,6 +1,15 @@
 name: Service CI/CD Workflow
 on:
   push:
-    paths: 
-      - service/
-      
+    branches: main
+    paths:
+      - hm-service/
+    tags:
+      - '*'
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: hm-service
