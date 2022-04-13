@@ -5,6 +5,7 @@ import Button from '@mui/material/Button';
 import { searchRooms } from '../helpers/API'
 import { isEmpty } from 'lodash'
 import { connect } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { roomSearchAction } from '../Actions/searchAction'
 
 const mapStateToProps = state => ({
@@ -18,7 +19,7 @@ const mapDispatchToProps = () => ({
 function SearchRooms(props) {
   const { hotel, roomSearchAction } = props
   const [open, setOpen] = React.useState(false);
-
+  const navigate = useNavigate()
   const handleSearch = async () => {
     if (isEmpty(hotel)) return
     const { result: { id } = {} } = hotel
@@ -27,6 +28,7 @@ function SearchRooms(props) {
       const { data } = await searchRooms(id)
       roomSearchAction(data)
       setOpen(false)
+      navigate(`/book`)
     } catch (ex) {
       setOpen(false)
     }
