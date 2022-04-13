@@ -1,40 +1,18 @@
-name: Web CI/CD Workflow
+name: Web CD Workflow
 on:
-  push:
-    branches: [ main ]
-    paths:
-      - hm-web/
-    tags:
-      - '*'
-  pull_request:
+  workflow_dispatch:
     branches: [ main ]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    environment: hm-web
-    steps:
-    - uses: actions/checkout@v2
-
-    - name: Use Node.js
-      uses: actions/setup-node@v3
+  deploy:
+    - name: download build artifacts
+      uses: actions/download-artifact@v3
       with:
-        node-version: 14.x
-        cache: 'npm'
-        cache-dependency-path: './hm-web/package-lock.json'
-
-    - name: build
-      working-directory: ./hm-web
-      env:
-        REACT_APP_API_URL : ${{ secrets.API_URL }}
-      run: |
-        pwd
-        npm install
-        CI=false npm run build
+        name: hm-web-build-artifact
+        path: ./hm-web/build/
 
     - name: Upload to S3
       working-directory: ./hm-web
-      if: startsWith(github.ref, 'refs/tags/v') && (github.event.pull_request.merged == 'true' || github.event_name == 'push')
       env:
         BUCKET_NAME: ${{ secrets.BUCKET_NAME }}
         DISTRIBUTION_ID: ${{ secrets.DISTRIBUTION_ID }}

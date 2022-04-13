@@ -1,0 +1,37 @@
+name: Web CI Workflow
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - hm-web/
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: hm-web
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Use Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 14.x
+        cache: 'npm'
+        cache-dependency-path: './hm-web/package-lock.json'
+
+    - name: build
+      working-directory: ./hm-web
+      env:
+        REACT_APP_API_URL : ${{ secrets.API_URL }}
+      run: |
+        pwd
+        npm install
+        CI=false npm run build
+
+    - name: upload build artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: hm-web-build-artifact
+        path: ./hm-web/build/
