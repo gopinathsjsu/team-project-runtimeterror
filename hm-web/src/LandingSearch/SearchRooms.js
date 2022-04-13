@@ -4,16 +4,33 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Button from '@mui/material/Button';
 import { searchRooms } from '../helpers/API'
 import { isEmpty } from 'lodash'
-export default function SearchRooms(props) {
-  const { hotel } = props
+import { connect } from 'react-redux';
+import { roomSearchAction } from '../Actions/searchAction'
+
+const mapStateToProps = state => ({
+  ...state
+})
+
+const mapDispatchToProps = () => ({
+  roomSearchAction
+})
+
+function SearchRooms(props) {
+  const { hotel, roomSearchAction } = props
   const [open, setOpen] = React.useState(false);
 
   const handleSearch = async () => {
     if (isEmpty(hotel)) return
-    const { id } = hotel
+    const { result: { id } = {} } = hotel
     setOpen(true)
-    const roomsResponse = await searchRooms(id)
-    setOpen(false)
+    try {
+      const { data } = await searchRooms(id)
+      roomSearchAction(data)
+      setOpen(false)
+    } catch (ex) {
+      setOpen(false)
+    }
+
   }
   return <><Button onClick={handleSearch} variant="outlined" size="large">Search</Button>
     <Backdrop
@@ -24,3 +41,5 @@ export default function SearchRooms(props) {
     </Backdrop>
   </>
 }
+
+export default connect(mapStateToProps, mapDispatchToProps())(SearchRooms)

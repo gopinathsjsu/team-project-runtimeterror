@@ -1,13 +1,13 @@
-export const hotelSelectionAction = () => dispatch => {
+export const hotelSelectionAction = (hotel) => dispatch => {
   dispatch({
     type: 'HOTEL_SELECTION',
-    payload: 'hotel'
+    payload: hotel
   })
 }
 
-export const roomSearchAction = () => dispatch => {
+export const roomSearchAction = (rooms) => dispatch => {
   dispatch({
     type: 'ROOM_SEARCH',
-    payload: 'room'
+    payload: rooms
   })
 }

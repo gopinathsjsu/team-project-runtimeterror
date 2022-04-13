@@ -7,8 +7,20 @@ import { Box, Typography } from '@mui/material';
 import DateSelector from './LandingSearch/DateSelector';
 import Travellers from './LandingSearch/Travellers';
 import SearchRooms from './LandingSearch/SearchRooms';
+import { connect } from 'react-redux';
+import { hotelSelectionAction, roomSearchAction } from './Actions/searchAction'
 
-export default function Landing() {
+
+const mapStateToProps = state => ({
+  ...state
+})
+
+const mapDispatchToProps = () => ({
+  hotelSelectionAction,
+  roomSearchAction
+})
+
+function Landing() {
   const tomorrow = new Date()
   tomorrow.setDate(tomorrow.getDate() + 1)
   const dayAfterTomorrow = new Date()
@@ -66,3 +78,5 @@ export default function Landing() {
       </Box>
     </Paper>)
 }
+
+export default connect(mapStateToProps)(Landing)
