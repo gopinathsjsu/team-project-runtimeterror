@@ -8,7 +8,8 @@ import DateSelector from './LandingSearch/DateSelector';
 import Travellers from './LandingSearch/Travellers';
 import SearchRooms from './LandingSearch/SearchRooms';
 
-export default function Landing() {
+
+function Landing() {
   const tomorrow = new Date()
   tomorrow.setDate(tomorrow.getDate() + 1)
   const dayAfterTomorrow = new Date()
@@ -25,7 +26,6 @@ export default function Landing() {
     return dayAfterTomorrow;
   }
 
-  const [hotel, selectHotel] = React.useState(null)
   const [checkIn, setCheckIn] = React.useState(tomorrow.toLocaleDateString())
   const [checkOut, setCheckOut] = React.useState(fiveDaysFromNow.toLocaleDateString())
   const [rooms, setRooms] = React.useState(1)
@@ -43,7 +43,7 @@ export default function Landing() {
             </Typography>
           </Grid>
           <Grid item xs={12} md={4} lg={4}>
-            <HotelsAuocomplete selectHotel={selectHotel} />
+            <HotelsAuocomplete />
           </Grid>
           <Grid item xs={6} md={2} lg={2}>
             <DateSelector date={checkIn} setDate={setCheckIn} minDate={tomorrow} label={"Check-in"} />
@@ -60,9 +60,11 @@ export default function Landing() {
             />
           </Grid>
           <Grid item>
-            <SearchRooms hotel={hotel} checkIn={checkIn} checkOut={checkOut} guests={guests} rooms={rooms} />
+            <SearchRooms checkIn={checkIn} checkOut={checkOut} guests={guests} rooms={rooms} />
           </Grid>
         </Grid>
       </Box>
     </Paper>)
 }
+
+export default Landing

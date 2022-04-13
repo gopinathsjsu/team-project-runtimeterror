@@ -2,12 +2,22 @@ import React, { useEffect, useState } from 'react'
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import { getHotels } from '../helpers/API'
+import { connect } from 'react-redux';
+import { hotelSelectionAction } from '../Actions/searchAction'
 
-export default function HotelsAuocomplete(props) {
+const mapStateToProps = state => ({
+  ...state
+})
+
+const mapDispatchToProps = () => ({
+  hotelSelectionAction
+})
+
+function HotelsAuocomplete(props) {
   const [hotels, setHotels] = useState([])
-  const { selectHotel } = props
+  const { hotelSelectionAction } = props
   const onChange = (event, value) => {
-    selectHotel(value)
+    hotelSelectionAction(value)
   }
   useEffect(async () => {
     const { data } = await getHotels()
@@ -24,3 +34,5 @@ export default function HotelsAuocomplete(props) {
     />
   );
 }
+
+export default connect(mapStateToProps, mapDispatchToProps())(HotelsAuocomplete)
