@@ -17,11 +17,11 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Use Node.js
-      working-directory: ./hm-web
-      uses: actions/setup-node@v2
+      uses: actions/setup-node@v3
       with:
         node-version: 14.x
         cache: 'npm'
+        cache-dependency-path: './hm-web/package-lock.json'
 
     - name: build
       working-directory: ./hm-web
