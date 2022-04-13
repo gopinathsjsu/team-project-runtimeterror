@@ -22,8 +22,15 @@ provider "aws" {
   region  = "us-west-2"
 }
 
+provider "aws" {
+  alias = "us-east-1"
+  region  = "us-east-1"
+}
+
 module "hm-web" {
   source = "./modules/hm-web"
+  alias = "hm-ui.awesomepossum.dev"
+  acm_certificate_arn = module.hm-hostedzones.ui_acm_certificat_arn
 }
 
 module "hm-vpc" {
@@ -38,12 +45,25 @@ module "hm-service" {
   subnet_id_2b    = module.hm-vpc.subnet_id_2b
 }
 
+module "hm-hostedzones" {
+  source            = "./modules/hm-hostedzones"
+  baseurl           = "awesomepossum.dev"
+  ui_subdomain      = "hm-ui"
+  service_subdomain = "hm-service"
+  cloudfront_domain_name = module.hm-web.hm-cf-distribution-domain-name
+  cloudfront_zone_id = module.hm-web.hm-cf-distribution-zone-id
+
+  providers = {
+    aws = aws.us-east-1
+  }
+}
+
 output "bucket-name" {
-  value = module.hm-web.hm-web-bucket
+  value       = module.hm-web.hm-web-bucket
   description = "bucket name"
 }
 
 output "cf-distribution" {
-  value = module.hm-web.hm-cf-distribution
+  value       = module.hm-web.hm-cf-distribution
   description = "distribution id"
 }

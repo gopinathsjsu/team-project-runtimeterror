@@ -1,3 +1,13 @@
+variable alias {
+  type = string
+  description = "alias for ui"
+}
+
+variable acm_certificate_arn {
+  type = string
+  description = "certificat arn for ui"
+}
+
 resource "aws_s3_bucket" "hotel_management_ui_bucket" {
   bucket = "runtimeterror-hotel-management-ui"
 
@@ -66,6 +76,8 @@ resource "aws_cloudfront_distribution" "hotel_management_ui_cache" {
     response_page_path = "/index.html"
   }
 
+  aliases = [var.alias]
+
   default_cache_behavior {
     allowed_methods = ["GET", "HEAD", "OPTIONS"]
     cached_methods = ["GET", "HEAD"]
@@ -94,7 +106,7 @@ resource "aws_cloudfront_distribution" "hotel_management_ui_cache" {
 
   viewer_certificate {
     minimum_protocol_version = "TLSv1"
-    cloudfront_default_certificate = true
+    acm_certificate_arn = var.acm_certificate_arn
     ssl_support_method = "sni-only"
   }
 
@@ -111,4 +123,14 @@ output "hm-cf-distribution" {
 output "hm-web-bucket" {
   value = aws_s3_bucket.hotel_management_ui_bucket.bucket
   description = "bucket name for hm-web"
+}
+
+output "hm-cf-distribution-domain-name" {
+  value = aws_cloudfront_distribution.hotel_management_ui_cache.domain_name
+  description = "hm-web cf distribution domain_name"
+}
+
+output "hm-cf-distribution-zone-id" {
+  value = aws_cloudfront_distribution.hotel_management_ui_cache.hosted_zone_id
+  description = "hm-web cf distribution zone_id"
 }

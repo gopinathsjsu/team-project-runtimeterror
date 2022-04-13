@@ -1,18 +1,3 @@
-output "vpc_id" {
-  value       = aws_vpc.hotelmgmt_vpc.id
-  description = "vpc id of hotel management apps vpc"
-}
-
-output "subnet_id_2a" {
-  value       = aws_subnet.public_us_west_2a.id
-  description = "subnet id of hotel mgmt avail zone 2a"
-}
-
-output "subnet_id_2b" {
-  value       = aws_subnet.public_us_west_2b.id
-  description = "subnet id of hotel mgmt avail zone 2b"
-}
-
 resource "aws_vpc" "hotelmgmt_vpc" {
   cidr_block           = "10.0.0.0/16"
   enable_dns_hostnames = true
@@ -71,4 +56,19 @@ resource "aws_route_table_association" "hotelmgmt_vpc_us_west_2a_public" {
 resource "aws_route_table_association" "hotelmgmt_vpc_us_west_2b_public" {
   subnet_id      = aws_subnet.public_us_west_2b.id
   route_table_id = aws_route_table.hotelmgmt_vpc_public.id
+}
+
+output "vpc_id" {
+  value       = aws_vpc.hotelmgmt_vpc.id
+  description = "vpc id of hotel management apps vpc"
+}
+
+output "subnet_id_2a" {
+  value       = aws_subnet.public_us_west_2a.id
+  description = "subnet id of hotel mgmt avail zone 2a"
+}
+
+output "subnet_id_2b" {
+  value       = aws_subnet.public_us_west_2b.id
+  description = "subnet id of hotel mgmt avail zone 2b"
 }
