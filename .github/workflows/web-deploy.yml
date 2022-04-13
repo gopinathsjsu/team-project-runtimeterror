@@ -1,6 +1,7 @@
 name: Web CD Workflow
-on: workflow_dispatch
-    # branches: [ main ]
+on:
+  workflow_dispatch:
+    branches: [ main ]
 
 jobs:
   deploy:
