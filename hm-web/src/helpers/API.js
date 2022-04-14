@@ -7,10 +7,6 @@ const hotelManagementAPI = axios.create({
   baseURL: Config.BASE_URL,
 });
 
-export function BookRoom() {
-
-}
-
 export async function getHotels() {
   return await hotelManagementAPI.get(`/api/hotel`)
 }
@@ -44,4 +40,15 @@ export async function calculatePrice(payload) {
   };
 
   return await hotelManagementAPI.post(`api/booking/calculate`, payload, config)
+}
+
+export async function bookHotel(payload) {
+  const token = Cookies.get('accessToken')
+  if (isEmpty(token))
+    throw "user not authorized"
+  const config = {
+    headers: { Authorization: `Bearer ${token}` }
+  };
+
+  return await hotelManagementAPI.post(`api/booking`, payload, config)
 }
