@@ -4,15 +4,15 @@ import com.hmservice.contract.request.LoginRequest;
 import com.hmservice.contract.request.SignupRequest;
 import com.hmservice.contract.response.JwtResponse;
 import com.hmservice.contract.response.MessageResponse;
-import com.hmservice.hotel.models.ERole;
-import com.hmservice.hotel.models.Role;
-import com.hmservice.hotel.models.User;
+import com.hmservice.contract.response.UserResponse;
+import com.hmservice.hotel.models.*;
 import com.hmservice.security.jwt.JwtUtils;
 import com.hmservice.repository.RoleRepository;
 import com.hmservice.repository.UserRepository;
 import com.hmservice.security.service.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/api/user")
 public class UserController {
     @Autowired
     AuthenticationManager authenticationManager;
@@ -39,6 +39,7 @@ public class UserController {
     PasswordEncoder encoder;
     @Autowired
     JwtUtils jwtUtils;
+
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
@@ -56,6 +57,7 @@ public class UserController {
                 userDetails.getEmail(),
                 roles));
     }
+
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
@@ -71,7 +73,7 @@ public class UserController {
         // Create new user's account
         User user = new User(signUpRequest.getUsername(),
                 signUpRequest.getEmail(),
-                encoder.encode(signUpRequest.getPassword()));
+                encoder.encode(signUpRequest.getPassword()) , signUpRequest.getPhone());
         Set<String> strRoles = signUpRequest.getRole();
         Set<Role> roles = new HashSet<>();
         if (strRoles == null) {
@@ -104,4 +106,43 @@ public class UserController {
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
 
+    @PutMapping("/{id}")
+    @PreAuthorize("hasRole('CUSTOMER')  or hasRole('ADMIN')")
+    public ResponseEntity<?> updateUser(@PathVariable Long id, @Valid @RequestBody SignupRequest signUpRequest) {
+        Optional<User> u = userRepository.findById(id);
+
+        if (!signUpRequest.getUsername().equals(u.get().getUsername()) && userRepository.existsByUsername(signUpRequest.getUsername()))  {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: Username is already taken!"));
+        }
+        if (!signUpRequest.getEmail().equals(u.get().getEmail()) && userRepository.existsByEmail(signUpRequest.getEmail())) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: Email is already in use!"));
+        }
+
+        u.get().setPhone(signUpRequest.getPhone());
+        u.get().setEmail(signUpRequest.getEmail());
+        u.get().setUsername(signUpRequest.getUsername());
+        userRepository.save(u.get());
+        return ResponseEntity.ok(new MessageResponse("User updated successfully!"));
+    }
+
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('CUSTOMER')  or hasRole('ADMIN')")
+    public ResponseEntity<?> deleteUser(@PathVariable Long id) {
+        Optional<User> u = userRepository.findById(id);
+        u.get().setActive(false);
+        userRepository.save(u.get());
+        return ResponseEntity.ok(new MessageResponse("User de-activated successfully!"));
+    }
+
+    @GetMapping("/{id}")
+    @PreAuthorize("hasRole('CUSTOMER')  or hasRole('ADMIN')")
+    public   ResponseEntity<UserResponse> getUser(@PathVariable Long id) {
+
+        Optional<User> u = userRepository.findById(id);
+       return ResponseEntity.ok(new UserResponse(u.get().getId(), u.get().getUsername(), u.get().getEmail(), u.get().getPhone(), u.get().getLoyalty()));
+    }
 }
