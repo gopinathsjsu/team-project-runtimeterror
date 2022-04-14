@@ -11,3 +11,5 @@ jobs:
   build:
     runs-on: ubuntu-latest
     environment: hm-service
+    steps:
+    - uses: actions/checkout@v2
