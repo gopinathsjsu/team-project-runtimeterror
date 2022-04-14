@@ -61,12 +61,12 @@ function Rooms(props) {
   const navigate = useNavigate()
   const rows = []
   for (const room in searchResults) {
-    const { hotelId, room_type, price } = searchResults[room]
+    const { hotelId, room_type, price, id } = searchResults[room]
     rows.push({
       hotelId, price,
       roomTypeName: room_type.name,
       roomTypeCode: room_type.shortCode,
-      roomTypeId: room_type.id
+      roomTypeId: id
     })
   }
   const closeAmenitiesModal = () => {
