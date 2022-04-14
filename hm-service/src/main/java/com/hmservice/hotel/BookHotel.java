@@ -7,6 +7,11 @@ import com.hmservice.contract.RoomRequest;
 import com.hmservice.hotel.pricingstrategy.CustomerProfilePlaceholder;
 import com.hmservice.hotel.pricingstrategy.IPricingStrategy;
 
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
 public class BookHotel {
     /*
     Variables:
@@ -25,7 +30,7 @@ public class BookHotel {
         - room type
         - amenity (type, count)
      */
-    public static BookingResponse book(RoomRequest roomRequest, Hotel booked, IPricingStrategy pricingStrategy) {
+    public static BookingResponse book(BookingRequest roomRequest, Hotel booked, IPricingStrategy pricingStrategy) throws ParseException {
         BookingResponse response = new BookingResponse();
         for (Amenity amenity : roomRequest.Amenities) {
             switch (amenity.AmenityCode) {
@@ -58,7 +63,8 @@ public class BookHotel {
         }
 
         // Hardcoded pricing strategy;
-        response.BookingTotal = booked.getCost() * pricingStrategy.getPricingStrategy(roomRequest.CheckInDate, CustomerProfilePlaceholder.REGULAR);
+        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
+        response.BookingTotal = booked.getCost() * pricingStrategy.getPricingStrategy(formatter.parse(roomRequest.CheckInDate), CustomerProfilePlaceholder.REGULAR);
         response.BookingDetails = booked.getPriceBreakdown();
         response.Status = 200;
         return response;

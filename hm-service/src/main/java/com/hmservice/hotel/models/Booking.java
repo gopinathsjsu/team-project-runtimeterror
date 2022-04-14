@@ -2,6 +2,8 @@ package com.hmservice.hotel.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -22,14 +24,19 @@ public class Booking implements Serializable {
     @Column(name = "hotelId")
     private Integer hotelId;
 
-    @Column(name = "roomId")
-    private Integer roomId;
 
+    @OneToMany(mappedBy = "booking", cascade = CascadeType.ALL)
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private List<BookingRooms> rooms = new ArrayList<>();
 
+    @JsonManagedReference
+    public List<BookingRooms> getRooms() {
+        return rooms;
+    }
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="roomId",referencedColumnName="id", insertable  = false, updatable = false)
-    private Room room;
+    public void setRooms(List<BookingRooms> rooms) {
+        this.rooms = rooms;
+    }
 
     @Column(name = "bookingDate")
     private Date bookingDate;
@@ -47,10 +54,11 @@ public class Booking implements Serializable {
     private Integer guestCount;
 
     @Column(name = "totalPrice")
-    private Integer totalPrice;
+    private Double totalPrice;
 
 
-    @OneToMany(mappedBy = "booking", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "booking", cascade = CascadeType.ALL)
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<BookingHotelAmenities> amenities = new ArrayList<>();
 
     @JsonManagedReference
@@ -62,13 +70,6 @@ public class Booking implements Serializable {
         this.amenities = amenities;
     }
 
-    public Room getRoom() {
-        return room;
-    }
-
-    public void setRoom(Room room) {
-        this.room = room;
-    }
 
     public Long getId() {
         return id;
@@ -94,13 +95,6 @@ public class Booking implements Serializable {
         this.hotelId = hotelId;
     }
 
-    public Integer getRoomId() {
-        return roomId;
-    }
-
-    public void setRoomId(Integer roomId) {
-        this.roomId = roomId;
-    }
 
     public Date getBookingDate() {
         return bookingDate;
@@ -142,11 +136,11 @@ public class Booking implements Serializable {
         this.guestCount = guestCount;
     }
 
-    public Integer getTotalPrice() {
+    public Double getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(Integer totalPrice) {
+    public void setTotalPrice(Double totalPrice) {
         this.totalPrice = totalPrice;
     }
 }
