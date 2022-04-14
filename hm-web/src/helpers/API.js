@@ -16,13 +16,13 @@ export async function searchRooms(hotelId) {
 }
 
 export async function registerUser(username, email, password) {
-  return await hotelManagementAPI.post(`/api/auth/signup`, {
+  return await hotelManagementAPI.post(`/api/user/signup`, {
     username, email, password, role: ["user"]
   })
 }
 
 export async function loginUser(username, password) {
-  return await hotelManagementAPI.post(`/api/auth/signin`, {
+  return await hotelManagementAPI.post(`/api/user/signin`, {
     username, password
   })
 }
