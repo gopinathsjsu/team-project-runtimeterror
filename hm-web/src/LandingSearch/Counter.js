@@ -2,6 +2,9 @@ import React from "react";
 import Button from "@mui/material/Button";
 import { styled } from '@mui/material/styles';
 import styles from '../styles/Counter.module.css'
+import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded';
+import RemoveCircleOutlineRoundedIcon from '@mui/icons-material/RemoveCircleOutlineRounded';
+import { Container } from "@mui/material";
 
 const CircularButton = styled(Button)(() => ({
   borderRadius: 100,
@@ -22,12 +25,11 @@ export default function Counter(props) {
     props.handleChange(newValue)
   }
   return (
-    <>
-      <CircularButton variant="outlined" onClick={handleDecrement}>-</CircularButton>
+    <span>
+      <RemoveCircleOutlineRoundedIcon sx={{verticalAlign: 'middle'}} onClick={handleDecrement} />
       <label className={styles.counterValue}>{value}</label>
-      <CircularButton variant="outlined" onClick={handleIncrement}>+</CircularButton>
-
-    </>
+      <AddCircleOutlineRoundedIcon sx={{verticalAlign: 'middle'}} onClick={handleIncrement} />
+    </span>
   );
 
 }

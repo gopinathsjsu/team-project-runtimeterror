@@ -5,6 +5,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import { connect } from 'react-redux';
 import Typography from '@mui/material/Typography';
+import Counter from '../LandingSearch/Counter';
 
 /*
 Amenity Icons
@@ -14,15 +15,16 @@ import BreakfastIcon from '@mui/icons-material/FreeBreakfast';
 import RestaurantIcon from '@mui/icons-material/Restaurant'
 import FitnessIcon from '@mui/icons-material/FitnessCenter'
 import ParkingIcon from '@mui/icons-material/LocalParking'
-import { Container } from '@mui/material';
+import { Button, Container } from '@mui/material';
 
 
 
-const AMENITIES_LIST = [{ amenityName: `Breakfast`, amenityCode: `CB`, amenityIcon: BreakfastIcon },
-{ amenityName: `Parking`, amenityCode: `PR`, amenityIcon: ParkingIcon },
-{ amenityName: `Fitness Room`, amenityCode: `FR`, amenityIcon: FitnessIcon },
-{ amenityName: `All Meals Included`, amenityCode: `AM`, amenityIcon: RestaurantIcon },
-{ amenityName: `Swimming Pool`, amenityCode: `SW`, amenityIcon: SwimmingPoolIcon },
+const AMENITIES_LIST = [
+  { amenityName: `Breakfast`, amenityCode: `CB`, amenityIcon: BreakfastIcon },
+  { amenityName: `Parking`, amenityCode: `PR`, amenityIcon: ParkingIcon },
+  { amenityName: `Fitness Room`, amenityCode: `FR`, amenityIcon: FitnessIcon },
+  { amenityName: `All Meals Included`, amenityCode: `AM`, amenityIcon: RestaurantIcon },
+  { amenityName: `Swimming Pool`, amenityCode: `SW`, amenityIcon: SwimmingPoolIcon },
 ]
 
 
@@ -31,10 +33,7 @@ const mapStateToProps = state => ({
 })
 
 
-function Amenities(props) {
-  const handleCheck = (event, checked) => {
-
-  }
+function Amenities() {
 
   return (<>
     <Typography id="modal-modal-title" variant="h6" component="h2">
@@ -46,13 +45,21 @@ function Amenities(props) {
 
 
         {AMENITIES_LIST.map((value) => {
-          const labelId = `checkbox-list-label-${value.amenityCode}`;
           return (
-            <FormControlLabel onChange={handleCheck} control={<Checkbox />} label={<Container disableGutters sx={{display: 'flex', width: '100%'}}><value.amenityIcon />{value.amenityName}  </Container>} />
+            <FormControlLabel disableTypography sx={{ width: '100%' }} value={value.amenityCode} control={<Checkbox />} label={
+              <Container disableGutters sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                {value.amenityName}<value.amenityIcon />
+              </Container>}
+            />
           );
         })}
       </FormGroup>
     </List>
+    <Container  sx={{ display: 'flex', justifyContent: 'space-around' }}>
+      <Button>Cancel</Button>
+      <Button variant="outlined" size="medium">Continue</Button>
+      </Container>
+
   </>
   );
 }
