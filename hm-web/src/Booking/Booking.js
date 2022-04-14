@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Navigate } from 'react-router-dom'
 import { isEmpty } from 'lodash';
 import Paper from '@mui/material/Paper';
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import styles from '../styles/booking.module.css'
 import Hotel from './Hotel'
 import Rooms from './Rooms'
@@ -25,6 +25,7 @@ function Booking(props) {
     <Box sx={{
       padding: '1.6rem',
     }}>
+      <Typography variant="h5" mb>Select Room</Typography>
       <Hotel {...hotelDetails} />
       <Rooms searchResults={roomDetails} />
     </Box>

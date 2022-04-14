@@ -1,6 +1,5 @@
 import * as React from 'react';
 import List from '@mui/material/List';
-import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import { connect } from 'react-redux';
@@ -35,6 +34,7 @@ function Amenities(props) {
       }
     }
     selectAminities(checkboxesChecked)
+    navigate("/confirm")
   }
 
   return (<>
