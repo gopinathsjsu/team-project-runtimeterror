@@ -19,13 +19,38 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    public Float getLoyalty() {
+        return loyalty;
+    }
+
+    public void setLoyalty(Float loyalty) {
+        this.loyalty = loyalty;
+    }
+
     @NotBlank
     @Size(max = 20)
     private String username;
+
     @NotBlank
     @Size(max = 50)
     @Email
     private String email;
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    @NotBlank
+    @Size(max = 20)
+    private String phone;
+
+    private Float loyalty;
+
     @NotBlank
     @Size(max = 120)
     private String password;
@@ -34,12 +59,25 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
+
+    private Boolean active;
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
     public User() {
     }
-    public User(String username, String email, String password) {
+
+    public User(String username, String email, String password, String phone) {
         this.username = username;
         this.email = email;
         this.password = password;
+        this.phone = phone;
     }
     public Long getId() {
         return id;

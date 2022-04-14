@@ -1,5 +1,6 @@
 package com.hmservice.contract.request;
 
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -15,9 +16,21 @@ public class SignupRequest {
   @Email
   private String email;
 
+  @NotBlank
+  @Size(max = 10)
+  @Digits(integer = 10, fraction = 0)
+  private String phone;
+
+  public String getPhone() {
+    return phone;
+  }
+
+  public void setPhone(String phone) {
+    this.phone = phone;
+  }
+
   private Set<String> role;
 
-  @NotBlank
   @Size(min = 6, max = 40)
   private String password;
 

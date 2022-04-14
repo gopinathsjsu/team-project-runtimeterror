@@ -7,17 +7,17 @@
 
 #### Service Endpoints
 
-- Auth
-
+- User
   - Signin [POST] `/api/auth/signin`
-    ```
+    ```shell
     curl --location --request POST 'http://localhost:8080/api/auth/signin' \
     --header 'Content-Type: application/json' \
     --header 'Cookie: JSESSIONID.fc1636b7=node016j5iccopqd51wkaomyxqsdep0.node0' \
     --data-raw '{"username":"qeqwe",  "password":"lolpassword"}'
     ```
+    
   - Signup [POST] `/api/auth/signup`
-    ```
+    ```shell
     curl --location --request POST 'http://localhost:8080/api/auth/signup' \
     --header 'Content-Type: application/json' \
     --header 'Cookie: JSESSIONID.fc1636b7=node016j5iccopqd51wkaomyxqsdep0.node0' \
@@ -28,13 +28,32 @@
     "role":["user"]
     }'
     ```
-
+  - GetUser [GET] `/api/user/{id}`
+    ```shell
+    curl --location --request GET 'http://localhost:8080/api/user/2' \
+    --header 'Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxZXF3ZSIsImlhdCI6MTY0OTkxNzg0NiwiZXhwIjoxNjUwMDA0MjQ2fQ.2iN-zs_HfQ1crFjBYge1L2aMQvLfXk67XE4Z_qMPjD2alEQwn5iNORP2UDaVt4wLLsh8Pm7SW_OrD6LUtAG41g'
+    ```
+  - Update User [PUT] `api/user/{id}`
+    ```shell
+    curl --location --request PUT 'http://localhost:8080/api/user/1' \
+    --header 'Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqb2huIiwiaWF0IjoxNjQ5OTcyMzU1LCJleHAiOjE2NTAwNTg3NTV9.qBsvLJueQS6yIBFE3SAYZ8B9qVrQPzEOKuvmVGV0P3ucGcVc-GuzQrzS4YmXp2PRX62IP2PMAJfa2tv2zNeb_w' \
+    --header 'Content-Type: application/json' \
+    --data-raw '{
+    "username": "john",
+    "email": "asd21@mail.com",
+    "phone": "1234561"
+    }'
+    ```
+  - DeActivate User [DELETE] `api/user/{id}`
+    ```shell
+    curl --location --request DELETE 'http://localhost:8080/api/user/1' \
+    --header 'Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxZXF3ZSIsImlhdCI6MTY0OTkxNzg0NiwiZXhwIjoxNjUwMDA0MjQ2fQ.2iN-zs_HfQ1crFjBYge1L2aMQvLfXk67XE4Z_qMPjD2alEQwn5iNORP2UDaVt4wLLsh8Pm7SW_OrD6LUtAG41g'
+    ```
 - Search
 
   - GetHotels [GET] `/api/hotel` [ Returns collection of hotels]
   - GetRooms [GET] `/api/hotel/{id}/rooms` [ Returns collection of rooms for a certain hotel]
   - GetAmenities [GET] `/api/hotel/{id}/amenities`
-
     ```
     curl --location --request GET 'localhost:8080/api/hotel/231466/amenities'
     ```
@@ -114,6 +133,7 @@
     curl --location --request GET 'http://localhost:8080/api/admin/pricingstrategy' \
     --header 'Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxZXF3ZSIsImlhdCI6MTY0OTkxNzg0NiwiZXhwIjoxNjUwMDA0MjQ2fQ.2iN-zs_HfQ1crFjBYge1L2aMQvLfXk67XE4Z_qMPjD2alEQwn5iNORP2UDaVt4wLLsh8Pm7SW_OrD6LUtAG41g'
     ```
+    
   - Update Pricing strategy
     ```
     curl --location --request PUT 'http://localhost:8080/api/admin/pricingstrategy' \
