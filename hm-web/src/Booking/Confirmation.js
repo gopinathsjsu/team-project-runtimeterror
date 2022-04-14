@@ -39,8 +39,17 @@ const mapDispatchToProps = () => ({
 function Confirmation(props) {
   const [price, setPrice] = useState()
   const [priceBreakdown, setPriceBreakdown] = useState()
-  useEffect(async () => {
+  const getSelectedAmenities = () => {
+    const { selectedAmenities = [] } = props
+    return selectedAmenities.map(am => {
+      return {
+        amenityCode: am,
+        count: 1
+      }
+    })
+  }
 
+  const calculatePriceEstimate = async (amenities) => {
     const { data } = await calculatePrice({
       userId,
       checkInDate,
@@ -50,11 +59,16 @@ function Confirmation(props) {
       roomTypeCode: selectedRoom.roomTypeCode,
       roomId: selectedRoom.roomTypeId,
       hotelId: hotelDetails.id,
-      amenities: []
+      amenities
     })
     const { bookingTotal, bookingDetails } = data
     setPrice(currencyFormatter.format(bookingTotal))
     setPriceBreakdown(bookingDetails)
+  }
+
+  useEffect(() => {
+    const amenities = getSelectedAmenities()
+    calculatePriceEstimate(amenities)
   }, [])
   if (isEmpty(props.hotel) || isEmpty(props.rooms)) {
     return <Navigate to="/" />
@@ -71,9 +85,9 @@ function Confirmation(props) {
   } = props
 
   const userId = +Cookies.get('userId')
+  const updateAmenityCount = (count, amCode) => {
 
-
-
+  }
 
   return <Paper className={styles.bookingWrapper} elevation={6}>
     <Box sx={{
@@ -109,7 +123,7 @@ function Confirmation(props) {
                         <Box sx={{ display: 'flex' }}><amenity.amenityIcon />
                           <Typography ml>{amenity.amenityName}:</Typography>
                         </Box>
-                        <Counter value={1} handleChange={() => { }} /></Box>)
+                        <Counter value={1} handleChange={(count) => { updateAmenityCount(count, amCode) }} /></Box>)
                     })}
                   </Item>
                 </Grid>
@@ -121,7 +135,10 @@ function Confirmation(props) {
                   Price: <b>{price}</b>
                 </Typography>
                 <Box>
-                  Price Breakdown: <span dangerouslySetInnerHTML={{ __html: priceBreakdown }}></span>
+                  <Typography variant="subtitle1" component="div">
+                    Price Breakdown:
+                  </Typography>
+                  <span dangerouslySetInnerHTML={{ __html: priceBreakdown }}></span>
                 </Box>
               </Item>
             </Grid>
