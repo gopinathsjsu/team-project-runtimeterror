@@ -19,7 +19,7 @@ public class RoomTypeQueen extends Hotel {
 
     @Override
     public String getPriceBreakdown() {
-        return hotelName + "\n Room: Queen \n Guests:" + this.guestCount;
+        return "<br /> Room: Queen <br /> Guests: " + this.guestCount;
     }
 
     @Override

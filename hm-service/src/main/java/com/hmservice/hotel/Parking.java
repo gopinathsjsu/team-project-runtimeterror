@@ -11,7 +11,7 @@ public class Parking extends AmenityDecorator {
     @Override
     public String getPriceBreakdown() {
         return this.hotel.getPriceBreakdown()
-                + "\n All Day Parking: " + parkingAccessCost;
+                + "<br /> All Day Parking: " + parkingAccessCost;
     }
 
     @Override
