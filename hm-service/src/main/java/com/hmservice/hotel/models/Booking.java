@@ -57,6 +57,17 @@ public class Booking implements Serializable {
     private Double totalPrice;
 
 
+    @Column(name = "booking_details")
+    private String bookingDetails;
+
+    public String getBookingDetails() {
+        return bookingDetails;
+    }
+
+    public void setBookingDetails(String bookingDetails) {
+        this.bookingDetails = bookingDetails;
+    }
+
     @OneToMany(mappedBy = "booking", cascade = CascadeType.ALL)
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<BookingHotelAmenities> amenities = new ArrayList<>();
