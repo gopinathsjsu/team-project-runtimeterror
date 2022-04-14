@@ -69,6 +69,10 @@ function Rooms(props) {
       roomTypeId: room_type.id
     })
   }
+  const closeAmenitiesModal = () => {
+    roomSelect({})
+    setOpen(false)
+  }
 
 
   return (
@@ -90,9 +94,9 @@ function Rooms(props) {
                 </StyledTableCell>
                 <StyledTableCell align="right">{row.price}</StyledTableCell>
                 <StyledTableCell align="right">{
-                  accessToken ? <Button onClick={() => { 
-                    roomSelect(row.roomTypeCode)
-                    setOpen(true) 
+                  accessToken ? <Button onClick={() => {
+                    roomSelect(row)
+                    setOpen(true)
                   }} variant="outlined" size="large">Book</Button> :
                     <Button onClick={() => { navigate('/login') }} variant="outlined" size="large">Login</Button>
                 }</StyledTableCell>
@@ -106,7 +110,7 @@ function Rooms(props) {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       ><Box sx={style}>
-          <Amenities />
+          <Amenities closeSelf={closeAmenitiesModal} />
         </Box>
       </Modal>
     </>

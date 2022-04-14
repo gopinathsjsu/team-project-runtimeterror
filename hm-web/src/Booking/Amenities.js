@@ -5,6 +5,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import { connect } from 'react-redux';
 import Typography from '@mui/material/Typography';
+import { useNavigate } from 'react-router-dom';
 
 /*
 Amenity Icons
@@ -32,8 +33,9 @@ const mapStateToProps = state => ({
 })
 
 
-function Amenities() {
-
+function Amenities(props) {
+  const navigate = useNavigate()
+  const {closeSelf} = props
   return (<>
     <Typography id="modal-modal-title" variant="h6" component="h2">
       Amenities (optional)
@@ -55,7 +57,7 @@ function Amenities() {
       </FormGroup>
     </List>
     <Container  sx={{ display: 'flex', justifyContent: 'space-around' }}>
-      <Button>Cancel</Button>
+      <Button onClick={closeSelf}>Cancel</Button>
       <Button variant="outlined" size="medium">Continue</Button>
       </Container>
 
