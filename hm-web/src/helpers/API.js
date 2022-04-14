@@ -52,3 +52,14 @@ export async function bookHotel(payload) {
 
   return await hotelManagementAPI.post(`api/booking`, payload, config)
 }
+
+export async function getBookingDetails(bookingId) {
+  const token = Cookies.get('accessToken')
+  if (isEmpty(token))
+    throw "user not authorized"
+  const config = {
+    headers: { Authorization: `Bearer ${token}` }
+  };
+
+  return await hotelManagementAPI.get(`api/booking/${bookingId}`, config)
+}

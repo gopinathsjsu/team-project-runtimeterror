@@ -11,3 +11,8 @@ export const AMENITIES_LIST = [
   { amenityName: `All Meals Included`, amenityCode: `AM`, amenityIcon: RestaurantIcon },
   { amenityName: `Swimming Pool`, amenityCode: `SW`, amenityIcon: SwimmingPoolIcon },
 ]
+
+export const currencyFormatter = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'USD'
+});

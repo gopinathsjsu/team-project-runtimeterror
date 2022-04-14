@@ -14,11 +14,7 @@ import Counter from '../LandingSearch/Counter';
 import { AMENITIES_LIST } from '../helpers/constants';
 import { calculatePrice, bookHotel } from '../helpers/API'
 import Cookies from 'js-cookie';
-
-const currencyFormatter = new Intl.NumberFormat('en-US', {
-  style: 'currency',
-  currency: 'USD'
-});
+import { currencyFormatter } from '../helpers/constants';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -78,7 +74,7 @@ function Confirmation(props) {
   const confirmBooking = async () => {
     const payload = getBookingPayload()
     const { data } = await bookHotel(payload)
-    debugger
+    navigate(`/booking/${data.bookingId}`)
   }
 
   useEffect(() => {
