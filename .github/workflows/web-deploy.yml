@@ -33,6 +33,7 @@ jobs:
         path: ./hm-web/build/
 
   deploy:
+    needs: build
     runs-on: ubuntu-latest
     environment: hm-web
     steps:
