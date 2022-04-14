@@ -16,6 +16,6 @@ public class AllMealsIncluded extends AmenityDecorator {
     @Override
     public String getPriceBreakdown() {
         return this.hotel.getPriceBreakdown()
-                + "\n All Meals Included: " + allMealsCost;
+                + "<br /> All Meals Included: " + allMealsCost;
     }
 }

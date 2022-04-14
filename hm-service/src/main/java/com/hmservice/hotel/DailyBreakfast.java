@@ -11,7 +11,7 @@ public class DailyBreakfast extends AmenityDecorator {
     @Override
     public String getPriceBreakdown() {
         return this.hotel.getPriceBreakdown() +
-                "\n Daily Continental Breakfast: " + breakfastCost;
+                "<br /> Daily Continental Breakfast: " + breakfastCost;
     }
 
     @Override

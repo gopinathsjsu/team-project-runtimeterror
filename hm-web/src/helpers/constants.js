@@ -6,7 +6,7 @@ import ParkingIcon from '@mui/icons-material/LocalParking'
 
 export const AMENITIES_LIST = [
   { amenityName: `Breakfast`, amenityCode: `CB`, amenityIcon: BreakfastIcon },
-  { amenityName: `Parking`, amenityCode: `PR`, amenityIcon: ParkingIcon },
+  { amenityName: `Parking`, amenityCode: `PK`, amenityIcon: ParkingIcon },
   { amenityName: `Fitness Room`, amenityCode: `FR`, amenityIcon: FitnessIcon },
   { amenityName: `All Meals Included`, amenityCode: `AM`, amenityIcon: RestaurantIcon },
   { amenityName: `Swimming Pool`, amenityCode: `SW`, amenityIcon: SwimmingPoolIcon },

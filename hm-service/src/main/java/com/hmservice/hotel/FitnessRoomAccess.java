@@ -11,7 +11,7 @@ public class FitnessRoomAccess extends AmenityDecorator {
     @Override
     public String getPriceBreakdown() {
         return this.hotel.getPriceBreakdown()
-                + "\n Fitness Room Access: " + fitnessRoomAccessCost;
+                + "<br /> Fitness Room Access: " + fitnessRoomAccessCost;
     }
 
     @Override

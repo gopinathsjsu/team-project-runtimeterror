@@ -31,6 +31,10 @@ export async function loginUser(username, password) {
   })
 }
 
+export async function searchAmenities(hotelId) {
+  return await hotelManagementAPI.get(`/api/hotel/${hotelId}/amenities`)
+}
+
 export async function calculatePrice(payload) {
   const token = Cookies.get('accessToken')
   if (isEmpty(token))

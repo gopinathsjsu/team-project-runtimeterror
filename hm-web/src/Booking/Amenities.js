@@ -9,6 +9,7 @@ import Box from '@mui/material/Box'
 import { Button, Container } from '@mui/material';
 import { selectAminities } from '../Actions/bookingAction'
 import { AMENITIES_LIST } from '../helpers/constants';
+import { searchAmenities } from '../helpers/API'
 
 
 const mapStateToProps = state => ({
@@ -22,15 +23,16 @@ const mapDispatchToProps = () => ({
 
 function Amenities(props) {
   const navigate = useNavigate()
-  const { closeSelf, selectAminities } = props
+  const { closeSelf, selectAminities, hotel: { result: hotelDetails } } = props
 
-  const continueBooking = (event) => {
+  const continueBooking = async (event) => {
     event.preventDefault()
     const checkboxes = document.getElementsByName('aminities')
     const checkboxesChecked = [];
     for (var i = 0; i < checkboxes.length; i++) {
       if (checkboxes[i].checked) {
-        checkboxesChecked.push(checkboxes[i].value);
+
+        checkboxesChecked.push({ amenityCode: checkboxes[i].value, count: 1 });
       }
     }
     selectAminities(checkboxesChecked)
