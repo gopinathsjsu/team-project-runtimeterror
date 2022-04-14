@@ -1,6 +1,7 @@
 package com.hmservice.hotel.pricingstrategy;
 
-import java.sql.Date;
+
+import java.util.Date;
 
 public class CustomerLoyaltyPricing implements IPricingStrategy{
     private final Double LOYALTYMULTIPLIER = 0.5;

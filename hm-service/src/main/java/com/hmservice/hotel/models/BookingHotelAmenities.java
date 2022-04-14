@@ -31,6 +31,7 @@ public class BookingHotelAmenities {
     @JoinColumn(name = "booking_id", nullable = false)
     private Booking booking;
 
+
     @JsonBackReference
     public Booking getBooking() {
         return booking;

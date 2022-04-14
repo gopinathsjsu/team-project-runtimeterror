@@ -1,5 +1,7 @@
 package com.hmservice.hotel.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 
 @Entity
@@ -41,7 +43,6 @@ public class Room {
     public void setId(Integer id) {
         Id = id;
     }
-
 
     public Room_Type getRoom_type() {
         return room_type;

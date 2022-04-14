@@ -2,14 +2,18 @@ package com.hmservice.hotel.controller;
 
 
 import com.hmservice.contract.BookingRequest;
+import com.hmservice.contract.BookingResponse;
+import com.hmservice.hotel.BookHotel;
 import com.hmservice.hotel.Hotel;
 import com.hmservice.hotel.RoomFactory;
 import com.hmservice.hotel.models.Booking;
 import com.hmservice.hotel.models.BookingHotelAmenities;
+import com.hmservice.hotel.models.BookingRooms;
 import com.hmservice.hotel.pricingstrategy.DynamicPricing;
 import com.hmservice.hotel.pricingstrategy.IPricingStrategy;
 import com.hmservice.repository.BookingHotelAmenitiesRepository;
 import com.hmservice.repository.BookingRepository;
+import com.hmservice.repository.BookingRoomsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -18,6 +22,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 
@@ -29,68 +35,70 @@ public class HotelBookingController {
     @Autowired
     BookingRepository bookingRepository;
 
-@Autowired
+    @Autowired
     BookingHotelAmenitiesRepository bookingHotelAmenitiesRepository;
+
+    @Autowired
+    BookingRoomsRepository bookingRoomsRepository;
+
     @PostMapping(path = "/calculate",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('CUSTOMER') or hasRole('EMPLOYEE') or hasRole('ADMIN')")
-    public ArrayList<Object> calculateBookingCost(@Valid @RequestBody  ArrayList<Booking> bookingRequest) {
+    public ResponseEntity<?> calculateBookingCost(@Valid @RequestBody BookingRequest bookingRequest) throws ParseException {
         IPricingStrategy strategy = new DynamicPricing();
-        ArrayList<Object> resp = new ArrayList<>();
 
-        bookingRequest.forEach(booking -> {
-            Hotel room = RoomFactory.GetRoom(booking.getRoomTypeCode(), booking.getGuestCount());
-            booking.setBookingDate(new Date());
-            booking.setTotalPrice(100);
-           // bookingRepository.save(booking);
-            resp.add(booking);
-        });
 
-        return  resp;
+
+            Hotel room = RoomFactory.GetRoom(bookingRequest.RoomTypeCode, bookingRequest.GuestCount);
+            BookingResponse resp =  BookHotel.book(bookingRequest, room, strategy );
+
+
+        return ResponseEntity.ok(resp);
     }
 
     @PostMapping(path = "",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('CUSTOMER') or hasRole('EMPLOYEE') or hasRole('ADMIN')")
-    public ArrayList<Object> bookHotel(@Valid @RequestBody  BookingRequest bookingRequest) {
-      IPricingStrategy strategy = new DynamicPricing();
-        ArrayList<Object> resp = new ArrayList<>();
+    public ResponseEntity<?> bookHotel(@Valid @RequestBody BookingRequest bookingRequest) throws ParseException {
+        IPricingStrategy strategy = new DynamicPricing();
 
-        bookingRequest.Rooms.forEach(booking -> {
+        // TODO : Ability to get prices for individual room types
+        // TODO : FACTOR IN ROOM COUNT
+        Hotel room = RoomFactory.GetRoom(bookingRequest.RoomTypeCode, bookingRequest.GuestCount);
+        BookingResponse resp =  BookHotel.book(bookingRequest, room, strategy );
 
-          Hotel room = RoomFactory.GetRoom(booking.RoomTypeCode, booking.GuestCount);
+        Booking hotelBooking = new Booking();
+        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
 
-          Booking hotelBooking  = new Booking();
-            hotelBooking.setUserId(booking.UserId);
-            hotelBooking.setHotelId(booking.HotelId);
-            hotelBooking.setRoomId(booking.RoomId);
-            hotelBooking.setCheckInDate(booking.CheckInDate);
-            hotelBooking.setCheckOutDate(booking.CheckOutDate);
-            hotelBooking.setGuestCount(booking.GuestCount);
-            hotelBooking.setRoomTypeCode(booking.RoomTypeCode);
+        hotelBooking.setUserId(bookingRequest.UserId);
+        hotelBooking.setHotelId(bookingRequest.HotelId);
+        hotelBooking.setCheckInDate(formatter.parse(bookingRequest.CheckInDate));
+        hotelBooking.setCheckOutDate(formatter.parse(bookingRequest.CheckOutDate));
+        hotelBooking.setGuestCount(bookingRequest.GuestCount);
+        hotelBooking.setRoomTypeCode(bookingRequest.RoomTypeCode);
+        hotelBooking.setBookingDate(new Date());
+        hotelBooking.setTotalPrice(resp.BookingTotal);
 
-            Set<BookingHotelAmenities> amenities =  new HashSet<>();
-            for (int i=0; i < booking.Amenities.length; i++) {
-                BookingHotelAmenities a= new BookingHotelAmenities(hotelBooking,booking.Amenities[i].HotelAmenityId, booking.Amenities[i].Count);
-                amenities.add(a);
-            }
-
-
-            bookingRepository.save(hotelBooking);
-
-            for ( BookingHotelAmenities ba : amenities) {
-                ba.setBooking(hotelBooking);
-                bookingHotelAmenitiesRepository.save(ba);
-            }
+        Set<BookingHotelAmenities> amenities = new HashSet<>();
 
 
+        bookingRepository.save(hotelBooking);
 
-          resp.add(hotelBooking);
-        });
+        for (int i = 0; i < bookingRequest.Amenities.length; i++) {
+            BookingHotelAmenities ba = new BookingHotelAmenities(hotelBooking, bookingRequest.Amenities[i].HotelAmenityId, bookingRequest.Amenities[i].Count);
+            bookingHotelAmenitiesRepository.save(ba);
+        }
 
-        return  resp;
+
+        for (int i = 0; i < bookingRequest.RoomCount; i++) {
+            BookingRooms br = new BookingRooms(hotelBooking, bookingRequest.RoomId);
+            bookingRoomsRepository.save(br);
+        }
+
+        return ResponseEntity.ok(resp);
+
     }
 
     @GetMapping("/getbookingbyuserid/{id}")

@@ -1,6 +1,8 @@
 package com.hmservice.hotel.pricingstrategy;
 
-import java.sql.Date;
+
+import java.time.LocalDate;
+import java.util.Date;
 
 public class SeasonalPricing implements IPricingStrategy {
     private Date[] seasonalRange;
@@ -8,8 +10,8 @@ public class SeasonalPricing implements IPricingStrategy {
     private final Double OUTOFSEASONMULTIPLIER = 1.0;
 
     public SeasonalPricing() {
-        Date startDate = Date.valueOf("2022-06-01");
-        Date endDate = Date.valueOf("2022-08-01");
+        Date startDate = new Date("2022-06-01");
+        Date endDate = new Date("2022-08-01");
 
         seasonalRange = new Date[2];
         seasonalRange[0] = startDate;
