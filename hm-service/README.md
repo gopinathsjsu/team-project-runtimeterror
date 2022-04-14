@@ -85,12 +85,10 @@
             "roomCount": 2,
             "amenities": [
                 {
-                    "hotelAmenityId": 2,
                     "amenityCode": "PR",
                     "count": 1
                 },
                 {
-                    "hotelAmenityId": 3,
                     "amenityCode": "FR",
                     "count": 2
                 }
