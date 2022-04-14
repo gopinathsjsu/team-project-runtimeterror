@@ -26,7 +26,7 @@ function Booking(props) {
       padding: '1.6rem',
     }}>
       <Hotel {...hotelDetails} />
-      <Rooms {...roomDetails} />
+      <Rooms searchResults={roomDetails} />
     </Box>
   </Paper>
 

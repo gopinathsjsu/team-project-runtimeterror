@@ -46,9 +46,7 @@ export const roomCountReducer = (state = {}, action) => {
 export const selectAmenitiesReducer = (state = {}, action) => {
   switch (action.type) {
     case 'SELECT_AMINITIES':
-      return {
-        result: action.payload
-      }
+      return action.payload
     default:
       return state
   }

@@ -13,7 +13,8 @@ import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import Amenities from './Amenities';
 import Box from '@mui/material/Box';
-
+import { connect } from 'react-redux';
+import { roomSelect } from '../Actions/bookingAction'
 
 const style = {
   position: 'absolute',
@@ -45,14 +46,22 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
+const mapStateToProps = state => ({
+  ...state
+})
 
-export default function Rooms(props) {
+const mapDispatchToProps = () => ({
+  roomSelect
+})
+
+function Rooms(props) {
+  const { roomSelect, searchResults } = props
   const [open, setOpen] = React.useState(false);
   const accessToken = Cookies.get('accessToken')
   const navigate = useNavigate()
   const rows = []
-  for (const room in props) {
-    const { hotelId, room_type, price } = props[room]
+  for (const room in searchResults) {
+    const { hotelId, room_type, price } = searchResults[room]
     rows.push({
       hotelId, price,
       roomTypeName: room_type.name,
@@ -81,7 +90,10 @@ export default function Rooms(props) {
                 </StyledTableCell>
                 <StyledTableCell align="right">{row.price}</StyledTableCell>
                 <StyledTableCell align="right">{
-                  accessToken ? <Button onClick={() => { setOpen(true) }} variant="outlined" size="large">Book</Button> :
+                  accessToken ? <Button onClick={() => { 
+                    roomSelect(row.roomTypeCode)
+                    setOpen(true) 
+                  }} variant="outlined" size="large">Book</Button> :
                     <Button onClick={() => { navigate('/login') }} variant="outlined" size="large">Login</Button>
                 }</StyledTableCell>
               </StyledTableRow>
@@ -101,3 +113,4 @@ export default function Rooms(props) {
   );
 }
 
+export default connect(mapStateToProps, mapDispatchToProps())(Rooms)
