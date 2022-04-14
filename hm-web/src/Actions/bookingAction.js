@@ -38,3 +38,4 @@ export const selectAminities = (amenities) => dispatch => {
     payload: amenities
   })
 }
+
