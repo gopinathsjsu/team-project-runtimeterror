@@ -110,12 +110,12 @@
     
 - Admin
   - GET Pricing strategies
-    ```aidl
+    ```
     curl --location --request GET 'http://localhost:8080/api/admin/pricingstrategy' \
     --header 'Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxZXF3ZSIsImlhdCI6MTY0OTkxNzg0NiwiZXhwIjoxNjUwMDA0MjQ2fQ.2iN-zs_HfQ1crFjBYge1L2aMQvLfXk67XE4Z_qMPjD2alEQwn5iNORP2UDaVt4wLLsh8Pm7SW_OrD6LUtAG41g'
     ```
   - Update Pricing strategy
-    ```aidl
+    ```
     curl --location --request PUT 'http://localhost:8080/api/admin/pricingstrategy' \
     --header 'Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxZXF3ZSIsImlhdCI6MTY0OTkxNzg0NiwiZXhwIjoxNjUwMDA0MjQ2fQ.2iN-zs_HfQ1crFjBYge1L2aMQvLfXk67XE4Z_qMPjD2alEQwn5iNORP2UDaVt4wLLsh8Pm7SW_OrD6LUtAG41g' \
     --header 'Content-Type: application/json' \
