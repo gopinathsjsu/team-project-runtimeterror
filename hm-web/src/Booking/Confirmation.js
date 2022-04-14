@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux';
 import Paper from '@mui/material/Paper';
 import { Box, Typography } from '@mui/material';
@@ -15,6 +15,10 @@ import { AMENITIES_LIST } from '../helpers/constants';
 import { calculatePrice } from '../helpers/API'
 import Cookies from 'js-cookie';
 
+const currencyFormatter = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'USD'
+});
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -33,17 +37,24 @@ const mapDispatchToProps = () => ({
 })
 
 function Confirmation(props) {
+  const [price, setPrice] = useState()
+  const [priceBreakdown, setPriceBreakdown] = useState()
   useEffect(async () => {
-    const calcPriceResponse = await calculatePrice({
+
+    const { data } = await calculatePrice({
       userId,
       checkInDate,
       checkOutDate,
       guestCount,
+      roomCount,
       roomTypeCode: selectedRoom.roomTypeCode,
       roomId: selectedRoom.roomTypeId,
-      hotelId: hotelDetails.id
+      hotelId: hotelDetails.id,
+      amenities: []
     })
-    debugger
+    const { bookingTotal, bookingDetails } = data
+    setPrice(currencyFormatter.format(bookingTotal))
+    setPriceBreakdown(bookingDetails)
   }, [])
   if (isEmpty(props.hotel) || isEmpty(props.rooms)) {
     return <Navigate to="/" />
@@ -59,9 +70,9 @@ function Confirmation(props) {
     checkOutDate
   } = props
 
-  const userId = Cookies.get('userId')
+  const userId = +Cookies.get('userId')
 
-  
+
 
 
   return <Paper className={styles.bookingWrapper} elevation={6}>
@@ -104,6 +115,16 @@ function Confirmation(props) {
                 </Grid>
                 : null
             }
+            <Grid item xs={12} md={6}>
+              <Item>
+                <Typography variant="h5" component="div">
+                  Price: <b>{price}</b>
+                </Typography>
+                <Box>
+                  Price Breakdown: <span dangerouslySetInnerHTML={{ __html: priceBreakdown }}></span>
+                </Box>
+              </Item>
+            </Grid>
           </Grid>
         </CardContent>
       </Card>
