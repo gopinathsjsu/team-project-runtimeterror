@@ -6,63 +6,60 @@ import Checkbox from '@mui/material/Checkbox';
 import { connect } from 'react-redux';
 import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router-dom';
-
-/*
-Amenity Icons
-*/
-import SwimmingPoolIcon from '@mui/icons-material/Pool';
-import BreakfastIcon from '@mui/icons-material/FreeBreakfast';
-import RestaurantIcon from '@mui/icons-material/Restaurant'
-import FitnessIcon from '@mui/icons-material/FitnessCenter'
-import ParkingIcon from '@mui/icons-material/LocalParking'
+import Box from '@mui/material/Box'
 import { Button, Container } from '@mui/material';
-
-
-
-const AMENITIES_LIST = [
-  { amenityName: `Breakfast`, amenityCode: `CB`, amenityIcon: BreakfastIcon },
-  { amenityName: `Parking`, amenityCode: `PR`, amenityIcon: ParkingIcon },
-  { amenityName: `Fitness Room`, amenityCode: `FR`, amenityIcon: FitnessIcon },
-  { amenityName: `All Meals Included`, amenityCode: `AM`, amenityIcon: RestaurantIcon },
-  { amenityName: `Swimming Pool`, amenityCode: `SW`, amenityIcon: SwimmingPoolIcon },
-]
+import { selectAminities } from '../Actions/bookingAction'
+import { AMENITIES_LIST } from '../helpers/constants';
 
 
 const mapStateToProps = state => ({
   ...state
 })
 
+const mapDispatchToProps = () => ({
+  selectAminities
+})
+
 
 function Amenities(props) {
   const navigate = useNavigate()
-  const {closeSelf} = props
+  const { closeSelf, selectAminities } = props
+
+  const continueBooking = (event) => {
+    event.preventDefault()
+    const checkboxes = document.getElementsByName('aminities')
+    const checkboxesChecked = [];
+    for (var i = 0; i < checkboxes.length; i++) {
+      if (checkboxes[i].checked) {
+        checkboxesChecked.push(checkboxes[i].value);
+      }
+    }
+    selectAminities(checkboxesChecked)
+  }
+
   return (<>
     <Typography id="modal-modal-title" variant="h6" component="h2">
       Amenities (optional)
     </Typography>
-
-    <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-      <FormGroup>
-
-
+    <Box component="form" onSubmit={continueBooking} noValidate sx={{ mt: 1 }}>
+      <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
         {AMENITIES_LIST.map((value) => {
           return (
-            <FormControlLabel disableTypography sx={{ width: '100%' }} value={value.amenityCode} control={<Checkbox />} label={
+            <FormControlLabel key={value.amenityCode} name='aminities' disableTypography sx={{ width: '100%' }} value={value.amenityCode} control={<Checkbox />} label={
               <Container disableGutters sx={{ display: 'flex', justifyContent: 'space-between' }}>
                 {value.amenityName}<value.amenityIcon />
               </Container>}
             />
           );
         })}
-      </FormGroup>
-    </List>
-    <Container  sx={{ display: 'flex', justifyContent: 'space-around' }}>
-      <Button onClick={closeSelf}>Cancel</Button>
-      <Button variant="outlined" size="medium">Continue</Button>
+      </List>
+      <Container sx={{ display: 'flex', justifyContent: 'space-around' }}>
+        <Button onClick={closeSelf}>Cancel</Button>
+        <Button type='submit' variant="outlined" size="medium">Continue</Button>
       </Container>
-
+    </Box>
   </>
   );
 }
 
-export default connect(mapStateToProps)(Amenities)
+export default connect(mapStateToProps, mapDispatchToProps())(Amenities)
