@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux';
 import Paper from '@mui/material/Paper';
 import { Box, Typography } from '@mui/material';
@@ -12,6 +12,8 @@ import Grid from '@mui/material/Grid';
 import { styled } from '@mui/material/styles';
 import Counter from '../LandingSearch/Counter';
 import { AMENITIES_LIST } from '../helpers/constants';
+import { calculatePrice } from '../helpers/API'
+import Cookies from 'js-cookie';
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -31,6 +33,18 @@ const mapDispatchToProps = () => ({
 })
 
 function Confirmation(props) {
+  useEffect(async () => {
+    const calcPriceResponse = await calculatePrice({
+      userId,
+      checkInDate,
+      checkOutDate,
+      guestCount,
+      roomTypeCode: selectedRoom.roomTypeCode,
+      roomId: selectedRoom.roomTypeId,
+      hotelId: hotelDetails.id
+    })
+    debugger
+  }, [])
   if (isEmpty(props.hotel) || isEmpty(props.rooms)) {
     return <Navigate to="/" />
   }
@@ -44,6 +58,12 @@ function Confirmation(props) {
     checkInDate,
     checkOutDate
   } = props
+
+  const userId = Cookies.get('userId')
+
+  
+
+
   return <Paper className={styles.bookingWrapper} elevation={6}>
     <Box sx={{
       padding: '1.6rem',
@@ -74,10 +94,10 @@ function Confirmation(props) {
                   <Item>
                     {selectedAmenities.map(amCode => {
                       const amenity = find(AMENITIES_LIST, a => a.amenityCode === amCode)
-                      return (<Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                        <Box sx={{ display: 'flex'}}><amenity.amenityIcon/>
-                        <Typography ml>{amenity.amenityName}:</Typography>
-                        </Box> 
+                      return (<Box mb sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                        <Box sx={{ display: 'flex' }}><amenity.amenityIcon />
+                          <Typography ml>{amenity.amenityName}:</Typography>
+                        </Box>
                         <Counter value={1} handleChange={() => { }} /></Box>)
                     })}
                   </Item>
