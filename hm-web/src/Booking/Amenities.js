@@ -9,7 +9,6 @@ import Box from '@mui/material/Box'
 import { Button, Container } from '@mui/material';
 import { selectAminities } from '../Actions/bookingAction'
 import { AMENITIES_LIST } from '../helpers/constants';
-import { searchAmenities } from '../helpers/API'
 
 
 const mapStateToProps = state => ({

@@ -44,7 +44,7 @@ function Confirmation(props) {
   selectedAmenities.forEach(amen => {
     localAmMap[amen.amenityCode] = amen.count
   })
-  const [localAmenityCount, setLocalAmenityCount] = useState({})
+  const [localAmenityCount, setLocalAmenityCount] = useState(localAmMap)
 
   const calculatePriceEstimate = async () => {
     const amenities = Object.keys(localAmenityCount).map(key => {
@@ -91,6 +91,10 @@ function Confirmation(props) {
     localAmenityCount[amCode] = count
     setLocalAmenityCount(localAmenityCount)
     calculatePriceEstimate()
+  }
+
+  if (isEmpty(props.hotel) || isEmpty(props.rooms)) {
+    return <Navigate to="/" />
   }
 
   return <Paper className={styles.bookingWrapper} elevation={6}>
