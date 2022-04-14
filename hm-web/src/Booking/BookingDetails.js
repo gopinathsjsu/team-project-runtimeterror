@@ -4,7 +4,7 @@ import { getBookingDetails } from '../helpers/API'
 import { Box, Typography, Button, Container, Paper, Card, CardContent, Grid } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import styles from '../styles/booking.module.css'
-import { get } from 'lodash';
+import { get, isEmpty } from 'lodash';
 import Hotel from './Hotel';
 import { currencyFormatter } from '../helpers/constants';
 
@@ -26,6 +26,10 @@ export default function BooknigDetails(props) {
 
   const hotelDetails = get(booking, `rooms[0].room.hotel`)
 
+  if(isEmpty(booking)) {
+    return null
+  }
+  
   return (<Paper className={styles.bookingWrapper} elevation={6}>
     <Box sx={{
       padding: '1.6rem',
