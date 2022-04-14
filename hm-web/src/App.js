@@ -7,6 +7,7 @@ import Footer from './Footer';
 import SignIn from './Login/SingIn';
 import SignUp from './Login/SignUp';
 import Booking from './Booking/Booking'
+import Confirmation from './Booking/Confirmation'
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
               <Route path="/login" element={<SignIn />} />
               <Route path="/signup" element={<SignUp />} />
               <Route path="/book" element={<Booking />} />
+              <Route path="/confirm" element={<Confirmation />} />
             </Routes>
           </div>
         </BrowserRouter>

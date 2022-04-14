@@ -1,20 +1,14 @@
 import axios from 'axios';
 import * as Config from './Config';
+import Cookies from 'js-cookie';
+import { isEmpty } from 'lodash';
 
 const hotelManagementAPI = axios.create({
   baseURL: Config.BASE_URL,
 });
 
 export function BookRoom() {
-  // TODO: replace with real API request
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve({
-        bookingDetails: 'Hilton Waikiki \n Room: 502 \n Daily Continental Breakfast: ' + 80,
-        bookingTotal: 1000,
-      });
-    }, 300);
-  });
+
 }
 
 export async function getHotels() {
@@ -35,4 +29,15 @@ export async function loginUser(username, password) {
   return await hotelManagementAPI.post(`/api/auth/signin`, {
     username, password
   })
+}
+
+export async function calculatePrice(payload) {
+  const token = Cookies.get('accessToken')
+  if (isEmpty(token))
+    throw "user not authorized"
+  const config = {
+    headers: { Authorization: `Bearer ${token}` }
+  };
+
+  return await hotelManagementAPI.post(`api/booking/calculate`, payload, config)
 }

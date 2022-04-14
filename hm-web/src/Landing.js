@@ -60,7 +60,7 @@ function Landing() {
             />
           </Grid>
           <Grid item>
-            <SearchRooms checkIn={checkIn} checkOut={checkOut} guests={guests} rooms={rooms} />
+            <SearchRooms checkIn={checkIn} checkOut={checkOut} selectedGuestCount={guests} selectedRoomCount={rooms} />
           </Grid>
         </Grid>
       </Box>
