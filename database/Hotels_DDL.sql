@@ -1,5 +1,5 @@
 -- Database export via SQLPro (https://www.sqlprostudio.com/allapps.html)
--- Exported by rajat at 10-04-2022 12:38.
+-- Exported by rajat at 14-04-2022 10:14.
 -- WARNING: This file may contain descructive statements such as DROPs.
 -- Please ensure that you are running the script at the proper location.
 
@@ -27,35 +27,94 @@ INSERT INTO amenities (id, amenity_name, amenity_code) VALUES
 -- BEGIN TABLE booking
 DROP TABLE IF EXISTS booking;
 CREATE TABLE `booking` (
-  `bookingId` bigint NOT NULL AUTO_INCREMENT,
-  `bookingDate` varchar(255) DEFAULT NULL,
-  `checkInDate` varchar(255) DEFAULT NULL,
-  `checkOutDate` varchar(255) DEFAULT NULL,
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `bookingDate` datetime DEFAULT NULL,
+  `checkInDate` datetime DEFAULT NULL,
+  `checkOutDate` datetime DEFAULT NULL,
   `guestCount` int DEFAULT NULL,
   `hotelId` int DEFAULT NULL,
   `roomId` int DEFAULT NULL,
   `roomTypeCode` varchar(255) DEFAULT NULL,
   `totalPrice` int DEFAULT NULL,
   `userId` bigint DEFAULT NULL,
-  PRIMARY KEY (`bookingId`),
+  PRIMARY KEY (`id`),
   KEY `fk_room_id` (`roomId`),
   KEY `fk_user_id` (`userId`),
   KEY `fk_hotel_id_booking` (`hotelId`),
   CONSTRAINT `fk_hotel_id_booking` FOREIGN KEY (`hotelId`) REFERENCES `hotels` (`id`),
   CONSTRAINT `fk_room_id` FOREIGN KEY (`roomId`) REFERENCES `rooms` (`id`),
   CONSTRAINT `fk_user_id` FOREIGN KEY (`userId`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Inserting 5 rows into booking
+-- Inserting 2 rows into booking
 -- Insert batch #1
-INSERT INTO booking (bookingId, bookingDate, checkInDate, checkOutDate, guestCount, hotelId, roomId, roomTypeCode, totalPrice, userId) VALUES
-(1, '4-10-2022', '4-10-2022', '4-10-2022', 6, 231466, 6, 'QN', 100, 1),
-(2, '4-10-2022', '4-10-2022', '4-10-2022', 6, 231466, 6, 'QN', 100, 1),
-(3, '4-10-2022', '4-10-2022', '4-10-2022', 6, 231466, 6, 'QN', 100, 1),
-(4, '4-10-2022', '4-10-2022', '4-10-2022', 6, 231466, 6, 'QN', NULL, 1),
-(5, '4-10-2022', '4-10-2022', '4-10-2022', 6, 231466, 7, 'QN', 100, 1);
+INSERT INTO booking (id, bookingDate, checkInDate, checkOutDate, guestCount, hotelId, roomId, roomTypeCode, totalPrice, userId) VALUES
+(39, '2022-04-14 00:02:48', '2022-04-18 00:00:00', '2022-04-28 00:00:00', 6, 231466, NULL, 'QN', NULL, 1),
+(40, '2022-04-14 01:16:17', '2022-04-18 00:00:00', '2022-04-28 00:00:00', 3, 231466, NULL, 'QN', 142, 1);
 
 -- END TABLE booking
+
+-- BEGIN TABLE booking_hotel_amenities_map
+DROP TABLE IF EXISTS booking_hotel_amenities_map;
+CREATE TABLE `booking_hotel_amenities_map` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `booking_id` bigint DEFAULT NULL,
+  `hotel_amenities_id` int DEFAULT NULL,
+  `count` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_booking_amenities_booking_id` (`booking_id`),
+  KEY `fk_hotel_amenities_id` (`hotel_amenities_id`),
+  CONSTRAINT `fk_booking_amenities_booking_id` FOREIGN KEY (`booking_id`) REFERENCES `booking` (`id`),
+  CONSTRAINT `fk_hotel_amenities_id` FOREIGN KEY (`hotel_amenities_id`) REFERENCES `hotel_amenities_map` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Inserting 5 rows into booking_hotel_amenities_map
+-- Insert batch #1
+INSERT INTO booking_hotel_amenities_map (id, booking_id, hotel_amenities_id, count) VALUES
+(9, NULL, 2, 1),
+(29, 39, 2, 1),
+(30, 39, 3, 2),
+(31, 40, 2, 1),
+(32, 40, 3, 2);
+
+-- END TABLE booking_hotel_amenities_map
+
+-- BEGIN TABLE booking_rooms_map
+DROP TABLE IF EXISTS booking_rooms_map;
+CREATE TABLE `booking_rooms_map` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `booking_id` bigint NOT NULL,
+  `hotel_room_id` int NOT NULL,
+  `count` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `booking_rooms_booking_id` (`booking_id`),
+  KEY `booking_hotel_room_id` (`hotel_room_id`),
+  CONSTRAINT `booking_hotel_room_id` FOREIGN KEY (`hotel_room_id`) REFERENCES `rooms` (`id`),
+  CONSTRAINT `booking_rooms_booking_id` FOREIGN KEY (`booking_id`) REFERENCES `booking` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Inserting 4 rows into booking_rooms_map
+-- Insert batch #1
+INSERT INTO booking_rooms_map (id, booking_id, hotel_room_id, count) VALUES
+(5, 39, 7, NULL),
+(6, 39, 7, NULL),
+(7, 40, 7, NULL),
+(8, 40, 7, NULL);
+
+-- END TABLE booking_rooms_map
+
+-- BEGIN TABLE hibernate_sequence
+DROP TABLE IF EXISTS hibernate_sequence;
+CREATE TABLE `hibernate_sequence` (
+  `next_val` bigint DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Inserting 1 row into hibernate_sequence
+-- Insert batch #1
+INSERT INTO hibernate_sequence (next_val) VALUES
+(2);
+
+-- END TABLE hibernate_sequence
 
 -- BEGIN TABLE hotel_amenities_map
 DROP TABLE IF EXISTS hotel_amenities_map;
