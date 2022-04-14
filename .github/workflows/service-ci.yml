@@ -23,4 +23,4 @@ jobs:
 
     - name: Execute Gradle Build
       working-directory: ./hm-service
-      run: ./gradlew build
+      run: ./gradlew bootJar
