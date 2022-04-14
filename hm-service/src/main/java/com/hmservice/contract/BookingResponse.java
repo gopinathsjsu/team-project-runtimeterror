@@ -11,4 +11,6 @@ public class BookingResponse {
     public String BookingDetails;
     @JsonProperty("bookingTotal")
     public Double BookingTotal;
+    @JsonProperty("bookingId")
+    public Integer BookingId;
 }

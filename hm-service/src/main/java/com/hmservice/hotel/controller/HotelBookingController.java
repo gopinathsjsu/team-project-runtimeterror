@@ -80,6 +80,7 @@ public class HotelBookingController {
         hotelBooking.setRoomTypeCode(bookingRequest.RoomTypeCode);
         hotelBooking.setBookingDate(new Date());
         hotelBooking.setTotalPrice(resp.BookingTotal);
+        hotelBooking.setBookingDetails(resp.BookingDetails);
 
         Set<BookingHotelAmenities> amenities = new HashSet<>();
 
@@ -97,6 +98,7 @@ public class HotelBookingController {
             bookingRoomsRepository.save(br);
         }
 
+        resp.BookingId = hotelBooking.getId().intValue();
         return ResponseEntity.ok(resp);
 
     }
