@@ -37,19 +37,23 @@ const mapDispatchToProps = () => ({
 })
 
 function Confirmation(props) {
+  const { selectedAmenities = [] } = props
   const [price, setPrice] = useState()
   const [priceBreakdown, setPriceBreakdown] = useState()
-  const getSelectedAmenities = () => {
-    const { selectedAmenities = [] } = props
-    return selectedAmenities.map(am => {
+  const localAmMap = {}
+  selectedAmenities.forEach(amen => {
+    localAmMap[amen.amenityCode] = amen.count
+  })
+  const [localAmenityCount, setLocalAmenityCount] = useState({})
+
+  const calculatePriceEstimate = async () => {
+    const amenities = Object.keys(localAmenityCount).map(key => {
       return {
-        amenityCode: am,
-        count: 1
+        amenityCode: key,
+        count: localAmenityCount[key]
       }
     })
-  }
 
-  const calculatePriceEstimate = async (amenities) => {
     const { data } = await calculatePrice({
       userId,
       checkInDate,
@@ -67,8 +71,7 @@ function Confirmation(props) {
   }
 
   useEffect(() => {
-    const amenities = getSelectedAmenities()
-    calculatePriceEstimate(amenities)
+    calculatePriceEstimate()
   }, [])
   if (isEmpty(props.hotel) || isEmpty(props.rooms)) {
     return <Navigate to="/" />
@@ -76,7 +79,6 @@ function Confirmation(props) {
 
   const {
     hotel: { result: hotelDetails },
-    selectedAmenities,
     roomCount,
     selectedRoom,
     guestCount,
@@ -86,7 +88,9 @@ function Confirmation(props) {
 
   const userId = +Cookies.get('userId')
   const updateAmenityCount = (count, amCode) => {
-
+    localAmenityCount[amCode] = count
+    setLocalAmenityCount(localAmenityCount)
+    calculatePriceEstimate()
   }
 
   return <Paper className={styles.bookingWrapper} elevation={6}>
@@ -117,13 +121,13 @@ function Confirmation(props) {
               selectedAmenities.length > 0 ?
                 <Grid item xs={12} md={6}>
                   <Item>
-                    {selectedAmenities.map(amCode => {
-                      const amenity = find(AMENITIES_LIST, a => a.amenityCode === amCode)
+                    {selectedAmenities.map(sel => {
+                      const amenity = find(AMENITIES_LIST, a => a.amenityCode === sel.amenityCode)
                       return (<Box mb sx={{ display: 'flex', justifyContent: 'space-between' }}>
                         <Box sx={{ display: 'flex' }}><amenity.amenityIcon />
                           <Typography ml>{amenity.amenityName}:</Typography>
                         </Box>
-                        <Counter value={1} handleChange={(count) => { updateAmenityCount(count, amCode) }} /></Box>)
+                        <Counter value={1} handleChange={(count) => { updateAmenityCount(count, sel.amenityCode) }} /></Box>)
                     })}
                   </Item>
                 </Grid>

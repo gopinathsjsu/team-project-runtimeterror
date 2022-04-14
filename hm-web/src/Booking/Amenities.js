@@ -32,7 +32,7 @@ function Amenities(props) {
     for (var i = 0; i < checkboxes.length; i++) {
       if (checkboxes[i].checked) {
 
-        checkboxesChecked.push(checkboxes[i].value);
+        checkboxesChecked.push({ amenityCode: checkboxes[i].value, count: 1 });
       }
     }
     selectAminities(checkboxesChecked)
