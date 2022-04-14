@@ -29,9 +29,3 @@ jobs:
         pwd
         npm install
         CI=false npm run build
-
-    - name: upload build artifacts
-      uses: actions/upload-artifact@v3
-      with:
-        name: hm-web-build-artifact
-        path: ./hm-web/build/
