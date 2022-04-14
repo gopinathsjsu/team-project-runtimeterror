@@ -5,7 +5,6 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import { connect } from 'react-redux';
 import Typography from '@mui/material/Typography';
-import Counter from '../LandingSearch/Counter';
 
 /*
 Amenity Icons
