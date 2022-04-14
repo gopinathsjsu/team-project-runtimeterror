@@ -1,10 +1,6 @@
-name: Service CI/CD Workflow
+name: Service CD Workflow
 on:
-  push:
-    branches: [ main ]
-    paths:
-      - hm-service/
-  pull_request:
+  workflow_dispatch:
     branches: [ main ]
 
 jobs:
