@@ -8,10 +8,27 @@ import org.hibernate.annotations.LazyCollectionOption;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "booking")
 public class Booking implements Serializable {
+
+    public Booking() {
+    }
+
+    public Booking(Long userId, Integer hotelId, Boolean active, Date bookingDate, Date checkInDate, Date checkOutDate, String roomTypeCode, Integer guestCount, Double totalPrice, String bookingDetails) {
+        this.userId = userId;
+        this.hotelId = hotelId;
+        this.active = active;
+        this.bookingDate = bookingDate;
+        this.checkInDate = checkInDate;
+        this.checkOutDate = checkOutDate;
+        this.roomTypeCode = roomTypeCode;
+        this.guestCount = guestCount;
+        this.totalPrice = totalPrice;
+        this.bookingDetails = bookingDetails;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,27 +42,6 @@ public class Booking implements Serializable {
     private Integer hotelId;
 
     private Boolean active;
-
-    public Boolean getActive() {
-        return active;
-    }
-
-    public void setActive(Boolean active) {
-        this.active = active;
-    }
-
-    @OneToMany(mappedBy = "booking", cascade = CascadeType.ALL)
-    @LazyCollection(LazyCollectionOption.FALSE)
-    private List<BookingRooms> rooms = new ArrayList<>();
-
-    @JsonManagedReference
-    public List<BookingRooms> getRooms() {
-        return rooms;
-    }
-
-    public void setRooms(List<BookingRooms> rooms) {
-        this.rooms = rooms;
-    }
 
     @Column(name = "bookingDate")
     private Date bookingDate;
@@ -65,9 +61,34 @@ public class Booking implements Serializable {
     @Column(name = "totalPrice")
     private Double totalPrice;
 
-
     @Column(name = "booking_details")
     private String bookingDetails;
+
+    @OneToMany(mappedBy = "booking", cascade = CascadeType.ALL)
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private List<BookingRooms> rooms = new ArrayList<>();
+
+
+
+    @JsonManagedReference
+    public List<BookingRooms> getRooms() {
+        return rooms.stream().filter(r -> {
+            assert r.getActive() != null;
+            return r.getActive().equals(true) || r.getActive() == null;
+        }).collect(Collectors.toList());
+    }
+
+    public void setRooms(List<BookingRooms> rooms) {
+        this.rooms = rooms;
+    }
+
+
+    public Boolean getActive() {
+        return active;
+    }
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
 
     public String getBookingDetails() {
         return bookingDetails;
@@ -76,20 +97,6 @@ public class Booking implements Serializable {
     public void setBookingDetails(String bookingDetails) {
         this.bookingDetails = bookingDetails;
     }
-
-    @OneToMany(mappedBy = "booking", cascade = CascadeType.ALL)
-    @LazyCollection(LazyCollectionOption.FALSE)
-    private List<BookingHotelAmenities> amenities = new ArrayList<>();
-
-    @JsonManagedReference
-    public List<BookingHotelAmenities> getAmenities() {
-        return amenities;
-    }
-
-    public void setAmenities(List<BookingHotelAmenities> amenities) {
-        this.amenities = amenities;
-    }
-
 
     public Long getId() {
         return id;

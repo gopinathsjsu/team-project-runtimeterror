@@ -1,4 +1,4 @@
-package com.hmservice.contract;
+package com.hmservice.contract.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

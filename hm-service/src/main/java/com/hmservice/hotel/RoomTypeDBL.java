@@ -6,8 +6,10 @@ public class RoomTypeDBL extends Hotel {
     HashMap<String, Double> gcCostMultiplier = new HashMap<>();
 
 
-    public RoomTypeDBL(Integer gc) {
+    public RoomTypeDBL(Integer gc, Integer rc) {
         guestCount = gc;
+        roomCount = rc;
+
         //TODO: Read from DB
         basePrice = 100.00;
 
@@ -28,7 +30,9 @@ public class RoomTypeDBL extends Hotel {
         //consider the number of guests.
         //get cost of room type, and guest limitation for room type
         //auto-select number of rooms to accommodate guests
-        Double multiplier = gcCostMultiplier.get(this.guestCount.toString());
+        Integer factor = guestCount/roomCount;
+
+        Double multiplier = gcCostMultiplier.get(factor.toString());
         return basePrice * multiplier;
     }
 }
