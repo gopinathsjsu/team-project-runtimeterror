@@ -4,6 +4,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import LuggageIcon from '@mui/icons-material/Luggage';
 import Divider from '@mui/material/Divider';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { logoutUser } from '../helpers/API';
@@ -89,6 +90,10 @@ export default function CustomizedMenus(props) {
         <MenuItem onClick={() => { manageAccount(); handleClose() }} disableRipple>
           <ManageAccountsIcon />
           Manage Account
+        </MenuItem>
+        <MenuItem onClick={() => { navigate('/mybookings'); handleClose() }} disableRipple>
+          <LuggageIcon />
+          My Bookings
         </MenuItem>
         <Divider sx={{ my: 0.5 }} />
         <MenuItem onClick={logoutUser} disableRipple>
