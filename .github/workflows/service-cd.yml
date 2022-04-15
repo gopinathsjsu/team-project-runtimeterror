@@ -1,13 +1,7 @@
 name: Service CD Workflow
 on:
-  push:
+  workflow_dispatch:
     branches: [ main ]
-    paths:
-      - hm-service/
-  pull_request:
-    branches: [ main ]
-    paths:
-      - hm-service/
 
 jobs:
   build:

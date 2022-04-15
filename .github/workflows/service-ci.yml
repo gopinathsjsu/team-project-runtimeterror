@@ -6,6 +6,8 @@ on:
       - hm-service/
   pull_request:
     branches: [ main ]
+    paths:
+      - hm-service/
 
 jobs:
   build:
