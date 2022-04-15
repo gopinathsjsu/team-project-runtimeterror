@@ -3,7 +3,7 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
+import { cloneDeep } from 'lodash';
 import Paper from '@mui/material/Paper';
 import { Box, Container } from '@mui/material';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
@@ -11,9 +11,16 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { getPricingStrategies, setPricingStrategy } from '../helpers/API'
+import Snackbar from '../Common/Snackbar';
 
 
 export default function PricingStrategy() {
+  const [showSnackbar, setShowSnackbar] = React.useState(false)
+  const [snackbarMessage, setSnackbarMessage] = React.useState()
+  const [snackbarSev, setSnackbarSev] = React.useState("success")
+  const closeSnackbar = () => {
+    setShowSnackbar(false)
+  }
   const [strategies, setStrategies] = useState([])
   useEffect(() => {
     const fetchPricingStrategies = async () => {
@@ -23,8 +30,13 @@ export default function PricingStrategy() {
     fetchPricingStrategies()
   }, [])
 
-  const savePricingStrategy = () => {
-
+  const savePricingStrategy = async () => {
+    const selectedStrategy = document.querySelector('input[name="pricing-strategy"]:checked').value
+    const strategyCopy = cloneDeep(strategies)
+    strategyCopy.forEach(str => { str.enabled = str.shortCode === selectedStrategy })
+    await setPricingStrategy(strategyCopy)
+    setSnackbarMessage("Success. Pricing strategy changed.")
+    setShowSnackbar(true)
   }
 
   return (
@@ -49,7 +61,7 @@ export default function PricingStrategy() {
             {strategies.length > 1 ? <FormControl>
               <RadioGroup
                 aria-labelledby="demo-radio-buttons-group-label"
-                name="radio-buttons-group"
+                name="pricing-strategy"
                 defaultValue={strategies.find(s => s.enabled).shortCode}
               >
                 {strategies.map(strategy => {
@@ -66,6 +78,7 @@ export default function PricingStrategy() {
 
         </Box>
       </Container>
+      <Snackbar message={snackbarMessage} open={showSnackbar} close={closeSnackbar} severity={snackbarSev} />
     </Paper>
   );
 }
