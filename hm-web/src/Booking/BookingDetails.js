@@ -16,8 +16,12 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-export default function BooknigDetails(props) {
+export default function BooknigDetails() {
   const { bookingId } = useParams();
+
+  const cancelBooking = async () => {
+
+  }
   const [booking, setBooking] = useState()
   useEffect(async () => {
     const { data } = await getBookingDetails(bookingId)
@@ -56,7 +60,7 @@ export default function BooknigDetails(props) {
         <Grid item xs={12}>
           <Container sx={{ display: 'flex', justifyContent: 'space-around' }}>
             <Button variant="outlined" onClick={() => { }}>Modify</Button>
-            <Button onClick={() => { }} variant="outlined" size="medium">Cancel</Button>
+            <Button onClick={() => { cancelBooking() }} variant="outlined" size="medium">Cancel</Button>
           </Container>
         </Grid>
       </Grid>
