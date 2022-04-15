@@ -39,7 +39,7 @@ module "hm-vpc" {
 
 module "hm-service" {
   source          = "./modules/hm-service"
-  enable_services = false
+  enable_services = true
   vpc_id          = module.hm-vpc.vpc_id
   subnet_id_2a    = module.hm-vpc.subnet_id_2a
   subnet_id_2b    = module.hm-vpc.subnet_id_2b
@@ -52,6 +52,8 @@ module "hm-hostedzones" {
   service_subdomain = "hm-service"
   cloudfront_domain_name = module.hm-web.hm-cf-distribution-domain-name
   cloudfront_zone_id = module.hm-web.hm-cf-distribution-zone-id
+  hm_service_loadbalancer_domain = module.hm-service.hm_service_loadbalancer_domain
+  hm_service_loadbalancer_zone_id = module.hm-service.hm_service_loadbalancer_zone_id
 
   providers = {
     aws = aws.us-east-1
