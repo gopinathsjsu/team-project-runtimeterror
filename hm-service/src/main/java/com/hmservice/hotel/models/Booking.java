@@ -24,6 +24,15 @@ public class Booking implements Serializable {
     @Column(name = "hotelId")
     private Integer hotelId;
 
+    private Boolean active;
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
 
     @OneToMany(mappedBy = "booking", cascade = CascadeType.ALL)
     @LazyCollection(LazyCollectionOption.FALSE)

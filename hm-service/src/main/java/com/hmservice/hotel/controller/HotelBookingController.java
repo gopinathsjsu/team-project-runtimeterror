@@ -49,9 +49,8 @@ public class HotelBookingController {
         IPricingStrategy strategy = new DynamicPricing();
 
 
-
-            Hotel room = RoomFactory.GetRoom(bookingRequest.RoomTypeCode, bookingRequest.GuestCount);
-            BookingResponse resp =  BookHotel.book(bookingRequest, room, strategy );
+        Hotel room = RoomFactory.GetRoom(bookingRequest.RoomTypeCode, bookingRequest.GuestCount);
+        BookingResponse resp = BookHotel.book(bookingRequest, room, strategy);
 
 
         return ResponseEntity.ok(resp);
@@ -67,7 +66,7 @@ public class HotelBookingController {
         // TODO : Ability to get prices for individual room types
         // TODO : FACTOR IN ROOM COUNT
         Hotel room = RoomFactory.GetRoom(bookingRequest.RoomTypeCode, bookingRequest.GuestCount);
-        BookingResponse resp =  BookHotel.book(bookingRequest, room, strategy );
+        BookingResponse resp = BookHotel.book(bookingRequest, room, strategy);
 
         Booking hotelBooking = new Booking();
         SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
@@ -81,7 +80,7 @@ public class HotelBookingController {
         hotelBooking.setBookingDate(new Date());
         hotelBooking.setTotalPrice(resp.BookingTotal);
         hotelBooking.setBookingDetails(resp.BookingDetails);
-
+        hotelBooking.setActive(true);
         Set<BookingHotelAmenities> amenities = new HashSet<>();
 
 
@@ -95,6 +94,7 @@ public class HotelBookingController {
 
         for (int i = 0; i < bookingRequest.RoomCount; i++) {
             BookingRooms br = new BookingRooms(hotelBooking, bookingRequest.RoomId);
+            br.setActive(true);
             bookingRoomsRepository.save(br);
         }
 
@@ -116,22 +116,88 @@ public class HotelBookingController {
 
         return new ResponseEntity<>(bookingRepository.findById(id), HttpStatus.OK);
     }
-//
-//    @PutMapping("/{id}")
-//    public ResponseEntity<Map<String, Boolean>> updateReservation(@PathVariable Long id,
-//                                                                  @Valid @RequestBody Booking booking) {
-//        reservation.setId(id);
-//        reservationService.updateReservation(reservation);
-//        Map<String, Boolean> map = new HashMap<>();
-//        map.put("success", true);
-//        return new ResponseEntity<>(map, HttpStatus.CREATED);
-//    }
-//
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<Map<String, Boolean>> deleteReservation(@PathVariable Long id) {
-//        reservationService.deleteReservation(id);
-//        Map<String, Boolean> map = new HashMap<>();
-//        map.put("success", true);
-//        return new ResponseEntity<>(map, HttpStatus.OK);
-//    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateReservation(@PathVariable Long id, @Valid @RequestBody BookingRequest bookingRequest) throws ParseException {
+      Optional<Booking> booking = bookingRepository.findById(id);
+
+      if (booking.isPresent()) {
+
+          Booking hotelBooking = booking.get();
+          IPricingStrategy strategy = new DynamicPricing();
+
+          // TODO : Ability to get prices for individual room types
+          // TODO : FACTOR IN ROOM COUNT
+          Hotel room = RoomFactory.GetRoom(bookingRequest.RoomTypeCode, bookingRequest.GuestCount);
+          BookingResponse resp = BookHotel.book(bookingRequest, room, strategy);
+
+          SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
+
+          if (bookingRequest.HotelId != 0) {
+            hotelBooking.setHotelId(bookingRequest.HotelId);
+          }
+
+          if (!bookingRequest.CheckInDate.isEmpty()) {
+              hotelBooking.setCheckInDate(formatter.parse(bookingRequest.CheckInDate));
+          }
+
+          if (!bookingRequest.CheckOutDate.isEmpty()) {
+              hotelBooking.setCheckOutDate(formatter.parse(bookingRequest.CheckOutDate));
+          }
+
+          if (bookingRequest.GuestCount!= 0) {
+              hotelBooking.setGuestCount(bookingRequest.GuestCount);
+          }
+
+          if (!bookingRequest.RoomTypeCode.isEmpty()) {
+              hotelBooking.setRoomTypeCode(bookingRequest.RoomTypeCode);
+          }
+
+          if (bookingRequest.HotelId != 0) {
+              hotelBooking.setHotelId(bookingRequest.HotelId);
+          }
+
+
+          bookingRepository.save(hotelBooking);
+
+          List<BookingRooms> prevRooms =  bookingRoomsRepository.findRoomsByBookingId(hotelBooking.getId());
+          prevRooms.forEach(r ->{
+              r.setActive(false);
+              bookingRoomsRepository.save(r);
+          });
+
+
+
+          for (int i = 0; i < bookingRequest.RoomCount; i++) {
+              BookingRooms br = new BookingRooms(hotelBooking, bookingRequest.RoomId);
+              br.setActive(true);
+              bookingRoomsRepository.save(br);
+          }
+
+          return new ResponseEntity<>("BOOKING Updated", HttpStatus.OK);
+      }
+
+
+      return new ResponseEntity<>("BOOKING ID NOT FOUND", HttpStatus.NOT_FOUND);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteReservation(@PathVariable Long id) {
+        Optional<Booking> booking = bookingRepository.findById(id);
+
+        if (booking.isPresent()) {
+            Booking hotelBooking = booking.get();
+            hotelBooking.setActive(false);
+            bookingRepository.save(hotelBooking);
+
+            List<BookingRooms> prevRooms =  bookingRoomsRepository.findRoomsByBookingId(hotelBooking.getId());
+            prevRooms.forEach(r ->{
+                r.setActive(false);
+                bookingRoomsRepository.save(r);
+            });
+
+            return new ResponseEntity<>("BOOKING Removed", HttpStatus.OK);
+        }
+        return new ResponseEntity<>("BOOKING ID NOT FOUND", HttpStatus.NOT_FOUND);
+    }
 }
