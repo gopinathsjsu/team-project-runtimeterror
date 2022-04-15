@@ -58,7 +58,7 @@ export default function SignIn() {
       setShowSnackbar(true)
       setTimeout(() => {
         navigate(`/`)
-      }, 3000)
+      }, 1000)
     } catch (ex) {
       setSpinner(false)
       setSnackbarMessage("Something went wrong.")

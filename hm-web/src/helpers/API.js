@@ -21,10 +21,33 @@ export async function registerUser(username, email, password) {
   })
 }
 
+export async function updateAccount(username, email, password) {
+  const userId = Cookies.get('userId')
+  const token = Cookies.get('accessToken')
+  if (isEmpty(token))
+    throw "user not authorized"
+  const config = {
+    headers: { Authorization: `Bearer ${token}` }
+  };
+  return await hotelManagementAPI.put(`/api/user/${userId}`, {
+    username, email, password, role: ["user"]
+  }, config)
+}
+
+
+
 export async function loginUser(username, password) {
   return await hotelManagementAPI.post(`/api/user/signin`, {
     username, password
   })
+}
+
+export function logoutUser() {
+  Cookies.remove('accessToken')
+  Cookies.remove('email')
+  Cookies.remove('username')
+  Cookies.remove('userId')
+  window.location = "/"
 }
 
 export async function searchAmenities(hotelId) {

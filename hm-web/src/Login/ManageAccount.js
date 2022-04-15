@@ -6,7 +6,7 @@ import TextField from '@mui/material/TextField';
 import { Link } from 'react-router-dom';
 import * as MaterialLink from '@mui/material/Link';
 import Box from '@mui/material/Box';
-import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import ManageAccountIcon from '@mui/icons-material/ManageAccounts';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { Paper } from '@mui/material';
@@ -14,8 +14,9 @@ import { Grid } from '@mui/material';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import Snackbar from '../Common/Snackbar';
-import { registerUser } from '../helpers/API';
+import { updateAccount } from '../helpers/API';
 import { useNavigate } from "react-router-dom";
+import Cookies from 'js-cookie';
 
 export default function SignUp() {
   const [spinner, setSpinner] = React.useState(false)
@@ -33,18 +34,14 @@ export default function SignUp() {
     const data = new FormData(event.currentTarget);
     const name = data.get('username')
     const email = data.get('email')
-    const password = data.get('password')
+    let password = data.get('password')
     const confirmPassword = data.get('confirmPassword')
 
-    if (!name || !email || !password || !confirmPassword) {
-      setSnackbarMessage("Please fill all inputs.")
-      errorState = true
-    }
-    else if (name.includes(' ')) {
+    if (name.includes(' ')) {
       setSnackbarMessage("Username cannot have space in it.")
       errorState = true
     }
-    else if (password.length < 8) {
+    else if (password.length && password.length < 8) {
       setSnackbarMessage("Password should be at least 8 characters.")
       errorState = true
     }
@@ -62,13 +59,18 @@ export default function SignUp() {
 
     setSpinner(true)
     try {
-      const registerReesponse = await registerUser(name, email, password)
+      if (password === "") {
+        password = null
+      }
+      await updateAccount(name, email, password)
+      Cookies.set('username', name)
+      Cookies.set('email', email)
       setSpinner(false)
-      setSnackbarMessage("Registered. You'll be redirected to login.")
+      setSnackbarMessage("Account has been updated")
       setSnackbarSev("success")
       setShowSnackbar(true)
       setTimeout(() => {
-        navigate(`/login`)
+        navigate(`/`)
       }, 1000)
     } catch (ex) {
       setSpinner(false)
@@ -77,6 +79,9 @@ export default function SignUp() {
       setShowSnackbar(true)
     }
   };
+
+  const defaultName = Cookies.get('username')
+  const defaultEmail = Cookies.get('email')
 
   return (
     <Paper elevation={4}>
@@ -91,10 +96,10 @@ export default function SignUp() {
           }}
         >
           <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <PersonAddIcon />
+            <ManageAccountIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign Up
+            Manage Account
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
             <Grid container justifyContent="center" columnSpacing={2} >
@@ -108,6 +113,7 @@ export default function SignUp() {
                   name="username"
                   autoComplete="name"
                   autoFocus
+                  defaultValue={defaultName}
                 />
               </Grid>
               <Grid item xs={12} md={6} lg={6}>
@@ -120,6 +126,7 @@ export default function SignUp() {
                   name="email"
                   autoComplete="email"
                   autoFocus
+                  defaultValue={defaultEmail}
                 />
               </Grid>
               <Grid item xs={12} md={6} lg={6}>
@@ -128,7 +135,7 @@ export default function SignUp() {
                   required
                   fullWidth
                   name="password"
-                  label="Password"
+                  label="New Password"
                   type="password"
                   id="password"
                   autoComplete="new-password"
@@ -153,13 +160,13 @@ export default function SignUp() {
                   variant="contained"
                   sx={{ mt: 3, mb: 2 }}
                 >
-                  Sign Up
+                  Update Account
                 </Button>
               </Grid></Grid>
             <Container sx={{ display: 'flex', justifyContent: 'center' }} fixed>
-              <Link to="/login">
+              <Link to="/">
                 <MaterialLink.default variant="body2">
-                  {"Back to login"}
+                  {"Cancel"}
                 </MaterialLink.default>
               </Link>
             </Container>
