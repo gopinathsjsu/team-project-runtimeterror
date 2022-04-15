@@ -12,6 +12,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import Cookies from 'js-cookie'
+import Menu from './UserMenu/Menu'
 
 export default function TopBanner() {
     const [userName, setUserName] = React.useState()
@@ -41,10 +42,9 @@ export default function TopBanner() {
                         </Grid>
                         {
                             userName && <Grid item>
-                                <Link className={topbanner.singInLink} to="/">
-                                    <ManameAccountIcon />
-                                    {matches ? userName : ``}
-                                </Link>
+                                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                    <Menu userName={userName} />
+                                </Box>
 
                             </Grid>
                         }
