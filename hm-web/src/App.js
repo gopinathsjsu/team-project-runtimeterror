@@ -10,7 +10,7 @@ import ManageAccount from './Login/ManageAccount'
 import Booking from './Booking/Booking'
 import Confirmation from './Booking/Confirmation'
 import BookingDetails from './Booking/BookingDetails'
-
+import BookingHistory from './Booking/BookingHistory'
 
 function App() {
   return (
@@ -24,6 +24,7 @@ function App() {
               <Route path="/login" element={<SignIn />} />
               <Route path="/signup" element={<SignUp />} />
               <Route path="/manage-account" element={<ManageAccount />} />
+              <Route path="/mybookings" element={<BookingHistory />} />
               <Route path="/book" element={<Booking />} />
               <Route path="/confirm" element={<Confirmation />} />
               <Route path="/booking/:bookingId" element={<BookingDetails />} />

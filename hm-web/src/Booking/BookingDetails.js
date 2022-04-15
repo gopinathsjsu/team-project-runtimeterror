@@ -6,7 +6,7 @@ import { styled } from '@mui/material/styles';
 import styles from '../styles/booking.module.css'
 import { get, isEmpty } from 'lodash';
 import Hotel from './Hotel';
-import { currencyFormatter } from '../helpers/constants';
+import { currencyFormatter, dateFormatter } from '../helpers/constants';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -36,7 +36,7 @@ export default function BooknigDetails(props) {
     }}>
       <Typography variant="h5" mb>Booking Confirmation</Typography>
       <Typography variant="subtitle1" mb>Congratulations! Your stay has been confirmed
-        from {new Date(booking.checkInDate).toLocaleDateString()} to {new Date(booking.checkOutDate).toLocaleDateString()}.
+        from {dateFormatter(booking.checkInDate)} to {dateFormatter(booking.checkOutDate)}.
       </Typography>
       <Hotel {...hotelDetails} />
       <Grid container spacing={2}>
