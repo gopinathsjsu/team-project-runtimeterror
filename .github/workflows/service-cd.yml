@@ -20,6 +20,21 @@ jobs:
         distribution: temurin
         java-version: '17'
 
+    - name: create application properties file
+      working-directory: ./hm-service
+      run: |
+        touch ./src/main/resources/application-prod.properties
+        echo spring.jpa.hibernate.ddl-auto=update >> ./src/main/resources/application-prod.properties
+        echo spring.datasource.url=${{ secrets.DATA_SOURCE_URL }} >> ./src/main/resources/application-prod.properties
+        echo spring.datasource.username=${{ secrets.DATA_SOURCE_USERNAME }} >> ./src/main/resources/application-prod.properties
+        echo spring.datasource.password=${{ secrets.DATA_SOURCE_PASSWORD }} >> ./src/main/resources/application-prod.properties
+        echo spring.jpa.database=mysql >> ./src/main/resources/application-prod.properties
+        echo hibernate.connection.driver_class = com.mysql.jdbc.Driver >> ./src/main/resources/application-prod.properties
+        echo spring.jpa.hibernate.naming.implicit-strategy=org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl >> ./src/main/resources/application-prod.properties
+        echo spring.jpa.hibernate.naming.physical-strategy=org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl >> ./src/main/resources/application-prod.properties
+        echo hmservice.security.jwtSecret=${{ secrets.JWT_SECRET }} >> ./src/main/resources/application-prod.properties
+        echo hmservice.security.jwtExpirationMs = 86400000 >> ./src/main/resources/application-prod.properties
+
     - name: Setup Gradle
       uses: gradle/gradle-build-action@v2
 

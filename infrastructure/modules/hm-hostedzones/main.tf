@@ -32,6 +32,16 @@ variable "cloudfront_zone_id" {
   description = "hosted zone id for cloudfront distribution"
 }
 
+variable "hm_service_loadbalancer_domain" {
+  type = string
+  description = "hotel management service loadbalancer domain"
+}
+
+variable "hm_service_loadbalancer_zone_id" {
+  type = string
+  description = "hotel management service loadbalancer zone_id"
+}
+
 resource "aws_route53_zone" "main" {
   name = var.baseurl
 }
@@ -54,6 +64,27 @@ resource "aws_route53_record" "ui_subdomain_alias" {
 
 resource "aws_acm_certificate" "ui_cert" {
     domain_name = "${var.ui_subdomain}.${var.baseurl}"
+    validation_method = "DNS"
+
+    lifecycle {
+        create_before_destroy = true
+    }
+}
+
+resource "aws_route53_record" "service_subdomain_alias" {
+  zone_id = aws_route53_zone.main.zone_id
+  name    = "${var.service_subdomain}.${var.baseurl}"
+  type    = "A"
+
+  alias {
+    name = var.hm_service_loadbalancer_domain
+    zone_id = var.hm_service_loadbalancer_zone_id
+    evaluate_target_health = true
+  }
+}
+
+resource "aws_acm_certificate" "service_cert" {
+    domain_name = "${var.service_subdomain}.${var.baseurl}"
     validation_method = "DNS"
 
     lifecycle {
