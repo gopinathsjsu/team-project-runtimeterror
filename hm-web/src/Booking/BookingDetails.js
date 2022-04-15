@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from "react-router-dom";
 import { getBookingDetails } from '../helpers/API'
-import { Box, Typography, Button, Container, Paper, Card, CardContent, Grid } from '@mui/material';
+import { Box, Typography, Button, Container, Paper, Grid } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import styles from '../styles/booking.module.css'
 import { get, isEmpty } from 'lodash';
@@ -26,7 +26,7 @@ export default function BooknigDetails() {
   const modifyBooking = async () => {
 
   }
-  
+
   const [booking, setBooking] = useState()
   useEffect(async () => {
     const { data } = await getBookingDetails(bookingId)
