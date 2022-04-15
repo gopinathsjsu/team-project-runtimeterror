@@ -45,6 +45,16 @@ export async function getMyBooking() {
   return await hotelManagementAPI.get(`/api/booking/getbookingbyuserid/${userId}`, config)
 }
 
+export async function cancelBooking(bookingId) {
+  const token = Cookies.get('accessToken')
+  if (isEmpty(token))
+    throw "user not authorized"
+  const config = {
+    headers: { Authorization: `Bearer ${token}` }
+  };
+  return await hotelManagementAPI.delete(`/api/booking/${bookingId}`, config)
+}
+
 export async function loginUser(username, password) {
   return await hotelManagementAPI.post(`/api/user/signin`, {
     username, password
