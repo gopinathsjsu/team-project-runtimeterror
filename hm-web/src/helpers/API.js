@@ -105,3 +105,23 @@ export async function getBookingDetails(bookingId) {
 
   return await hotelManagementAPI.get(`api/booking/${bookingId}`, config)
 }
+
+export async function getPricingStrategies() {
+  const token = Cookies.get('accessToken')
+  if (isEmpty(token))
+    throw "user not authorized"
+  const config = {
+    headers: { Authorization: `Bearer ${token}` }
+  };
+  return await hotelManagementAPI.get(`/api/admin/pricingstrategy`, config)
+}
+
+export async function setPricingStrategy(payload) {
+  const token = Cookies.get('accessToken')
+  if (isEmpty(token))
+    throw "user not authorized"
+  const config = {
+    headers: { Authorization: `Bearer ${token}` }
+  };
+  return await hotelManagementAPI.put(`/api/admin/pricingstrategy`, payload, config)
+}

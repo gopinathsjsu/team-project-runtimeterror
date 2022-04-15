@@ -10,6 +10,8 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { logoutUser } from '../helpers/API';
 import { Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import Cookies from 'js-cookie';
 
 const StyledMenu = styled((props) => (
   <Menu
@@ -66,6 +68,8 @@ export default function CustomizedMenus(props) {
     navigate(`/manage-account`)
   }
 
+  const userRoles = Cookies.get('roles')
+
   return (
     <div>
       <MenuIcon
@@ -95,6 +99,14 @@ export default function CustomizedMenus(props) {
           <LuggageIcon />
           My Bookings
         </MenuItem>
+        {
+          userRoles.includes('ROLE_ADMIN')?
+          <MenuItem onClick={() => { navigate('/pricing'); handleClose() }} disableRipple>
+          <AttachMoneyIcon />
+          Pricing Strategy
+        </MenuItem>
+          :null
+        }
         <Divider sx={{ my: 0.5 }} />
         <MenuItem onClick={logoutUser} disableRipple>
           <LogoutIcon />
