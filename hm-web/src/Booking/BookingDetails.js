@@ -22,6 +22,11 @@ export default function BooknigDetails() {
   const cancelBooking = async () => {
 
   }
+
+  const modifyBooking = async () => {
+
+  }
+  
   const [booking, setBooking] = useState()
   useEffect(async () => {
     const { data } = await getBookingDetails(bookingId)
@@ -59,7 +64,7 @@ export default function BooknigDetails() {
         </Grid>
         <Grid item xs={12}>
           <Container sx={{ display: 'flex', justifyContent: 'space-around' }}>
-            <Button variant="outlined" onClick={() => { }}>Modify</Button>
+            <Button variant="outlined" onClick={() => { modifyBooking() }}>Modify</Button>
             <Button onClick={() => { cancelBooking() }} variant="outlined" size="medium">Cancel</Button>
           </Container>
         </Grid>
