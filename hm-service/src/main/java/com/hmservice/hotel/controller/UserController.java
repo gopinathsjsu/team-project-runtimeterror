@@ -74,6 +74,8 @@ public class UserController {
         User user = new User(signUpRequest.getUsername(),
                 signUpRequest.getEmail(),
                 encoder.encode(signUpRequest.getPassword()) , signUpRequest.getPhone());
+
+        user.setActive(true);
         Set<String> strRoles = signUpRequest.getRole();
         Set<Role> roles = new HashSet<>();
         if (strRoles == null) {
@@ -125,6 +127,10 @@ public class UserController {
         u.get().setPhone(signUpRequest.getPhone());
         u.get().setEmail(signUpRequest.getEmail());
         u.get().setUsername(signUpRequest.getUsername());
+
+        if (!signUpRequest.getPassword().isBlank()) {
+            u.get().setPassword(encoder.encode(signUpRequest.getPassword()));
+        }
         userRepository.save(u.get());
         return ResponseEntity.ok(new MessageResponse("User updated successfully!"));
     }

@@ -1,6 +1,7 @@
 package com.hmservice.hotel.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 
@@ -17,17 +18,22 @@ public class BookingRooms {
         this.hotelRoomId = hotelRoomId;
     }
 
-    public Integer getCount() {
-        return count;
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "count")
-    private Integer count;
+    @Nullable
+    @Column(name = "active")
+    private Boolean active;
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "booking_id", nullable = false)

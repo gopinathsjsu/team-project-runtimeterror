@@ -45,7 +45,6 @@ public class User {
         this.phone = phone;
     }
 
-    @NotBlank
     @Size(max = 20)
     private String phone;
 

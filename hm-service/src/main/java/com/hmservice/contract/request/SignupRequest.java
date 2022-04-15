@@ -16,7 +16,7 @@ public class SignupRequest {
   @Email
   private String email;
 
-  @NotBlank
+
   @Size(max = 10)
   @Digits(integer = 10, fraction = 0)
   private String phone;
