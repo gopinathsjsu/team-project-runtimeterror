@@ -7,7 +7,9 @@ import styles from '../styles/booking.module.css'
 import { get, isEmpty } from 'lodash';
 import Hotel from './Hotel';
 import { currencyFormatter, dateFormatter } from '../helpers/constants';
-import { cencelBooking } from '../helpers/API'
+import { cancelBooking } from '../helpers/API'
+import ConfirmationDialog from '../Common/Confirmation';
+import { useNavigate } from 'react-router-dom';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -18,17 +20,25 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export default function BooknigDetails() {
+  const navigate = useNavigate()
   const { bookingId } = useParams();
+  const [booking, setBooking] = useState()
+  const [confirmation, setConfirmation] = useState()
 
-  const cancelCurrentBooking = async () => {
-
+  const cancelCurrentBooking = async (confirm) => {
+    setConfirmation(false)
+    if (!confirm)
+      return
+    await cancelBooking(bookingId)
+    navigate(`/mybookings`)
   }
+
 
   const modifyBooking = async () => {
 
   }
 
-  const [booking, setBooking] = useState()
+
   useEffect(async () => {
     const { data } = await getBookingDetails(bookingId)
     setBooking(data)
@@ -66,11 +76,12 @@ export default function BooknigDetails() {
         <Grid item xs={12}>
           <Container sx={{ display: 'flex', justifyContent: 'space-around' }}>
             <Button variant="outlined" onClick={() => { modifyBooking() }}>Modify</Button>
-            <Button onClick={() => { cancelCurrentBooking() }} variant="outlined" size="medium">Cancel</Button>
+            <Button onClick={() => { setConfirmation(true) }} variant="outlined" size="medium">Cancel</Button>
           </Container>
         </Grid>
       </Grid>
     </Box>
+    <ConfirmationDialog open={confirmation} onClose={cancelCurrentBooking} />
   </Paper>)
 
 }
