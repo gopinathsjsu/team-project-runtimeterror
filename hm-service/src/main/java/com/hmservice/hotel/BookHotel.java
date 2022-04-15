@@ -1,13 +1,11 @@
 package com.hmservice.hotel;
 
-import com.hmservice.contract.Amenity;
-import com.hmservice.contract.BookingRequest;
-import com.hmservice.contract.BookingResponse;
-import com.hmservice.contract.RoomRequest;
+import com.hmservice.contract.request.Amenity;
+import com.hmservice.contract.request.BookingRequest;
+import com.hmservice.contract.response.BookingResponse;
 import com.hmservice.hotel.pricingstrategy.CustomerProfilePlaceholder;
 import com.hmservice.hotel.pricingstrategy.IPricingStrategy;
 
-import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
@@ -31,6 +29,7 @@ public class BookHotel {
         - amenity (type, count)
      */
     public static BookingResponse book(BookingRequest roomRequest, Hotel booked, IPricingStrategy pricingStrategy) throws ParseException {
+
         BookingResponse response = new BookingResponse();
         for (Amenity amenity : roomRequest.Amenities) {
             switch (amenity.AmenityCode) {
@@ -64,7 +63,7 @@ public class BookHotel {
 
         // Hardcoded pricing strategy;
         SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
-        response.BookingTotal = booked.getCost() * pricingStrategy.getPricingStrategy(formatter.parse(roomRequest.CheckInDate), CustomerProfilePlaceholder.REGULAR);
+        response.BookingTotal = booked.getCost() * roomRequest.RoomCount * pricingStrategy.getPricingStrategy(formatter.parse(roomRequest.CheckInDate), CustomerProfilePlaceholder.REGULAR);
         response.BookingDetails = booked.getPriceBreakdown();
         response.Status = 200;
         return response;

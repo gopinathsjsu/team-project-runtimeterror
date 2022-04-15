@@ -7,12 +7,12 @@ import javax.validation.constraints.Size;
 import java.util.Set;
 
 public class SignupRequest {
-  @NotBlank
-  @Size(min = 3, max = 20)
+  @NotBlank(message = "Username is mandatory")
+  @Size(min = 3, max = 20 , message = "Username max length is {max}")
   private String username;
 
-  @NotBlank
-  @Size(max = 50)
+  @NotBlank(message = "Email is mandatory")
+  @Size(max = 50, message = "Email max length is {max}")
   @Email
   private String email;
 

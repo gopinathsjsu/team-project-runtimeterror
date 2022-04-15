@@ -12,8 +12,8 @@ public class BookingRooms {
     public BookingRooms() {
     }
 
-    public BookingRooms(Booking booking, Integer hotelRoomId) {
-
+    public BookingRooms(Booking booking, Integer hotelRoomId, Boolean active) {
+        this.active = active;
         this.booking = booking;
         this.hotelRoomId = hotelRoomId;
     }
