@@ -7,6 +7,7 @@ import styles from '../styles/booking.module.css'
 import { get, isEmpty } from 'lodash';
 import Hotel from './Hotel';
 import { currencyFormatter, dateFormatter } from '../helpers/constants';
+import { cencelBooking } from '../helpers/API'
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -19,7 +20,7 @@ const Item = styled(Paper)(({ theme }) => ({
 export default function BooknigDetails() {
   const { bookingId } = useParams();
 
-  const cancelBooking = async () => {
+  const cancelCurrentBooking = async () => {
 
   }
 
@@ -35,10 +36,10 @@ export default function BooknigDetails() {
 
   const hotelDetails = get(booking, `rooms[0].room.hotel`)
 
-  if(isEmpty(booking)) {
+  if (isEmpty(booking)) {
     return null
   }
-  
+
   return (<Paper className={styles.bookingWrapper} elevation={6}>
     <Box sx={{
       padding: '1.6rem',
@@ -65,7 +66,7 @@ export default function BooknigDetails() {
         <Grid item xs={12}>
           <Container sx={{ display: 'flex', justifyContent: 'space-around' }}>
             <Button variant="outlined" onClick={() => { modifyBooking() }}>Modify</Button>
-            <Button onClick={() => { cancelBooking() }} variant="outlined" size="medium">Cancel</Button>
+            <Button onClick={() => { cancelCurrentBooking() }} variant="outlined" size="medium">Cancel</Button>
           </Container>
         </Grid>
       </Grid>
