@@ -11,6 +11,7 @@ import Booking from './Booking/Booking'
 import Confirmation from './Booking/Confirmation'
 import BookingDetails from './Booking/BookingDetails'
 import BookingHistory from './Booking/BookingHistory'
+import PricingStrategy from './UserMenu/PricingStrategy'
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
               <Route path="/book" element={<Booking />} />
               <Route path="/confirm" element={<Confirmation />} />
               <Route path="/booking/:bookingId" element={<BookingDetails />} />
+              <Route path="/pricing" element={<PricingStrategy />} />
             </Routes>
           </div>
         </BrowserRouter>
