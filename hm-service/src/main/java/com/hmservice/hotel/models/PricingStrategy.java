@@ -26,7 +26,6 @@ public class PricingStrategy {
     @Column(name="short_code")
     private String shortCode;
 
-    @NotBlank
     @BooleanFlag
     @Column(name="enabled")
     private Boolean enabled;
