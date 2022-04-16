@@ -107,7 +107,7 @@ resource "aws_lb_target_group" "lb_target_group" {
     protocol            = "HTTP"
     matcher             = "200-299"
     timeout             = "20"
-    path                = "/"
+    path                = "/api/hotel"
     unhealthy_threshold = "2"
   }
 }
