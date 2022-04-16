@@ -30,9 +30,11 @@ public class RoomTypeDBL extends Hotel {
         //consider the number of guests.
         //get cost of room type, and guest limitation for room type
         //auto-select number of rooms to accommodate guests
-        Integer factor = guestCount/roomCount;
-
+         Integer factor = guestCount/roomCount;
         Double multiplier = gcCostMultiplier.get(factor.toString());
+        if (multiplier == null) {
+            multiplier =1.5;
+        }
         return basePrice * multiplier;
     }
 }
