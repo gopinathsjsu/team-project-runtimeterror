@@ -62,5 +62,5 @@ jobs:
         echo "Pushing image to ECR..."
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
         echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:latest"
-        # aws ecs update-service --cluster $CLUSTER --service $SERVICE --force-new-deployment
-        # echo "Forcing Service Update To Latest"
+        aws ecs update-service --cluster $CLUSTER --service $SERVICE --force-new-deployment
+        echo "Forcing Service Update To Latest"
