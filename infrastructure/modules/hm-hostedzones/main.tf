@@ -83,15 +83,6 @@ resource "aws_route53_record" "service_subdomain_alias" {
   }
 }
 
-resource "aws_acm_certificate" "service_cert" {
-    domain_name = "${var.service_subdomain}.${var.baseurl}"
-    validation_method = "DNS"
-
-    lifecycle {
-        create_before_destroy = true
-    }
-}
-
 output "ui_acm_certificat_arn" {
     value = aws_acm_certificate.ui_cert.arn
 }

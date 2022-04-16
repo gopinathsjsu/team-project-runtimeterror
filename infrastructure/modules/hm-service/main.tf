@@ -20,6 +20,11 @@ variable "subnet_id_2b" {
   default = ""
 }
 
+variable "service_alb_certificate_arn" {
+  type = string
+  default = ""
+}
+
 resource "aws_security_group" "allow_http" {
   name        = "allow_http"
   description = "Allow HTTP inboud connections"
@@ -62,6 +67,126 @@ resource "aws_lb" "hotelmgmt_service_lb" {
     var.subnet_id_2a,
     var.subnet_id_2b
   ]
+}
+
+resource "aws_acm_certificate" "service_cert" {
+    domain_name = "hm-service.awesomepossum.dev"
+    validation_method = "DNS"
+
+    lifecycle {
+        create_before_destroy = true
+    }
+}
+
+// here
+resource "aws_lb_listener" "https_forward" {
+  load_balancer_arn = aws_lb.hotelmgmt_service_lb.arn
+  port              = 80
+  protocol          = "HTTPS"
+  certificate_arn   = aws_acm_certificate.service_cert.arn
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.lb_target_group.arn
+  }
+  depends_on = [
+    aws_acm_certificate.service_cert
+  ]
+}
+
+resource "aws_lb_target_group" "lb_target_group" {
+  name        = "hm-service-target-group"
+  port        = 80
+  protocol    = "HTTP"
+  vpc_id      = var.vpc_id
+  target_type = "ip"
+
+  health_check {
+    healthy_threshold   = "3"
+    interval            = "90"
+    protocol            = "HTTP"
+    matcher             = "200-299"
+    timeout             = "20"
+    path                = "/"
+    unhealthy_threshold = "2"
+  }
+}
+
+data "aws_iam_policy_document" "ecs_iam_policy" {
+  version = "2012-10-17"
+  statement {
+    sid     = ""
+    effect  = "Allow"
+    actions = ["sts:AssumeRole"]
+
+    principals {
+      type        = "Service"
+      identifiers = ["ecs-tasks.amazonaws.com"]
+    }
+  }
+}
+
+resource "aws_iam_role" "ecs_task_execution_role" {
+  name               = "hm-service-execution-role"
+  assume_role_policy = data.aws_iam_policy_document.ecs_iam_policy.json
+}
+
+resource "aws_iam_role_policy_attachment" "ecs_iam_policy_attachment" {
+  role       = aws_iam_role.ecs_task_execution_role.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
+}
+
+data "template_file" "task_definition" {
+  template = file("./modules/hm-service/hm-service.json.tpl")
+  vars = {
+    aws_ecr_repository = aws_ecr_repository.hm_service_repo.repository_url
+    tag                = "latest"
+    app_port           = 80
+  }
+}
+
+resource "aws_ecs_task_definition" "service_task" {
+  family                   = "hm-service-task"
+  network_mode             = "awsvpc"
+  execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
+  cpu                      = 256
+  memory                   = 2048
+  requires_compatibilities = ["FARGATE"]
+  container_definitions    = data.template_file.task_definition.rendered
+}
+
+resource "aws_ecs_cluster" "ecs_cluster" {
+  name = "hm-service-ecs-cluster"
+}
+
+resource "aws_ecs_service" "ecs_service" {
+  name            = "hm-service-ecs-service"
+  cluster         = resource.aws_ecs_cluster.ecs_cluster.id
+  task_definition = resource.aws_ecs_task_definition.service_task.arn
+  desired_count   = 1
+  launch_type     = "FARGATE"
+
+  network_configuration {
+    security_groups  = [aws_security_group.allow_http.id]
+    subnets          = [var.subnet_id_2a, var.subnet_id_2b]
+    assign_public_ip = true
+  }
+
+  load_balancer {
+    target_group_arn = resource.aws_lb_target_group.lb_target_group.arn
+    container_name   = "hm-service"
+    container_port   = 80
+  }
+
+  depends_on = [resource.aws_lb_listener.https_forward, resource.aws_iam_role_policy_attachment.ecs_iam_policy_attachment]
+
+  lifecycle {
+    ignore_changes = [desired_count]
+  }
+}
+
+resource "aws_cloudwatch_log_group" "cloudwatch_log_group" {
+  name = "awslogs-hm-service"
 }
 
 output "hm_service_loadbalancer_domain" {
