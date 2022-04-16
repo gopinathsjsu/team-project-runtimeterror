@@ -54,8 +54,8 @@ jobs:
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         ECR_REPOSITORY: ${{ secrets.REPO_NAME }}
-        # CLUSTER: ${{ secrets.CLUSTER }}
-        # SERVICE: ${{ secrets.SERVICE }}
+        CLUSTER: ${{ secrets.CLUSTER }}
+        SERVICE: ${{ secrets.SERVICE }}
       working-directory: ./hm-service
       run: |
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:latest .
