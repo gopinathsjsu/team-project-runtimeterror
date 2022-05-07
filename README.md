@@ -12,7 +12,7 @@
 
 - Set up persistance layer
 - Set up API endpoints
-- Set up API contracts
+- Set up Factory Pattern
 
 #### Gabriel Chen
 
@@ -23,7 +23,8 @@
 #### Soham Bhattacharjee
 
 - Set up decorator pattern
-- Set up UI
+- Set up React application
+- Set up API contract and consume data
 
 ### GitHub Repo: https://github.com/gopinathsjsu/team-project-runtimeterror
 
