@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -65,13 +66,8 @@ public class HotelBookingController {
         }
 
         try {
-            // Duration validation
-            Date firstDate = formatter.parse(bookingRequest.CheckInDate.toString());
-            Date secondDate = formatter.parse(bookingRequest.CheckOutDate);
-            long diffInMillies = Math.abs(secondDate.getTime() - firstDate.getTime());
-            long diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
 
-            if(diff >7){
+            if(durationValidation(bookingRequest) >7){
                 return new ResponseEntity<>("Checkout data cannot be more than 7 days from check-in date", HttpStatus.BAD_REQUEST);
             }
 
@@ -90,13 +86,8 @@ public class HotelBookingController {
         BookingResponse resp;
 
         try {
-            // Duration validation
-            Date firstDate = formatter.parse(bookingRequest.CheckInDate.toString());
-            Date secondDate = formatter.parse(bookingRequest.CheckOutDate);
-            long diffInMillies = Math.abs(secondDate.getTime() - firstDate.getTime());
-            long diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
 
-            if(diff >7){
+            if(durationValidation(bookingRequest) >7){
                 return new ResponseEntity<>("Checkout data cannot be more than 7 days from check-in date", HttpStatus.BAD_REQUEST);
             }
 
@@ -144,13 +135,7 @@ public class HotelBookingController {
         BookingResponse resp;
         if (booking.isPresent()) {
             try {
-                // Duration validation
-                Date firstDate = formatter.parse(bookingRequest.CheckInDate.toString());
-                Date secondDate = formatter.parse(bookingRequest.CheckOutDate);
-                long diffInMillies = Math.abs(secondDate.getTime() - firstDate.getTime());
-                long diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
-
-                if(diff >7){
+                if(durationValidation(bookingRequest) >7){
                     return new ResponseEntity<>("Checkout data cannot be more than 7 days from check-in date", HttpStatus.BAD_REQUEST);
                 }
 
@@ -269,5 +254,15 @@ public class HotelBookingController {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     ResponseEntity<String> handleConstraintViolationException(ConstraintViolationException e) {
         return new ResponseEntity<>("not valid due to validation error: " + e.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    private  long durationValidation (BookingRequest bookingRequest) throws ParseException {
+        // Duration validation
+        Date firstDate = formatter.parse(bookingRequest.CheckInDate.toString());
+        Date secondDate = formatter.parse(bookingRequest.CheckOutDate);
+        long diffInMillies = Math.abs(secondDate.getTime() - firstDate.getTime());
+        long diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+
+        return  diff;
     }
 }
