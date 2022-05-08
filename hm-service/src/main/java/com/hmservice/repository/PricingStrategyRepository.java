@@ -8,6 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.Optional;
 
 public interface PricingStrategyRepository extends JpaRepository<PricingStrategy, Integer> {
-    @Query(value = "SELECT * from pricing_strategy where active= true", nativeQuery = true)
+    @Query(value = "SELECT * from pricing_strategy where enabled = true", nativeQuery = true)
     Optional<PricingStrategy> getActiveStrategy();
 }

@@ -50,8 +50,7 @@ public class HotelBookingController {
             produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('CUSTOMER') or hasRole('EMPLOYEE') or hasRole('ADMIN')")
     public ResponseEntity<?> calculateBookingCost(@Valid @RequestBody BookingRequest bookingRequest) {
-        // TODO: get pricing strategy via db
-        IPricingStrategy strategy = new DynamicPricing();
+        IPricingStrategy strategy = PricingStrategyFactory.GetStrategy(pricingStrategyRepository.getActiveStrategy().get().getShortCode());
         Hotel room = RoomFactory.GetRoom(bookingRequest.RoomTypeCode, bookingRequest.GuestCount, bookingRequest.RoomCount);
 
         try {
@@ -70,8 +69,7 @@ public class HotelBookingController {
         BookingResponse resp;
 
         try {
-            // TODO: get pricing strategy via db
-            IPricingStrategy strategy = new DynamicPricing();
+            IPricingStrategy strategy = PricingStrategyFactory.GetStrategy(pricingStrategyRepository.getActiveStrategy().get().getShortCode());
 
             // TODO : Ability to get prices for individual room types
             // TODO : FACTOR IN ROOM COUNT
