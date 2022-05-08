@@ -14,11 +14,12 @@ import { Grid } from '@mui/material';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import Snackbar from '../Common/Snackbar';
-import { updateAccount } from '../helpers/API';
+import { getUser, updateAccount } from '../helpers/API';
 import { useNavigate } from "react-router-dom";
 import Cookies from 'js-cookie';
 
 export default function SignUp() {
+  const [loyaltyPoints, setLoyaltyPoints] = React.useState(0)
   const [spinner, setSpinner] = React.useState(false)
   const [showSnackbar, setShowSnackbar] = React.useState(false)
   const [snackbarMessage, setSnackbarMessage] = React.useState()
@@ -27,6 +28,14 @@ export default function SignUp() {
   const closeSnackbar = () => {
     setShowSnackbar(false)
   }
+
+  React.useEffect(() => {
+    const fetchUserDetails = async () => {
+      const { data: { loyalty = 0 } = {} } = await getUser()
+      setLoyaltyPoints(loyalty)
+    }
+    fetchUserDetails()
+  }, [])
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -103,7 +112,7 @@ export default function SignUp() {
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
             <Grid container justifyContent="center" columnSpacing={2} >
-              <Grid item xs={12} md={6} lg={6}>
+              <Grid item xs={12} md={4} lg={4}>
                 <TextField
                   margin="normal"
                   fullWidth
@@ -116,7 +125,7 @@ export default function SignUp() {
                   defaultValue={defaultName}
                 />
               </Grid>
-              <Grid item xs={12} md={6} lg={6}>
+              <Grid item xs={12} md={4} lg={4}>
                 <TextField
                   margin="normal"
                   required
@@ -127,6 +136,19 @@ export default function SignUp() {
                   autoComplete="email"
                   autoFocus
                   defaultValue={defaultEmail}
+                />
+              </Grid>
+              <Grid item xs={12} md={4} lg={4}>
+                <TextField
+                  margin="normal"
+                  fullWidth
+                  id="loyalty"
+                  label="Loyalty Points"
+                  name="username"
+                  autoComplete="name"
+                  autoFocus
+                  disabled
+                  defaultValue={loyaltyPoints}
                 />
               </Grid>
               <Grid item xs={12} md={6} lg={6}>

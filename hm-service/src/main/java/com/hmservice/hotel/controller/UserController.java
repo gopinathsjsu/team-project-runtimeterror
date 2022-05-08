@@ -81,7 +81,7 @@ public class UserController {
         User user = new User(signUpRequest.getUsername(),
                 signUpRequest.getEmail(),
                 encoder.encode(signUpRequest.getPassword()) , signUpRequest.getPhone());
-
+        user.setLoyalty(0.0F);
         user.setActive(true);
         Set<String> strRoles = signUpRequest.getRole();
         Set<Role> roles = new HashSet<>();

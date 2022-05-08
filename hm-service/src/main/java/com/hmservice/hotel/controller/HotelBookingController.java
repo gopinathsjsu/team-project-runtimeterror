@@ -58,8 +58,13 @@ public class HotelBookingController {
         IPricingStrategy strategy = PricingStrategyFactory.GetStrategy(pricingStrategyRepository.getActiveStrategy().get().getShortCode());
         Hotel room = RoomFactory.GetRoom(bookingRequest.RoomTypeCode, bookingRequest.GuestCount, bookingRequest.RoomCount);
 
+        Optional<User> u = userRepository.findById(bookingRequest.UserId);
+        if(!u.isPresent()){
+            return new ResponseEntity<>("user not found", HttpStatus.BAD_REQUEST);
+        }
+
         try {
-            BookingResponse resp = BookHotel.book(bookingRequest, room, strategy);
+            BookingResponse resp = BookHotel.book(bookingRequest, u.get().getLoyalty(), room, strategy);
             return ResponseEntity.ok(resp);
         } catch (Exception ex) {
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -75,12 +80,15 @@ public class HotelBookingController {
 
         try {
             IPricingStrategy strategy = PricingStrategyFactory.GetStrategy(pricingStrategyRepository.getActiveStrategy().get().getShortCode());
-
+            Optional<User> u = userRepository.findById(bookingRequest.UserId);
+            if(!u.isPresent()){
+                return new ResponseEntity<>("user not found", HttpStatus.BAD_REQUEST);
+            }
             // TODO : Ability to get prices for individual room types
             // TODO : FACTOR IN ROOM COUNT
             Hotel room = RoomFactory.GetRoom(bookingRequest.RoomTypeCode, bookingRequest.GuestCount, bookingRequest.RoomCount);
 
-            resp = BookHotel.book(bookingRequest, room, strategy);
+            resp = BookHotel.book(bookingRequest, u.get().getLoyalty(), room, strategy);
 
             Booking hotelBooking = new Booking(bookingRequest.UserId, bookingRequest.HotelId, true, new Date(),
                     formatter.parse(bookingRequest.CheckInDate), formatter.parse(bookingRequest.CheckOutDate),
@@ -95,7 +103,7 @@ public class HotelBookingController {
 
             // ADD Loyalty points
 
-            Optional<User> u = userRepository.findById(bookingRequest.UserId);
+
 
             u.get().setLoyalty(u.get().getLoyalty() + (float) (bookingRequest.RoomCount * 100.00));
             userRepository.save(u.get());
@@ -118,8 +126,13 @@ public class HotelBookingController {
                 IPricingStrategy strategy = PricingStrategyFactory.GetStrategy(pricingStrategyRepository.getActiveStrategy().get().getShortCode());
                 // TODO : Ability to get prices for individual room types
                 // TODO : FACTOR IN ROOM COUNT
+                Optional<User> u = userRepository.findById(bookingRequest.UserId);
+                if(u.isEmpty()){
+                    return new ResponseEntity<>("user not found", HttpStatus.BAD_REQUEST);
+                }
+
                 Hotel room = RoomFactory.GetRoom(bookingRequest.RoomTypeCode, bookingRequest.GuestCount , bookingRequest.RoomCount);
-                resp = BookHotel.book(bookingRequest, room, strategy);
+                resp = BookHotel.book(bookingRequest, u.get().getLoyalty(), room, strategy);
                 Booking hotelBooking = booking.get();
 
                 if (bookingRequest.HotelId != 0) {
