@@ -31,7 +31,7 @@ public class DynamicPricing implements IPricingStrategy{
     }
 
     @Override
-    public Double getPricingStrategy(Date date, CustomerProfilePlaceholder customerProfile) {
+    public Double getPricingStrategy(Date date, float loyaltyPoint) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
 

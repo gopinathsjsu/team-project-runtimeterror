@@ -19,7 +19,7 @@ public class SeasonalPricing implements IPricingStrategy {
     }
 
     @Override
-    public Double getPricingStrategy(Date date, CustomerProfilePlaceholder customerProfile) {
+    public Double getPricingStrategy(Date date, float loyaltyPoint) {
         // During traveling season, hotel rates are 2x pricing
         if (date.compareTo(seasonalRange[0]) >= 0 && date.compareTo(seasonalRange[1]) <= 0){
             return SEASONALMULTIPLIER;

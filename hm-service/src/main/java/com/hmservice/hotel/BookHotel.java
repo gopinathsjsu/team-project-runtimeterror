@@ -28,7 +28,7 @@ public class BookHotel {
         - room type
         - amenity (type, count)
      */
-    public static BookingResponse book(BookingRequest roomRequest, Hotel booked, IPricingStrategy pricingStrategy) throws ParseException {
+    public static BookingResponse book(BookingRequest roomRequest, float loyaltyPoints, Hotel booked, IPricingStrategy pricingStrategy) throws ParseException {
 
         BookingResponse response = new BookingResponse();
         for (Amenity amenity : roomRequest.Amenities) {
@@ -63,7 +63,7 @@ public class BookHotel {
 
         // Hardcoded pricing strategy;
         SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
-        Double pricingStrategyMultiplier = pricingStrategy.getPricingStrategy(formatter.parse(roomRequest.CheckInDate), CustomerProfilePlaceholder.REGULAR);
+        Double pricingStrategyMultiplier = pricingStrategy.getPricingStrategy(formatter.parse(roomRequest.CheckInDate),loyaltyPoints);
         response.BookingTotal = booked.getCost() * roomRequest.RoomCount * pricingStrategyMultiplier;
         response.BookingDetails = booked.getPriceBreakdown() +
                 "<br /> Room multiplier: " + roomRequest.RoomCount +
