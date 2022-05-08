@@ -63,8 +63,11 @@ public class BookHotel {
 
         // Hardcoded pricing strategy;
         SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
-        response.BookingTotal = booked.getCost() * roomRequest.RoomCount * pricingStrategy.getPricingStrategy(formatter.parse(roomRequest.CheckInDate), CustomerProfilePlaceholder.REGULAR);
-        response.BookingDetails = booked.getPriceBreakdown();
+        Double pricingStrategyMultiplier = pricingStrategy.getPricingStrategy(formatter.parse(roomRequest.CheckInDate), CustomerProfilePlaceholder.REGULAR);
+        response.BookingTotal = booked.getCost() * roomRequest.RoomCount * pricingStrategyMultiplier;
+        response.BookingDetails = booked.getPriceBreakdown() +
+                "<br /> Room multiplier: " + roomRequest.RoomCount +
+                "<br /> Active Pricing Strategy Multiplier: " + pricingStrategyMultiplier;
         response.Status = 200;
         return response;
     }
