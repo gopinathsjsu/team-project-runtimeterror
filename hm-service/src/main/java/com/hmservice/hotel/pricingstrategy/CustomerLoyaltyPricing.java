@@ -13,7 +13,7 @@ public class CustomerLoyaltyPricing implements IPricingStrategy{
         }
 
         if (loyaltyPoint >=100) {
-            return LOYALTYMULTIPLIER * loyaltyPoint;
+            return REGULARMULTIPLIER - LOYALTYMULTIPLIER * loyaltyPoint;
         }
 
         return REGULARMULTIPLIER;
