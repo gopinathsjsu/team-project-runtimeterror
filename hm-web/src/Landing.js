@@ -46,10 +46,10 @@ function Landing() {
             <HotelsAuocomplete />
           </Grid>
           <Grid item xs={6} md={2} lg={2}>
-            <DateSelector date={checkIn} setDate={setCheckIn} minDate={tomorrow} label={"Check-in"} />
+            <DateSelector date={checkIn} setDate={(date) => { setCheckIn(date.toLocaleDateString()) }} minDate={tomorrow} label={"Check-in"} />
           </Grid>
           <Grid item xs={6} md={2} lg={2}>
-            <DateSelector date={checkOut} setDate={setCheckOut} minDate={getMinCheckoutDate()} label={"Check-out"} />
+            <DateSelector date={checkOut} setDate={(date) => { setCheckOut(date.toLocaleDateString()) }} minDate={getMinCheckoutDate()} label={"Check-out"} />
           </Grid>
           <Grid item xs={12} md={4} lg={4}>
             <Travellers
