@@ -7,12 +7,13 @@ import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import { Grid } from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
-import ManameAccountIcon from '@mui/icons-material/ManageAccounts'
+import { Avatar } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import Cookies from 'js-cookie'
 import Menu from './UserMenu/Menu'
+import logo from './Assets/awesome_possum.jpeg'
 
 export default function TopBanner() {
     const [userName, setUserName] = React.useState()
@@ -36,9 +37,12 @@ export default function TopBanner() {
                 <Container maxWidth="lg">
                     <Grid container sx={{ dispalay: 'flex', justifyContent: 'space-between' }}>
                         <Grid item>
-                            <Typography variant="h4" display="block">
-                                <Link className={topbanner.link} to="/">Hotel</Link>
-                            </Typography>
+                            <Container sx={{display: 'flex'}}>
+                                <Avatar alt="Awesome Possum" src={logo} />
+                                <Typography variant="h4" display="block" ml>
+                                    <Link className={topbanner.link} to="/">Hotel</Link>
+                                </Typography>
+                            </Container>
                         </Grid>
                         {
                             userName && <Grid item>
