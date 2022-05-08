@@ -1,5 +1,7 @@
 package com.hmservice.hotel;
 
+import com.hmservice.hotel.helper.CurrencyConverter;
+
 import java.util.HashMap;
 
 public class RoomTypeSingle extends Hotel {
@@ -19,7 +21,11 @@ public class RoomTypeSingle extends Hotel {
 
     @Override
     public String getPriceBreakdown() {
-        return "<br /> Room: Queen <br /> Guests: " + this.guestCount;
+        return "<br /> " +
+                "Room: Single (Base Price "
+                + CurrencyConverter.formatCurrency(this.basePrice) +
+                ") <br /> Guests: " +  this.guestCount +
+                " <br /> Room Price Total " + CurrencyConverter.formatCurrency(this.getCost()) ;
     }
 
     @Override
