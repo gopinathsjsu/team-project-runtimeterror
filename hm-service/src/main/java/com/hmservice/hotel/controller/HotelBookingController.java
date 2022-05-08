@@ -3,17 +3,20 @@ package com.hmservice.hotel.controller;
 
 import com.hmservice.contract.request.BookingRequest;
 import com.hmservice.contract.response.BookingResponse;
+import com.hmservice.contract.response.MessageResponse;
 import com.hmservice.hotel.BookHotel;
 import com.hmservice.hotel.Hotel;
 import com.hmservice.hotel.RoomFactory;
 import com.hmservice.hotel.models.Booking;
 import com.hmservice.hotel.models.BookingRooms;
+import com.hmservice.hotel.models.User;
 import com.hmservice.hotel.pricingstrategy.DynamicPricing;
 import com.hmservice.hotel.pricingstrategy.IPricingStrategy;
 import com.hmservice.hotel.pricingstrategy.PricingStrategyFactory;
 import com.hmservice.repository.BookingRepository;
 import com.hmservice.repository.BookingRoomsRepository;
 import com.hmservice.repository.PricingStrategyRepository;
+import com.hmservice.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -42,6 +45,8 @@ public class HotelBookingController {
     PricingStrategyRepository pricingStrategyRepository;
     @Autowired
     BookingRoomsRepository bookingRoomsRepository;
+    @Autowired
+    UserRepository userRepository;
 
     SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
 
@@ -87,6 +92,13 @@ public class HotelBookingController {
             for (int i = 0; i < bookingRequest.RoomCount; i++) {
                 bookingRoomsRepository.save(new BookingRooms(hotelBooking, bookingRequest.RoomId, true));
             }
+
+            // ADD Loyalty points
+
+            Optional<User> u = userRepository.findById(bookingRequest.UserId);
+
+            u.get().setLoyalty(u.get().getLoyalty() + (float) (bookingRequest.RoomCount * 100.00));
+            userRepository.save(u.get());
 
             resp.BookingId = hotelBooking.getId().intValue();
             return ResponseEntity.ok(resp);
