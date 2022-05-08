@@ -48,11 +48,12 @@ export default function SignIn() {
     try {
       const signInResponse = await loginUser(name, password)
       const { data: { accessToken, email, username, id, roles } } = signInResponse
-      Cookies.set('accessToken', accessToken)
-      Cookies.set('email', email)
-      Cookies.set('username', username)
-      Cookies.set('userId', id)
-      Cookies.set('roles', roles.join(','))
+      const cookieExpiration = { expires: 1 }
+      Cookies.set('accessToken', accessToken, cookieExpiration)
+      Cookies.set('email', email, cookieExpiration)
+      Cookies.set('username', username, cookieExpiration)
+      Cookies.set('userId', id, cookieExpiration)
+      Cookies.set('roles', roles.join(','), cookieExpiration)
       setSpinner(false)
       setSnackbarMessage("Success. You will be redirected")
       setSnackbarSev("success")

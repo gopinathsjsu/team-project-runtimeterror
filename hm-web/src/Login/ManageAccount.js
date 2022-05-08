@@ -63,8 +63,8 @@ export default function SignUp() {
         password = null
       }
       await updateAccount(name, email, password)
-      Cookies.set('username', name)
-      Cookies.set('email', email)
+      Cookies.set('username', name, { expires: 1 })
+      Cookies.set('email', email, { expires: 1 })
       setSpinner(false)
       setSnackbarMessage("Account has been updated")
       setSnackbarSev("success")
