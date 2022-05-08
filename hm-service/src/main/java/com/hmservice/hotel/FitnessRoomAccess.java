@@ -1,5 +1,7 @@
 package com.hmservice.hotel;
 
+import com.hmservice.hotel.helper.CurrencyConverter;
+
 public class FitnessRoomAccess extends AmenityDecorator {
     Hotel hotel;
     private final Double fitnessRoomAccessCost = 4.99;
@@ -11,7 +13,7 @@ public class FitnessRoomAccess extends AmenityDecorator {
     @Override
     public String getPriceBreakdown() {
         return this.hotel.getPriceBreakdown()
-                + "<br /> Fitness Room Access: " + fitnessRoomAccessCost;
+                + "<br /> Fitness Room Access: " + CurrencyConverter.formatCurrency(fitnessRoomAccessCost);
     }
 
     @Override

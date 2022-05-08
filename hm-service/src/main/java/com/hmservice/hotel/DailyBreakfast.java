@@ -1,5 +1,7 @@
 package com.hmservice.hotel;
 
+import com.hmservice.hotel.helper.CurrencyConverter;
+
 public class DailyBreakfast extends AmenityDecorator {
     Hotel hotel;
     private final Double breakfastCost = 3.99;
@@ -11,7 +13,7 @@ public class DailyBreakfast extends AmenityDecorator {
     @Override
     public String getPriceBreakdown() {
         return this.hotel.getPriceBreakdown() +
-                "<br /> Daily Continental Breakfast: " + breakfastCost;
+                "<br /> Daily Continental Breakfast: " + CurrencyConverter.formatCurrency( breakfastCost);
     }
 
     @Override

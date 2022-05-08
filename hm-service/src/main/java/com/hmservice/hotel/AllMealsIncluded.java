@@ -1,5 +1,7 @@
 package com.hmservice.hotel;
 
+import com.hmservice.hotel.helper.CurrencyConverter;
+
 public class AllMealsIncluded extends AmenityDecorator {
     Hotel hotel;
     private final Double allMealsCost = 5.99;
@@ -16,6 +18,6 @@ public class AllMealsIncluded extends AmenityDecorator {
     @Override
     public String getPriceBreakdown() {
         return this.hotel.getPriceBreakdown()
-                + "<br /> All Meals Included: " + allMealsCost;
+                + "<br /> All Meals Included: " + CurrencyConverter.formatCurrency(allMealsCost);
     }
 }

@@ -1,5 +1,7 @@
 package com.hmservice.hotel;
 
+import com.hmservice.hotel.helper.CurrencyConverter;
+
 public class Parking extends AmenityDecorator {
     Hotel hotel;
     private final Double parkingAccessCost = 2.99;
@@ -11,7 +13,7 @@ public class Parking extends AmenityDecorator {
     @Override
     public String getPriceBreakdown() {
         return this.hotel.getPriceBreakdown()
-                + "<br /> All Day Parking: " + parkingAccessCost;
+                + "<br /> All Day Parking: " + CurrencyConverter.formatCurrency( parkingAccessCost);
     }
 
     @Override
