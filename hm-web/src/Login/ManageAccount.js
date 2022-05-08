@@ -31,7 +31,7 @@ export default function SignUp() {
 
   React.useEffect(() => {
     const fetchUserDetails = async () => {
-      const { data: { loyalty = 0 } = {} } = await getUser()
+      const { data: { loyalty } = {} } = await getUser()
       setLoyaltyPoints(loyalty)
     }
     fetchUserDetails()
@@ -144,11 +144,11 @@ export default function SignUp() {
                   fullWidth
                   id="loyalty"
                   label="Loyalty Points"
-                  name="username"
                   autoComplete="name"
-                  autoFocus
-                  disabled
-                  defaultValue={loyaltyPoints}
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  value={loyaltyPoints}
                 />
               </Grid>
               <Grid item xs={12} md={6} lg={6}>
