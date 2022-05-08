@@ -21,6 +21,17 @@ export async function registerUser(username, email, password) {
   })
 }
 
+export async function getUser() {
+  const userId = Cookies.get('userId')
+  const token = Cookies.get('accessToken')
+  if (isEmpty(token))
+    throw "user not authorized"
+  const config = {
+    headers: { Authorization: `Bearer ${token}` }
+  };
+  return await hotelManagementAPI.get(`/api/user/${userId}`, config)
+}
+
 export async function updateAccount(username, email, password) {
   const userId = Cookies.get('userId')
   const token = Cookies.get('accessToken')
