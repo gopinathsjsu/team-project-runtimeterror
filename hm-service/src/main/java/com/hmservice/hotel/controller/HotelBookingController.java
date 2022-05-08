@@ -31,6 +31,7 @@ import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 
 @RequestMapping("/api/booking")
@@ -64,6 +65,16 @@ public class HotelBookingController {
         }
 
         try {
+            // Duration validation
+            Date firstDate = formatter.parse(bookingRequest.CheckInDate.toString());
+            Date secondDate = formatter.parse(bookingRequest.CheckOutDate);
+            long diffInMillies = Math.abs(secondDate.getTime() - firstDate.getTime());
+            long diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+
+            if(diff >7){
+                return new ResponseEntity<>("Checkout data cannot be more than 7 days from check-in date", HttpStatus.BAD_REQUEST);
+            }
+
             BookingResponse resp = BookHotel.book(bookingRequest, u.get().getLoyalty(), room, strategy);
             return ResponseEntity.ok(resp);
         } catch (Exception ex) {
@@ -79,6 +90,16 @@ public class HotelBookingController {
         BookingResponse resp;
 
         try {
+            // Duration validation
+            Date firstDate = formatter.parse(bookingRequest.CheckInDate.toString());
+            Date secondDate = formatter.parse(bookingRequest.CheckOutDate);
+            long diffInMillies = Math.abs(secondDate.getTime() - firstDate.getTime());
+            long diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+
+            if(diff >7){
+                return new ResponseEntity<>("Checkout data cannot be more than 7 days from check-in date", HttpStatus.BAD_REQUEST);
+            }
+
             IPricingStrategy strategy = PricingStrategyFactory.GetStrategy(pricingStrategyRepository.getActiveStrategy().get().getShortCode());
             Optional<User> u = userRepository.findById(bookingRequest.UserId);
             if(!u.isPresent()){
@@ -123,6 +144,16 @@ public class HotelBookingController {
         BookingResponse resp;
         if (booking.isPresent()) {
             try {
+                // Duration validation
+                Date firstDate = formatter.parse(bookingRequest.CheckInDate.toString());
+                Date secondDate = formatter.parse(bookingRequest.CheckOutDate);
+                long diffInMillies = Math.abs(secondDate.getTime() - firstDate.getTime());
+                long diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+
+                if(diff >7){
+                    return new ResponseEntity<>("Checkout data cannot be more than 7 days from check-in date", HttpStatus.BAD_REQUEST);
+                }
+
                 IPricingStrategy strategy = PricingStrategyFactory.GetStrategy(pricingStrategyRepository.getActiveStrategy().get().getShortCode());
                 // TODO : Ability to get prices for individual room types
                 // TODO : FACTOR IN ROOM COUNT
