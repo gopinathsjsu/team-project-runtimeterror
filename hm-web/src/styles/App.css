@@ -1,0 +1,22 @@
+
+.applicationWrapper {
+  background-image: url("/public/background.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.bodyContainer {
+  display: flex;
+  justify-content: center;
+  padding: 3rem;
+  flex-grow: 1;
+}
+
+@media only screen and (max-width: 600px) {
+  .bodyContainer {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}

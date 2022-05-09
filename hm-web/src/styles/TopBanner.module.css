@@ -1,0 +1,20 @@
+.header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 6.25rem;
+    padding: 0 1.25rem;
+}
+
+.link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.singInLink {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    align-items: center;
+}
+

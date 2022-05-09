@@ -1,0 +1,63 @@
+name: Web CD Workflow
+on:
+  workflow_dispatch:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: hm-web
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Use Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 14.x
+        cache: 'npm'
+        cache-dependency-path: './hm-web/package-lock.json'
+
+    - name: build
+      working-directory: ./hm-web
+      env:
+        REACT_APP_API_URL : ${{ secrets.API_URL }}
+      run: |
+        pwd
+        npm install
+        CI=false npm run build
+
+    - name: upload build artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: hm-web-build-artifact
+        path: ./hm-web/build/
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: hm-web
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: download build artifacts
+      uses: actions/download-artifact@v3
+      with:
+        name: hm-web-build-artifact
+        path: ./hm-web/build/
+
+    - name: Upload to S3
+      working-directory: ./hm-web
+      env:
+        BUCKET_NAME: ${{ secrets.BUCKET_NAME }}
+        DISTRIBUTION_ID: ${{ secrets.DISTRIBUTION_ID }}
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_DEFAULT_REGION: 'us-west-2'
+      run: |
+        aws s3 sync ./build/static "s3://$BUCKET_NAME/static" --cache-control max-age=3156000
+        aws s3 sync ./build/ "s3://$BUCKET_NAME" --exclude "static/*" --cache-control no-cache
+        aws cloudfront create-invalidation \
+          --distribution-id "$DISTRIBUTION_ID" \
+          --paths '/*' \
+          --query Invalidation.Id \
+          --output text
