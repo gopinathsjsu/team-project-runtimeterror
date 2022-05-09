@@ -26,5 +26,11 @@
 - Set up React application
 - Set up API contract and consume data
 
-### GitHub Repo: https://github.com/gopinathsjsu/team-project-runtimeterror
+#### GitHub Repo: https://github.com/gopinathsjsu/team-project-runtimeterror
+
+#### Project Board: https://github.com/gopinathsjsu/team-project-runtimeterror/projects/1
+
+#### Sprint Task Sheet: https://docs.google.com/spreadsheets/d/13L9RKhcHTySYsJpl1-bGlZqauH-5JPUMsBurgU6NK2I/edit?usp=sharing
+
+
 
